@@ -52,7 +52,7 @@ enabled
 
 6.crontab文件格式
 
-![查看crontab规则](/blog/images/CentOS7定时清理buffcache内存占用过高/查看crontab规则.png)
+![查看crontab规则](/blog/images/images/CentOS7定时清理buffcache内存占用过高/查看crontab规则.png)
 
 7.crontab的特殊字符
 

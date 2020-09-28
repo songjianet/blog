@@ -15,7 +15,7 @@ tags:
 
 ​	很多时候我们要对图片进行动态的绑定，例如在循环的时候增加<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">:src</code>，但是这样会造成一个问题，就是编译虽然不报错，但是我们在网页中并不能看到我们的图片，不过我们在浏览器里打开控制台的时候发现图片的路径是正确无误的。
 
-![找不到图片展示图](/blog/vue动态绑定src错误/20181211173152.png)
+![找不到图片展示图](/blog/images/vue动态绑定src错误/20181211173152.png)
 
 #### 产生原因
 

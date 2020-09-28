@@ -31,7 +31,7 @@ tags:
 # uname -sr
 ```
 
-![666](/blog/Centos7升级内核/666.png)
+![666](/blog/images/Centos7升级内核/666.png)
 
 ##### 在系统中启用ELRepo第三方库
 
@@ -52,7 +52,7 @@ tags:
 # yum --enablerepo=elrepo-kernel install kernel-ml
 ```
 
-![1530331787(1)](/blog/Centos7升级内核/1530331787.jpg)
+![1530331787(1)](/blog/images/Centos7升级内核/1530331787.jpg)
 
 ##### 设置默认内核版本
 
@@ -67,7 +67,7 @@ GRUB_CMDLINE_LINUX="rd.lvm.lv=centos/root rd.lvm.lv=centos/swap crashkernel=auto
 GRUB_DISABLE_RECOVERY="true"
 ```
 
-![1530332090(1)](/blog/Centos7升级内核/1530332090.jpg)
+![1530332090(1)](/blog/images/Centos7升级内核/1530332090.jpg)
 
 ##### 重新创建内核配置
 
@@ -77,7 +77,7 @@ GRUB_DISABLE_RECOVERY="true"
 
 ##### 重启系统
 
-![1530332137(1)](/blog/Centos7升级内核/1530332137.jpg)
+![1530332137(1)](/blog/images/Centos7升级内核/1530332137.jpg)
 
 ##### 重新查看内核版本为最新内核版本
 

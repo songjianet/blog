@@ -23,7 +23,7 @@ npm install vue-router
 
 在vue项目中的src目录下，新建router文件夹，并创建一个index.js的文件。
 
-![1533804813](/blog/vue使用钩子函数做路由鉴权/1533804813.jpg)
+![1533804813](/blog/images/vue使用钩子函数做路由鉴权/1533804813.jpg)
 
 ##### 3.vue-router文件编写
 
@@ -171,4 +171,4 @@ router.beforeEach((to, from, next) => {
 
 ##### 6.效果展示
 
-![666](/blog/vue使用钩子函数做路由鉴权/666.gif)
+![666](/blog/images/vue使用钩子函数做路由鉴权/666.gif)

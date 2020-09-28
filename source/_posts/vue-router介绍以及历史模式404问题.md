@@ -66,7 +66,7 @@ http://www.xxx.com/login
 </html>
 ```
 
-![1552403988863](/blog/vue-router介绍以及历史模式404问题/1552403988863.jpg)
+![1552403988863](/blog/images/vue-router介绍以及历史模式404问题/1552403988863.jpg)
 
 
 

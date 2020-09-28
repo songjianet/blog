@@ -19,7 +19,7 @@ vue生命周期就是vue实例从创建到销毁的一个过程，我们一般�
 
 下面的图片是vue官网对生命周期钩子各个阶段的图解，我在上面写了一些注释以帮助理解。
 
-![lifecycle](/blog/vue生命周期钩子/lifecycle.png)
+![lifecycle](/blog/images/vue生命周期钩子/lifecycle.png)
 
 #### 2. 钩子函数代码
 
@@ -89,7 +89,7 @@ new Vue({
 
 <br>
 
-![1535610503](/blog/vue生命周期钩子/1535610503.jpg)
+![1535610503](/blog/images/vue生命周期钩子/1535610503.jpg)
 
 #### 3. 各个钩子函数的作用
 
@@ -113,7 +113,7 @@ vue实例挂载完成，数据也渲染完成
 
 点击更新数据按钮后，查看控制台和页面
 
-![1535610580](/blog/vue生命周期钩子/1535610580.jpg)
+![1535610580](/blog/images/vue生命周期钩子/1535610580.jpg)
 
 <span style="color: red;">beforeUpdate中data并没有发生变化</span>
 

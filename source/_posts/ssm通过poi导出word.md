@@ -44,7 +44,7 @@ public void xiazaiword(HttpServletResponse response){
 
 <br>
 
-![测试方法是否成功](/blog/ssm通过poi导出word/64dd3ac9ad9c294b849b31d1e1f5f724.png)
+![测试方法是否成功](/blog/images/ssm通过poi导出word/64dd3ac9ad9c294b849b31d1e1f5f724.png)
 
 <br>
 

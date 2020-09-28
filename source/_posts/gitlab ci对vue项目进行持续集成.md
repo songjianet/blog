@@ -76,7 +76,7 @@ curl -sSL https://get.docker.com/ | sh
 
 ​	我们可以看到，官网的安装命令其实很长的，为此我们可以封装一个shell脚本，每次通过sh命令去执行脚本进行安装。而且按照官网的安装方式还会有一个bug，我们在文章的最后会进行介绍，当然你也可以先去查看<a href="#gitlab-runner"> gitlab-runner </a>。
 
-​	![1](/blog/gitlab ci对vue项目进行持续集成/1.png)	
+​	![1](/blog/images/gitlab ci对vue项目进行持续集成/1.png)	
 
 ```shell
 docker stop gitlab-runner
@@ -92,7 +92,7 @@ docker run -d --name gitlab-runner --restart always \
 
 ​	在我们把安装完Runner的镜像后，我们要进行Runner机器的注册。通过注册，我们能够与Gitlib的项目进行绑定。但是由于使用命令行注册很麻烦，所以我们要将注册编写成一个shell脚本，在这里要对url和token等一系列信息进行设置。<p style="color: red;">秘钥来自于Gitlib中你所选择的项目中的秘钥。</p>
 
-![2](/blog/gitlab ci对vue项目进行持续集成/2.png)
+![2](/blog/images/gitlab ci对vue项目进行持续集成/2.png)
 
 ```
 docker run --rm -t -i -v /srv/runner/config:/etc/gitlab-runner --name gitlab-runner gitlab/gitlab-runner register \
@@ -118,7 +118,7 @@ sh install.sh
 
 ​	出现绿色圆圈表示创建成功。
 
-![3](/blog/gitlab ci对vue项目进行持续集成/3.jpg)
+![3](/blog/images/gitlab ci对vue项目进行持续集成/3.jpg)
 
 
 
@@ -213,15 +213,15 @@ EXPOSE 80
 
 ​	接下来我们要把.gitlab-ci.yml和Dockerfile文件提交到代码仓库，这时候在对应的项目中我们点击CI/CD能看到我们的持续集成的任务跑起来，但是有成功，有失败，很难一次成功，所以要反复的调试。
 
-![4](/blog/gitlab ci对vue项目进行持续集成/4.jpg)
+![4](/blog/images/gitlab ci对vue项目进行持续集成/4.jpg)
 
 ​	我们可以点击状态进入终端模式查看CI文件执行到了哪一步。
 
-![5](/blog/gitlab ci对vue项目进行持续集成/5.jpg)
+![5](/blog/images/gitlab ci对vue项目进行持续集成/5.jpg)
 
 <br>
 
-![6](/blog/gitlab ci对vue项目进行持续集成/6.jpg)
+![6](/blog/images/gitlab ci对vue项目进行持续集成/6.jpg)
 
 
 
@@ -246,7 +246,7 @@ docker run --rm -t -i -v /srv/runner/config:/etc/gitlab-runner --name gitlab-run
 
 ​	为此，我想到了一种解决办法。我们去执行第一条命令下载并启动容器的命令后通过stop和rm命令，将容器停止并删除<p style="color: red;">（一定要先停止容器，在删除容器，否则会报错，这是docker运行机制决定的，或者可以强制删除容器）</p>，然后执行注册的命令，这时候容器已经启动，我们可以docker ps进行查看，到这里并不是结束，如果不去执行第一条命令，我们的会看到这个结果。
 
-![7](/blog/gitlab ci对vue项目进行持续集成/7.png)
+![7](/blog/images/gitlab ci对vue项目进行持续集成/7.png)
 
 ​	这个三角形感叹号出现表示秘钥连接成功，但是我们的容器并不是在真正的运行，说白了，就是没有挂载第一条命令中的docker.sock文件，所以我们将容器停止删除掉后，再去执行第一条命令。
 
@@ -256,7 +256,7 @@ docker run --rm -t -i -v /srv/runner/config:/etc/gitlab-runner --name gitlab-run
 
 ​	首先，我们为什么要用到dind这个镜像，因为我们在CI文件中的deploy环节中，如果直接使用nginx镜像，我们提交到仓库后，这个镜像默认是自动启动的，切没有指定tcp端口，所以我们在页面中无法查看。你也可能说我们可以将docker命令写到这个环节中，但是这样会报出一个没有docker命令的错误。导致这个错误产生的原因就是我们的nginx镜像已经启动，并且进去了这个容器中，但是这个nginx容器并没有docker命令。
 
-​	![8](/blog/gitlab ci对vue项目进行持续集成/8.jpg)
+​	![8](/blog/images/gitlab ci对vue项目进行持续集成/8.jpg)
 
 ​	所以，我们需要在docker容器中使用docker命令去下载一个nginx镜像，然后对这个镜像进行run。而Gitlib官方推荐我们的方式就是使用dind镜像，我们通过启动这个镜像，将我们的Dockerfile文件build出来一个新的镜像，然后去启动这个镜像。
 

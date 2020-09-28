@@ -14,11 +14,11 @@ tags:
 
 关于nuxt在github上面有一个简单的demo我们可以安装下来进行查看。
 
-![1536737877](/blog/nuxt整合iView/1536737877.jpg)
+![1536737877](/blog/images/nuxt整合iView/1536737877.jpg)
 
 项目成功跑起来后我们可以通过localhost:3000端口进行查看。
 
-![1536737963](/blog/nuxt整合iView/1536737963.jpg)
+![1536737963](/blog/images/nuxt整合iView/1536737963.jpg)
 
 ##### 1. 下载iView
 
@@ -38,7 +38,7 @@ cnpm install
 
 由于nuxt项目结构和我们普通的vue项目结构不同，这时很多人下载了iview并不知道怎么去引用到我们的项目中，实际在nuxt官网上面，已经对各个文件夹有了说明，其中的plugins文件夹为实例化之前需要运行的 Javascript 插件。
 
-![1536740176](/blog/nuxt整合iView/1536740176.jpg)
+![1536740176](/blog/images/nuxt整合iView/1536740176.jpg)
 
 我们需要在plugins文件夹下创建一个Iview.js的文件，这个文件的文件名首字母必须大写，否则在运行的时候会报错。
 
@@ -78,4 +78,4 @@ vendor:['iview']
 <Button type="primary">Primary</Button>
 ```
 
-![1536740765](/blog/nuxt整合iView/1536740765.jpg)
+![1536740765](/blog/images/nuxt整合iView/1536740765.jpg)

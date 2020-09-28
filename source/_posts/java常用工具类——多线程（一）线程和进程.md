@@ -14,7 +14,7 @@ tags:
 
 （一）什么是进程
 
-​	![进程的举例图片](/blog/java常用工具类——多线程（一）线程和进程/1516676550.jpg)
+​	![进程的举例图片](/blog/images/java常用工具类——多线程（一）线程和进程/1516676550.jpg)
 
 ​	首先我们可以看一下上面的图片，这个图片是在windows操作系统下任务管理器看到的界面，其中红色箭头指向的就是当前机器上的所有进程显示的列表。
 
@@ -30,13 +30,13 @@ tags:
 
 <br>
 
-![linux系统下查看cpu的信息](/blog/java常用工具类——多线程（一）线程和进程/151667776.jpg)
+![linux系统下查看cpu的信息](/blog/images/java常用工具类——多线程（一）线程和进程/151667776.jpg)
 
 <div style="text-align: center;font-size:13px;">linux系统下查看cpu的信息</div>
 
 <br>
 
-![windows系统下查看cpu的信息](/blog/java常用工具类——多线程（一）线程和进程/1516677835.jpg)
+![windows系统下查看cpu的信息](/blog/images/java常用工具类——多线程（一）线程和进程/1516677835.jpg)
 
 <div style="text-align: center;font-size:13px;">windwos系统下查看cpu的信息</div>
 

@@ -16,14 +16,14 @@ tags:
 
 我在浏览器中打开了一个名为es6.html的页面，里面的内容为sublime中的内容
 
-![浏览器打开es6.html页面](/blog/jQuery调试方式/webOpenHtml.png)
+![浏览器打开es6.html页面](/blog/images/jQuery调试方式/webOpenHtml.png)
 
-![sublime打开es6.html页面](/blog/jQuery调试方式/sublimeOpenHtml.png)
+![sublime打开es6.html页面](/blog/images/jQuery调试方式/sublimeOpenHtml.png)
 
 然后在浏览器中按F12调用调试台，点击Sources选项，之后在代码的行号位置，可以通过单击的方式选择断点的位置
 
-![打开控制台选择Sources选项，之后在代码想要调试的行号进行单击](/blog/jQuery调试方式/caozuo.png)
+![打开控制台选择Sources选项，之后在代码想要调试的行号进行单击](/blog/images/jQuery调试方式/caozuo.png)
 
 之后可以在右上角找到调试的基本操作，在这里我就不多说了，大家可以自己进行尝试
 
-![debug](/blog/jQuery调试方式/debug.png)
+![debug](/blog/images/jQuery调试方式/debug.png)
