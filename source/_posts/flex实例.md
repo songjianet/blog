@@ -68,7 +68,7 @@ flex: 1;
 
 效果展示：
 
-![flex导航栏展示图](1532516311.jpg)
+![flex导航栏展示图](/blog/flex实例/1532516311.jpg)
 
 
 
@@ -131,7 +131,7 @@ flex: 0 0 50%;
 
 效果展示：
 
-![flex列宽固定展示图](1532516344.jpg)
+![flex列宽固定展示图](/blog/flex实例/1532516344.jpg)
 
 
 
@@ -193,7 +193,7 @@ align-items: center;
 
 效果展示：
 
-![flex水平垂直居中展示图](1532516397.jpg)
+![flex水平垂直居中展示图](/blog/flex实例/1532516397.jpg)
 
 
 
@@ -261,7 +261,7 @@ align-content: flex-start;
 
 效果展示：
 
-![flex流式布局展示图](1532516372.jpg)
+![flex流式布局展示图](/blog/flex实例/1532516372.jpg)
 
 
 
@@ -334,7 +334,7 @@ flex: none;
 
 效果展示：
 
-![flex左图右信息展示图](1532516438.jpg)
+![flex左图右信息展示图](/blog/flex实例/1532516438.jpg)
 
 
 
@@ -384,4 +384,4 @@ justify-content: space-between;
 
 效果展示：
 
-![flex两端对齐展示图](1544519349.jpg)
+![flex两端对齐展示图](/blog/flex实例/1544519349.jpg)

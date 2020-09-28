@@ -13,15 +13,15 @@ tags:
 
 ##### 首先我们要带开GitHub网页，新建一个项目
 
-![c03b4962514cfc4580928f9b05b4b719](c03b4962514cfc4580928f9b05b4b719.png)
+![c03b4962514cfc4580928f9b05b4b719](/blog/Git命令行提交代码/c03b4962514cfc4580928f9b05b4b719.png)
 
 ##### 为项目起一个名字，然后点击创建项目
 
-![732545bcd42d434dbd3528f08a2b9b1b](732545bcd42d434dbd3528f08a2b9b1b.png)
+![732545bcd42d434dbd3528f08a2b9b1b](/blog/Git命令行提交代码/732545bcd42d434dbd3528f08a2b9b1b.png)
 
 ##### 在新跳转的页面中，我们可以看到一些git bash的命令，这些命令就是告诉我们在新建的项目中第一次推送代码需要做的事情
 
-![d560cd64cb98ca4e8640e04f0d428d1d](d560cd64cb98ca4e8640e04f0d428d1d.png)
+![d560cd64cb98ca4e8640e04f0d428d1d](/blog/Git命令行提交代码/d560cd64cb98ca4e8640e04f0d428d1d.png)
 
 ##### 命令含义
 

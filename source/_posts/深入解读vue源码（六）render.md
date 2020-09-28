@@ -113,7 +113,7 @@ export function initRender (vm: Component) {
 
 这里有一点需要注意，在上一篇文章中，我们提到了挂载实例是会被替换掉的，所以不能挂载到标签为<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">body</code>和标签为<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">html</code>的节点上的，如下图所示，我们的<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">dom</code>结构中的<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">id</code>属性是为<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">app1</code>，而并不是我们之前定义好的<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">app</code>。
 
-![](1561947451568.jpg)
+![](/blog/深入解读vue源码（六）render/1561947451568.jpg)
 
 回归源码，我们通过实际编写来介绍了<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">createElement</code>方法，接下来我们继续分析<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">vm._renderProxy</code>方法，对于这个方法的入手点，还是我们老生常谈的<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">src/core/instance/index.js</code>这个文件，在这个文件中，能够看到这段代码。
 

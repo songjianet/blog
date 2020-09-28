@@ -60,7 +60,7 @@ console.log(test_0(3))
 
 我们可以通过下面的图片去了解入栈和出栈的规则，当理解了栈的规则后，就可以很清晰的看出上面代码的输出结果。
 
-![栈的执行流程](/images/EventLoop、Microtasks%20and%20task/stack.gif)
+![栈的执行流程](/blog/images/EventLoop、Microtasks%20and%20task/stack.gif)
 
 ##### Queue
 
@@ -72,7 +72,7 @@ console.log(test_0(3))
 
 首先我们要知道<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">JavaScript</code>是单线程的。我们可以把单线程理解为一个自动售票机，购票者需要自觉排队购票，如果其中有一个购票者第一次使用自动售票机的情况下会因为不熟练而使得该购票者购票时间相对较长，无论该购票者用了多少时间，后面的人依旧要进行排队购票。
 
-![排队购票示例图](/images/EventLoop、Microtasks%20and%20task/1554278130031.jpg)
+![排队购票示例图](/blog/images/EventLoop、Microtasks%20and%20task/1554278130031.jpg)
 
 回归到浏览器和<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">JavaScript</code>本身，如果我们有一个新闻页面，如果需要加载大量的图片并且在图片没有完全加载出来的时候我们不能让浏览器卡着什么都不显示，所以就有人提出了<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">Synchronous</code>和<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">Asynchronous</code>。
 
@@ -109,7 +109,7 @@ console.log('end');
 
 通过上面的代码会发现这和传统理解<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">JavaScript</code>是从上到下执行是相悖的，为此可以查看下面的流程图进行详细的流程分析。
 
-![同步异步执行示例图](/images/EventLoop、Microtasks%20and%20task/1554282142999.jpg)
+![同步异步执行示例图](/blog/images/EventLoop、Microtasks%20and%20task/1554282142999.jpg)
 
 ------
 
@@ -265,4 +265,4 @@ test();
 
 当<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">JavaScript</code>开始执行时候会将所有函数押入执行栈，其中同步任务按序执行，异步任务加入事件表，事件表把函数分为宏任务和微任务将其回调函数分别压入不同的事件队列。当同步任务执行完毕后，引擎会检查是否存在异步任务，如果不存在则程序结束。如果存在判断是否有微任务，没有的情况下直接执行宏任务队列，有微任务的情况下，优先执行微任务队列里面的函数。
 
-![终极图片](/images/EventLoop、Microtasks%20and%20task/1554364051301.jpg)
+![终极图片](/blog/images/EventLoop、Microtasks%20and%20task/1554364051301.jpg)

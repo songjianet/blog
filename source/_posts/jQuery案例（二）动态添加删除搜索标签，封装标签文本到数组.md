@@ -90,4 +90,4 @@ HTML代码：
 
 <br><br>
 
-![效果展示](zhanshi.gif)
+![效果展示](/blog/jQuery案例（二）动态添加删除搜索标签，封装标签文本到数组/zhanshi.gif)

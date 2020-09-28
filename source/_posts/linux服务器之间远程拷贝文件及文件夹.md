@@ -20,19 +20,19 @@ tags:
 # ssh-keygen // 生成私钥公钥对，一直输入回车即可
 ```
 
-![生成私钥公钥对](db9c2660786be447af615832e167ed6b.png)
+![生成私钥公钥对](/blog/linux服务器之间远程拷贝文件及文件夹/db9c2660786be447af615832e167ed6b.png)
 
 ```shell
 # cat /root/.ssh/id_rsa.pub // 查看生成的公钥
 ```
 
-![查看生成的公钥](0fc598c8a5fd5342810132e322d32bee.png)
+![查看生成的公钥](/blog/linux服务器之间远程拷贝文件及文件夹/0fc598c8a5fd5342810132e322d32bee.png)
 
 ```shell
 # ssh-copy-id -i ~/.ssh/id_rsa.pub 10.2.18.30 // 将公钥推送到远端服务器上，第一次需要验证密码
 ```
 
-![将公钥推送到远端服务器上](42ddefd9660658418a901b2a8b1fd2e7.png)
+![将公钥推送到远端服务器上](/blog/linux服务器之间远程拷贝文件及文件夹/42ddefd9660658418a901b2a8b1fd2e7.png)
 
 （二）scp拷贝文件及文件夹
 

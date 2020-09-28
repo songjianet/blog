@@ -21,4 +21,4 @@ tags:
 echo 3 > /proc/sys/vm/drop_caches
 ```
 
-![处理前和处理后的对比](/images/buffcache内存占用过高/hh.png)
+![处理前和处理后的对比](/blog/images/buffcache内存占用过高/hh.png)

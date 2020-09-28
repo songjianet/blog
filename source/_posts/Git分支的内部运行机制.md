@@ -15,26 +15,26 @@ tags:
 
 在只有一个时间线的时候（即只有一个主分支master），git会用head指向分支，再由分支指向最新的提交点。
 
-![7de4ebc75849494691021c2c86551952](7de4ebc75849494691021c2c86551952.png)
+![7de4ebc75849494691021c2c86551952](/blog/Git分支的内部运行机制/7de4ebc75849494691021c2c86551952.png)
 
 当每次提交的时候git会将head指向的分支向前移动，这样，随着项目不断地更新，时间线也会越来越长。
 
-![8fb2340888c996459c099483ae905e5e](8fb2340888c996459c099483ae905e5e.png)
+![8fb2340888c996459c099483ae905e5e](/blog/Git分支的内部运行机制/8fb2340888c996459c099483ae905e5e.png)
 
 当我们去创建一个新分支dev并且使用时，由于项目没有做出任何改变，所以dev分支指向的时间点和master指向的时间点是相同的。
 
-![173f807d11d39c42a755e1b3320e00dc](173f807d11d39c42a755e1b3320e00dc.png)
+![173f807d11d39c42a755e1b3320e00dc](/blog/Git分支的内部运行机制/173f807d11d39c42a755e1b3320e00dc.png)
 
 在dev分支向仓库提交代码时，向前移动的时间点也是dev分支的时间点，并不是master主分支的时间点。
 
-![4484d8b1590eb54d933c3faded84b765](4484d8b1590eb54d933c3faded84b765.png)
+![4484d8b1590eb54d933c3faded84b765](/blog/Git分支的内部运行机制/4484d8b1590eb54d933c3faded84b765.png)
 
 当我们要进行master和dev分支项目合并时候，我们要切换到master分支，将master分支指向dev分支的时间点上。
 
-![d63a3cfcc99caf41a5a12490369c943c](d63a3cfcc99caf41a5a12490369c943c.png)
+![d63a3cfcc99caf41a5a12490369c943c](/blog/Git分支的内部运行机制/d63a3cfcc99caf41a5a12490369c943c.png)
 
 在成功将代码合并后master分支指向的时间点和dev分支指向的时间点是相同的。当我们在pull master的时候我们pull到的项目中就是带有dev分支更改的内容。
 
-![7bd5fd68f0e28e418edef46fc5f2e5b0](7bd5fd68f0e28e418edef46fc5f2e5b0.png)
+![7bd5fd68f0e28e418edef46fc5f2e5b0](/blog/Git分支的内部运行机制/7bd5fd68f0e28e418edef46fc5f2e5b0.png)
 
 在分支合并完成后我们可以选择将dev分支进行删除，删除dev分支就是把dev指针删除。当然，删除dev分支后我们的仓库中也就只有master一个分支了。

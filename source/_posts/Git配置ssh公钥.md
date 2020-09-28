@@ -13,9 +13,9 @@ tags:
 
 ##### 打开git bash终端
 
-![TIM图片20180514093902](TIM图片20180514093902.png)
+![TIM图片20180514093902](/blog/Git配置ssh公钥/TIM图片20180514093902.png)
 
-![TIM图片20180514093957](TIM图片20180514093957.png)
+![TIM图片20180514093957](/blog/Git配置ssh公钥/TIM图片20180514093957.png)
 
 ##### 进行命令输入
 
@@ -51,16 +51,16 @@ cd ~/.ssh
 ll
 ```
 
-![8ad702a410ed244db09c45c4d6ffd372](8ad702a410ed244db09c45c4d6ffd372.png)
+![8ad702a410ed244db09c45c4d6ffd372](/blog/Git配置ssh公钥/8ad702a410ed244db09c45c4d6ffd372.png)
 
 登录自己的GitHub，点击自己头像下面的setting
 
-![9b89261ef18cb14fa0545d543cbbc4cd](9b89261ef18cb14fa0545d543cbbc4cd.png)
+![9b89261ef18cb14fa0545d543cbbc4cd](/blog/Git配置ssh公钥/9b89261ef18cb14fa0545d543cbbc4cd.png)
 
 点击左侧的SSH and GPG keys，然后再点击右上方的new SSH Key 
 
-![d9a6dc081fb9004cbd3004b472fa3c69](d9a6dc081fb9004cbd3004b472fa3c69.png)
+![d9a6dc081fb9004cbd3004b472fa3c69](/blog/Git配置ssh公钥/d9a6dc081fb9004cbd3004b472fa3c69.png)
 
 拷贝id_rsa.pub文件中的所有内容到下图的key区域，然后在title起一个名字，最后点击Add SSH Key 
 
-![89e88906086d9d40b79361192b53805d](89e88906086d9d40b79361192b53805d.png)
+![89e88906086d9d40b79361192b53805d](/blog/Git配置ssh公钥/89e88906086d9d40b79361192b53805d.png)

@@ -23,7 +23,7 @@ tags:
 
 首先，我们通过<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">vue-cli</code>创建一个项目的时候（v2.6.10），在<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">node_modules/vue</code>文件夹下可以看到一个<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">dist</code>文件夹，该文件夹下面的结构是这样的，接下来我们会逐步分析每个文件的作用：
 
-![dist文件夹中的文件](cli-dist.jpg)
+![dist文件夹中的文件](/blog/深入解读vue源码（四）new Vue/cli-dist.jpg)
 
 ##### README.md文件
 

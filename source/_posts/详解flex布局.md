@@ -18,7 +18,7 @@ flex可以以简便、完整、相应式地实现各种页面布局。目前，�
 
 关于布局传统的解决方案是基于盒状模型的，依赖display+position+float。它对于那些特殊布局非常不方便。比如，垂直居中就不容易实现。
 
-![8712d713c7d0b884a5cb9770efc422b4](8712d713c7d0b884a5cb9770efc422b4.jpg)
+![8712d713c7d0b884a5cb9770efc422b4](/blog/详解flex布局/8712d713c7d0b884a5cb9770efc422b4.jpg)
 
 
 
@@ -30,7 +30,7 @@ flex可以以简便、完整、相应式地实现各种页面布局。目前，�
 
 项目默认沿主轴排列。单个项目占据的主轴空间叫做main size，占据的交叉轴空间叫做cross size。
 
-![3791e575c48b3698be6a94ae1dbff79d](3791e575c48b3698be6a94ae1dbff79d.png)
+![3791e575c48b3698be6a94ae1dbff79d](/blog/详解flex布局/3791e575c48b3698be6a94ae1dbff79d.png)
 
 
 
