@@ -12,7 +12,7 @@ after_script:
     - git config user.email 1778651752@qq.com
     - git add -A
     - git commit -m 'init'
-    - git push -u -f "https://${TOKEN}@github.com/songjianet/blog" master:gh-pages
+    - git push -u -f "https://github.com/songjianet/blog.git" master:gh-pages
 branches:
     only:
         - master
