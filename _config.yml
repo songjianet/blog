@@ -99,7 +99,7 @@ theme: next
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: git@github.com:songjianet/blob.git
+  repo: https://github.com/songjianet/blog.git
   branch: gh-pages
   message:
 
