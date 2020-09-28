@@ -362,7 +362,7 @@ han: false
 #swiftype_key:
 
 # Baidu Analytics ID
-#baidu_analytics:
+baidu_analytics: 438c779a7f3be467cf001cecb671aed7
 
 # Duoshuo ShortName
 #duoshuo_shortname:
@@ -474,7 +474,7 @@ needmoreshare2:
 #google_site_verification:
 
 # Google Analytics
-#google_analytics:
+google_analytics: UA-179158342-1
 
 # Bing Webmaster tools verification setting
 # See: https://www.bing.com/webmaster/
@@ -540,9 +540,9 @@ rating:
 # Show number of visitors to each article.
 # You can visit https://leancloud.cn get AppID and AppKey.
 leancloud_visitors:
-  enable: false
-  app_id: #<app_id>
-  app_key: #<app_key>
+  enable: true
+  app_id: tnShnVs7Somna4Addyb8SQJx-gzGzoHsz
+  app_key: KY89RvNsxFH2zEk5hqBfVlIa
 
 # Another tool to show number of visitors to each article.
 # visit https://console.firebase.google.com/u/0/ to get apiKey and projectId
