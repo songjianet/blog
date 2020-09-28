@@ -1,18 +1,38 @@
 language: node_js
-node_js:
-    - '11'
-install:
-    - npm install
-script:
-    - hexo g
-after_script:
-    - cd ./public
-    - git init
-    - git config user.name songjianet
-    - git config user.email 1778651752@qq.com
-    - git add -A
-    - git commit -m 'init'
-    - git push -u -f "https://github.com/songjianet/blog.git" master:gh-pages
+node_js: stable
+
+cache:
+    directories:
+        - node_modules
+
 branches:
     only:
-        - master
+        - hexo
+
+before_install:
+    - npm install -g hexo-cli
+
+
+# S: Build Lifecycle
+install:
+    - npm install
+    - npm install hexo-deployer-git --save
+
+
+      # before_script:
+      # - npm install -g gulp
+
+script:
+    - hexo clean
+    - hexo generate
+
+after_script:
+    #  - cd ./public
+    #  - git init
+    - git config user.name "songjianet"
+    - git config user.email "1778651752@qq.com"
+    #  - git add .
+    #  - git commit -m "Update docs"
+    #  - git push --force --quiet "${Travis}@${GH_REF}" master:master
+    - sed -i "s/Travis/${BLOG_TOKEN}/g" ./_config.yml
+    - hexo deploy
