@@ -9,7 +9,8 @@ install:
     # - npm install -g gulp
 
 script:
-    - hexo g
+    - hexo clean
+    - hexo generate
 
 after_script:
     - cd ./public
@@ -19,6 +20,7 @@ after_script:
     - git add .
     - git commit -m "ci commit"
     - git push --force --quiet "https://${BLOG_TOKEN}@${GH_REF}" master:gh-pages
+    - hexo deploy
 # E: Build LifeCycle
 
 branches:
@@ -26,4 +28,4 @@ branches:
         - master
 env:
     global:
-        - GH_REF: github.com/songjianet/blog.git
+        - GH_REF: https://songjianet.github.io/blog/
