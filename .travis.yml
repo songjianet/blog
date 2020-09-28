@@ -28,4 +28,4 @@ branches:
         - master
 env:
     global:
-        - GH_REF: songjianet.github.io
+        - GH_REF: github.com/songjianet/blog.git
