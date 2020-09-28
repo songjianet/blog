@@ -100,7 +100,7 @@ theme: next
 deploy:
   type: git
   repo: git@github.com:songjianet/blob.git
-  branch: master
+  branch: gh-pages
   message:
 
 search:
