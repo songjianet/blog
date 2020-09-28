@@ -1,48 +1,32 @@
-# 指定构建环境是Node.js，当前版本是稳定版
 anguage: node_js
-node_js: stable
+node_js:
+    - lts/*  # 稳定版 (stable) ,最新长期支持版（ - lts/* ）
 
-env:
-    global:
-        - URL_REPO: github.com/songjianet/songjianet.github.io.git
-
-# 设置钩子只检测blog-source分支的push变动
-branches:
-    only:
-        - master
-
-# 设置缓存文件
+# 指定缓存模块，可加快编译速度
 cache:
     directories:
         - node_modules
 
-#在构建之前安装hexo环境
+# 在构建之前
 before_install:
-    - npm install -g hexo-cli
+    - export TZ='Asia/Shanghai' # 更改时区
+    - npm install -g hexo-cli # 安装hexo环境
 
-#安装git插件和搜索功能插件
+#部署环境的安装(安装一个部署插件)
 install:
     - npm install
+    - npm install hexo-deployer-git --save
 
-    # 设置git提交名，邮箱；替换真实token到_config.yml文件
 before_script:
-    - git config user.name "songjianet"
-    - git config user.email "1778651752@qq.com"
-    # 替换同目录下的_config.yml文件中github_token字符串为travis后台刚才配置的变量，注>意此处sed命令用了双引号。单引号无效！
-    - sed -i "s/github_token/${BLOG_TOKEN}/g" _config.yml || exit 1
+#
 
 # 执行清缓存，生成网页操作
 script:
-    - hexo clean
-    - hexo generate
-    - echo ${ENV_TEST}
-    - hexo deploy
+    - hexo clean && hexo g
 
-# configure notifications (email, IRC, campfire etc)
-# please update this section to your needs!
-# https://docs.travis-ci.com/user/notifications/
-notifications:
-    email:
-        - 1778651752@qq.com
-    on_success: change
-    on_failure: always
+after_script:  # 未能成功
+    - git config user.name "songjianet"
+    - git config user.email "1778651752@qq.com"
+    # 替换同目录下的_config.yml文件中gh_token字符串为travis后台刚才配置的变量，注意此处sed命令用了双引号。单引号无效！
+    - sed -i "s/gh_token/${BLOG_TOKEN}/g" ./_config.yml
+    - hexo deploy
