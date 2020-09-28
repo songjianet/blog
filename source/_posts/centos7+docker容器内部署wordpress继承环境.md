@@ -65,4 +65,4 @@ tags:
    ```
 
 
-![wordpress后台管理示例页面](1234567890.png)
+![wordpress后台管理示例页面](/images/centos7+docker容器内部署wordpress继承环境/1234567890.png)
