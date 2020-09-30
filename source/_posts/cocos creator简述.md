@@ -69,19 +69,19 @@ tags:
 
 - 打开`Cocos Dashboard`控制台。
 
-    ![cocos dashboard控制台](/blog/images/cocos creator简述/1601429624326.jpg)
+![cocos dashboard控制台](/blog/images/cocos creator简述/1601429624326.jpg)
 
 - 点击`Cocos Dashboard`控制台左侧菜单中的编辑器按钮，下载用于游戏开发`CocosCreator`编辑器。
 
-    ![CocosCreator编辑器](/blog/images/cocos creator简述/1601429920794.jpg)
+![CocosCreator编辑器](/blog/images/cocos creator简述/1601429920794.jpg)
 
 - 点击`Cocos Dashboard`控制台左侧菜单中的项目按钮，点击右下角可以创建一个`Creator`或`Creator 3D`项目。
 
-    ![创建项目](/blog/images/cocos creator简述/7814A061-DC9F-4A86-9BD3-19C7DD951B4F.png)
+![创建项目](/blog/images/cocos creator简述/7814A061-DC9F-4A86-9BD3-19C7DD951B4F.png)
     
 - 可以根据自己的需求进行初始的项目模板选择、项目名称、项目路径等，选择后点击创建并打开按钮，即可完成项目的创建。
 
-    ![选择项目模板](/blog/images/cocos creator简述/1601429920794.jpg)
+![选择项目模板](/blog/images/cocos creator简述/1601429920794.jpg)
 
 
 ### 项目管理与多人协作
