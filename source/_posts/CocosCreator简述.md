@@ -34,6 +34,9 @@ tags:
 > [Cocos Creator编辑器基础](https://docs.cocos.com/creator/manual/zh/getting-started/basics/editor-overview.html)
 > [meta文件介绍](https://docs.cocos.com/creator/manual/zh/extension/reference/meta-reference.html?h=meta)
 > [Sprite精灵组件中的Size Mode属性](https://docs.cocos.com/creator/manual/zh/components/sprite.html?h=size%20mode)
+> [Prefab介绍](https://docs.cocos.com/creator/manual/zh/asset-workflow/prefab.html?h=prefab)
+> [Animation介绍](https://docs.cocos.com/creator/manual/zh/components/animation.html?h=animation)
+> [AnimationClip介绍](https://docs.cocos.com/creator/manual/zh/animation/animation.html#clip-%E5%8A%A8%E7%94%BB%E5%89%AA%E8%BE%91)
 
 ---
 
@@ -144,7 +147,7 @@ assets/
 
 ---
 
-## `scene`基本操作
+## `scene`
 
 - 在游戏开发的过程中，我们可以把`scene`理解为一个`html`页面，页面之间的切换就是`scene`之间的切换。
 
@@ -206,11 +209,11 @@ assets/
 
 ---
 
-## `prefab`基本操作
+## `prefab`
 
 - `prefab`是一个想要用在一个或多个项目中一个组件节点。
 
-- `prefab`一旦创建后并且层级管理的节点也被删除后，该节点的信息不会自动在项目中加入，需要使用脚本进行控制。
+- `prefab`一旦创建后并且层级管理的`node`节点也被删除后，该`node`节点的信息不会自动在项目中加入，需要使用脚本进行控制。
 
 - 当一个节点被拖拽转变成了`prefab`后，可以在层级管理器对该节点进行删除，如果想要对`prefab`有更改，可以在资源管理器中双击该`prefab`。
 
@@ -221,6 +224,54 @@ assets/
 - `prefab`并不能通过资源管理器进行创建，只能将一部分的节点从层级管理器中拖拽到资源管理器的一个目标路径。
 
 ![拖拽节点成Prefab](/blog/images/CocosCreator简述/1601453581158.jpg)
+
+---
+
+## `animation`
+
+- `animation`是一个帧动画，它允许控制组件上所有属性动画，如：宽、高、缩放等。
+
+- 一个`animation`上允许设置多个属性的动画。
+
+- `animation`有两种播放形式，一种为自动播放，另一种为脚本调用。
+
+- 当你的想从动画编辑器转身去做其它任何操作的时候，一定要关闭动画编辑器，否则会有动画无法保存的情况。
+
+---
+
+### 创建`animation`
+
+- 点击想要创建动画的节点，并打开动画编辑器。
+
+- 当节点上没有`Animation`是，可以通过属性检查器添加或者通过动画编辑器进行添加。
+
+![创建animation](/blog/images/CocosCreator简述/1601457135329.jpg)
+
+---
+
+### 创建`clip`
+
+- `clip`动画剪辑就是一份动画的声明数据，我们将它挂载到`Animation`组件上，就能够将这份动画数据应用到节点上。
+
+![创建clip](/blog/images/CocosCreator简述/1601458180992.jpg)
+
+---
+
+### 绑定`clip`到`animation`
+
+- 将创建好的`clip`从资源管理器拖拽到属性检查器中`Animation`组件的`Default Clip`属性上。
+
+![绑定clip到animation](/blog/images/CocosCreator简述/1601458653128.jpg)
+
+---
+
+### 打开动画编辑器编辑功能
+
+- 打开动画编辑器进行编辑，关闭动画编辑器的编辑功能也是该按钮。
+
+![打开动画编辑器进行编辑](/blog/images/CocosCreator简述/1601459099288.jpg)
+
+- 
 
 ---
 
