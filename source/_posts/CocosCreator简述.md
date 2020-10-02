@@ -39,6 +39,7 @@ tags:
 > [AnimationClip介绍](https://docs.cocos.com/creator/manual/zh/animation/animation.html#clip-%E5%8A%A8%E7%94%BB%E5%89%AA%E8%BE%91)
 > [instantiate方法](https://docs.cocos.com/creator/manual/zh/getting-started/quick-start.html?h=instantiate)
 > [getComponent方法](https://docs.cocos.com/creator/manual/zh/scripting/access-node-component.html?h=getcomponent)
+> [场景切换与加载](https://docs.cocos.com/creator/manual/zh/scripting/scene-managing.html)
 
 ---
 
@@ -477,7 +478,24 @@ onload () {
 }
 ```
 
+### 点击事件
+
+---
+
 ### 场景切换
+
+- 对于一个成品的游戏而言，只有一个`scene`是远远不够的，我们可以在一个游戏中只设置一个场景，但是我们更推荐开发者将场景中的不同表现进行细化。
+
+- 对于场景的加载，我们可以做到直接加载、预加载、加载回调等。
+
+```javascript
+// 直接加载场景
+cc.director.loadScene('MyScene')
+// 加载场景的回调
+cc.director.loadScene('MyScene', onSceneLaunched)
+// 预加载场景
+cc.director.preloadScene('MyScene', () => {})
+```
 
 ---
 
