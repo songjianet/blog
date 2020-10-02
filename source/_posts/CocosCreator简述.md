@@ -345,6 +345,36 @@ assets/
 
 ---
 
+### 脚本模板
+
+- `cc.Class`用于声明`Cocos Creator`中的类。它是一个很常用的`api`。
+
+- `extends: cc.Component`基类，可以是任意创建好的`cc.Class`。
+
+- `properties`用于属性值的定义。
+
+- `onLoad`加载节点。
+
+- `start`所有节点都执行完`onLoad`后才执行。
+
+- `update`会在场景加载完成后每一帧都执行一次，一般把需要经常计算或及时更新的逻辑内容放在`update`中。
+
+```javascript
+cc.Class({
+    extends: cc.Component,
+
+    properties: {},
+
+    onLoad () {},
+
+    start () {},
+
+    update (dt) {}
+})
+```
+
+---
+
 ### 为组件创建脚本
 
 - 在资源管理器中新建一个`JavaScript`文件。
@@ -447,6 +477,25 @@ onload () {
 }
 ```
 
+### 场景切换
 
+---
 
+### 播放背景音乐
+
+---
+
+### 播放按钮点击音效
+
+---
+
+## 状态管理器
+
+---
+
+## 屏幕适配
+
+---
+
+## 针对小游戏进行分包
 
