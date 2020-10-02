@@ -562,11 +562,20 @@ cc.director.preloadScene('MyScene', () => {})
 
 ---
 
-### 播放背景音乐
+### 播放音频
 
----
+- 背景音乐无法在浏览器中自动播放。
 
-### 播放按钮点击音效
+```javascript
+// 播放背景音乐，第一个参数为AudioClip，第二个参数为是否循环播放
+cc.audioEngine.playMusic(audio, true, 1)
+// 暂停正在播放的所有音乐
+cc.audioEngine.pauseMusic(audio)
+// 恢复被暂停的音乐
+cc.audioEngine.resumeMusic(audio)
+// 播放声音（非背景音乐）
+cc.audioEngine.play(audio, false, 1)
+```
 
 ---
 
