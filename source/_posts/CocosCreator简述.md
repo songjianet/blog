@@ -40,6 +40,7 @@ tags:
 > [instantiate方法](https://docs.cocos.com/creator/manual/zh/getting-started/quick-start.html?h=instantiate)
 > [getComponent方法](https://docs.cocos.com/creator/manual/zh/scripting/access-node-component.html?h=getcomponent)
 > [场景切换与加载](https://docs.cocos.com/creator/manual/zh/scripting/scene-managing.html)
+> [节点系统事件](https://docs.cocos.com/creator/manual/zh/scripting/internal-events.html)
 
 ---
 
@@ -478,7 +479,69 @@ onload () {
 }
 ```
 
+---
+
 ### 点击事件
+
+- 在游戏开发过程中，我们需要捕获某些用户的行为后给用户展示不同的信息，针对这种行为我们称之为交互。
+
+- 交互方式有很多种，在`Cocos Creator`引擎中，我们把交互事件划分为三大类，它们分别是：系统内置事件、玩家输入事件以及对事件的发射和监听。
+
+- 点击事件是交互事件中最常见的事件。
+
+- 点击事件有两种形式，其一是使用`Button`组件自带的点击事件，其二则是使用脚本动态绑定一个点击事件。
+
+---
+
+#### 通过按钮绑定点击事件
+
+- 在层级管理器中创建一个`Button`组件，点击`Button`组件后可以在属性检查器中找到`Click Events`属性。
+
+![通过按钮增加点击事件](/blog/images/CocosCreator简述/1601638944773.jpg)
+
+- 编辑一个脚本文件，在脚本文件内增加一个`onClick`方法。
+
+```javascript
+cc.Class({
+    extends: cc.Component,
+
+    properties: {},
+
+    // LIFE-CYCLE CALLBACKS:
+
+    // onLoad () {},
+
+    onClick () {},
+
+    // start () {},
+
+    // update (dt) {},
+})
+```
+
+- 在属性检查器中添加带有点击方法的用户脚本组件。
+
+![添加带有点击方法的用户脚本](/blog/images/CocosCreator简述/1601639906991.jpg)
+
+
+- 在属性检查器中点击`Click Events`属性右边的上箭头，代表对此按钮增加一个点击事件。
+
+![点击按钮增加一个点击事件](/blog/images/CocosCreator简述/1601639670961.jpg)
+
+- 将要绑定的按钮事件、用户脚本拖拽到相应位置后选择脚本中的点击方法。
+
+![点击按钮绑定节点和脚本](/blog/images/CocosCreator简述/1601640060813.jpg)
+
+---
+
+#### 通过脚本创建一个点击事件
+
+- 通过脚本绑定的点击事件可以应用在任意一个组件节点。
+
+```javascript
+// 通过脚本动态绑定一个点击事件
+node.on('touchstart', this.touchStart, this)
+```
 
 ---
 
