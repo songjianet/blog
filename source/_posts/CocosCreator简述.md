@@ -37,6 +37,8 @@ tags:
 > [Prefab介绍](https://docs.cocos.com/creator/manual/zh/asset-workflow/prefab.html?h=prefab)
 > [Animation介绍](https://docs.cocos.com/creator/manual/zh/components/animation.html?h=animation)
 > [AnimationClip介绍](https://docs.cocos.com/creator/manual/zh/animation/animation.html#clip-%E5%8A%A8%E7%94%BB%E5%89%AA%E8%BE%91)
+> [instantiate方法](https://docs.cocos.com/creator/manual/zh/getting-started/quick-start.html?h=instantiate)
+> [getComponent方法](https://docs.cocos.com/creator/manual/zh/scripting/access-node-component.html?h=getcomponent)
 
 ---
 
@@ -105,9 +107,9 @@ tags:
 
 ### 项目管理与多人协作
 
-- 通常情况下我们会使用`git`进行项目的管理，针对`CocosCreator`编辑器可视化界面的操作也是可以通过`git`进行管理的。
+- 通常情况下开发者会使用`git`进行项目的管理，针对`CocosCreator`编辑器可视化界面的操作也是可以通过`git`进行管理的。
 
-- 在项目创建后我们可以在编辑器的资源管理器里面看到整个项目的目录结构，我们只需管理`assets`目录即可，针对`internal`目录则是引擎自动为你创建的一个不可变动的目录。
+- 在项目创建后开发者可以在编辑器的资源管理器里面看到整个项目的目录结构，开发者只需管理`assets`目录即可，针对`internal`目录则是引擎自动为你创建的一个不可变动的目录。
 
 ![资源管理器](/blog/images/CocosCreator简述/1601433806377.jpg)
 
@@ -122,6 +124,8 @@ tags:
 - 在`assets`目录下每创建一个文件或者文件夹都会生成一个对应名称的`meta`文件，`meta`文件用于记录引擎使用该资源时所需的数据。
 
 - 在对文件或文件夹执行创建、修改和删除操作的时候建议在`CocosCreator`编辑器中执行，通过`CocosCreator`编辑器之外对文件或文件夹的任何操作都无法记录到`meta`文件。
+
+- `Cocos`游戏引擎的资源管理器是按照`uid`进行区分的，不是传统的按照文件路径进行区分，所以开发者无法设置相同的资源名称，如`scripts -> login -> index.js`和`scripts -> home -> index.js`也是会被引擎是别成一个相同的文件。
 
 ```
 assets/
@@ -149,7 +153,7 @@ assets/
 
 ## `scene`
 
-- 在游戏开发的过程中，我们可以把`scene`理解为一个`html`页面，页面之间的切换就是`scene`之间的切换。
+- 在游戏开发的过程中，开发者可以把`scene`理解为一个`html`页面，页面之间的切换就是`scene`之间的切换。
 
 - `html`页面中的`button`、`table`都可以理解成`scene`中的一个物体元素组件。
 
@@ -179,7 +183,7 @@ assets/
 
 - 属性检查器会对应当前在层级管理器中选中的节点。
 
-- 我们没有办法去直接修改一个`scene`中根`canvas`节点上的`size`属性，但是可以通过修改根节点上`Canvas`组件的画布中的`Design Resolution`属性的尺寸。
+- 作为开发者没有办法去直接修改一个`scene`中根`canvas`节点上的`size`属性，但是可以通过修改根节点上`Canvas`组件的画布中的`Design Resolution`属性的尺寸。
 
 - `scene`中`canvas`的尺寸取决于`ui`设计图的尺寸。
 
@@ -191,11 +195,11 @@ assets/
 
 ### 在`scene`中添加背景图片
 
-- 通常情况下我们的一个`scene`场景是需要一个甚至多个背景图片的。
+- 通常情况下一个`scene`场景是需要一个甚至多个背景图片的。
 
 - 在`scene`中添加背景图片需要在根`Canvas`组件的节点下创建一个`sprite`精灵元素，通过给`sprite`精灵元素设置尺寸与背景图片进而实现场景中有背景图片的效果。
 
-- 出于我们要设置`scene`的背景图片，所以这里选择普通精灵组件进行设置。
+- 出于要设置`scene`的背景图片，所以这里选择普通精灵组件进行设置。
 
 - 更改`scene`中的根节点上`Canvas`组件尺寸为`1280*720`。
 
@@ -251,7 +255,7 @@ assets/
 
 ### 创建`clip`
 
-- `clip`动画剪辑就是一份动画的声明数据，我们将它挂载到`Animation`组件上，就能够将这份动画数据应用到节点上。
+- `clip`动画剪辑就是一份动画的声明数据，需要将它挂载到`Animation`组件上，就能够将这份动画数据应用到节点上。
 
 ![创建clip](/blog/images/CocosCreator简述/1601458180992.jpg)
 
@@ -281,7 +285,7 @@ assets/
 
 - 这里实现的是一个简单的`scale`动画，其它类型的动画和动画组合不再讲述。
 
-- 选择`scale`制作一个缩放的动画，在修改属性检查器中的`Scale`属性的时候，动画编辑器会自动为我们插入一个关键帧。
+- 选择`scale`制作一个缩放的动画，在修改属性检查器中的`Scale`属性的时候，动画编辑器会自动为开发者插入一个关键帧。
 
 - 如果没有开启动画编辑器的编辑状态，则不会动态创建一个关键帧。
 
@@ -326,5 +330,123 @@ assets/
 - 真机预览可以使用手机上的任何带有扫描二维码功能的软件进行扫码预览。
 
 ![真机局域网预览](/blog/images/CocosCreator简述/1601449536008.jpg)
+
+---
+
+## 脚本操作
+
+### 介绍
+
+- 由于脚本存在一定的逻辑性和业务导向性，所以在这里只做一些简单的介绍，更多的请前往官网查看相关`api`。
+
+- `Cocos`游戏引擎允许开发者使用`JavaScript`语言进行编写，这点对于前端工作人员是非常友好的，不仅`Cocos`一家，很多游戏引擎都支持`JavaScript`。
+
+- 在游戏的脚本开发中，允许开发者使用代码去实现一些无法通过可视化编辑器操作的业务逻辑，如：接口、动态创建节点、修改节点属性、全局的事件分发机制等。
+
+---
+
+### 为组件创建脚本
+
+- 在资源管理器中新建一个`JavaScript`文件。
+
+- 点击需要此脚本的节点，在属性检查器中点击添加组件 -> 用户脚本组件后，可以看到整个项目中所有的脚本文件。
+
+![给组件添加脚本](/blog/images/CocosCreator简述/1601605395313.jpg)
+
+---
+
+### 关联脚本变量与资源
+
+- 每一个脚本中都有一个`properties`对象，该对象可以理解为一个在当前脚本内的一个变量。
+
+- 通常脚本中的变量有两种使用方式，其一是作为与资源关联的桥梁，其二是可以用作当前脚本内的变量。
+
+- 在脚本中需要创建一个变量才能与资源做关联，做关联的方式也是直接将资源拖拽到属性检查器脚本组件下的属性中。
+
+![给组件添加脚本](/blog/images/CocosCreator简述/1601605601374.jpg)
+
+- 当作为资源关联桥梁时，需要指定默认值和类型，类型可以是`Cocos`游戏引擎所有组件的类型。
+
+```javascript
+properties: {
+  soundPrefab: {
+    default: null, // 设置资源默认值
+    type: cc.Prefab // 设置资源类型
+  },
+  count: 0 // 计数器，当作脚本内的运行变量
+}
+```
+
+---
+
+### 获取`prefab`
+
+- 当把一个节点从层级管理器拖拽到资源管理器中变成一个`prefab`时，应该将这个节点从层级管理器中删除。
+
+- `prefab`无法自动加载到一个`sence`中的某一个位置，只能通过脚本获取该`prefab`并将其挂载到一个`sence`中的一个`node`下。
+
+```javascript
+onLoad () {
+  // 使用给定模板在场景中生成一个新的节点
+  this.sound = cc.instantiate(this.soundPrefab)
+}
+```
+
+--- 
+
+### 将`prefab`添加到`node`
+
+- 通过脚本加载`prefab`到`node`上时，不仅需要获取`prefab`资源，也需要获取`node`节点。
+
+- 获取`node`节点的方式和获取`prefab`资源的方式相同，先声明一个变量，将其从层级管理器中拖拽到属性检查器中。
+
+```javascript
+properties: {
+  soundPrefab: {
+    default: null,
+    type: cc.Prefab
+  },
+  backgroundNode: {
+    default: null,
+    type: cc.Node
+  }
+}
+
+onLoad () {
+  this.sound = cc.instantiate(this.soundPrefab)
+  // 将prefab挂载在node下
+  this.backgroundNode.addChild(this.sound)
+}
+```
+
+---
+
+### 通过脚本获取`sprite`
+
+- 在开发者动态修改、创建一个或多个`sprite`时，则需要通过脚本获取`node`下的`sprite`。
+
+- 该`node`也需要通过创建变量后与资源进行关联。
+
+- 如果一个`node`只需要获取并没有其它节点需要挂载在该`node`下时，可以不写`instantiate`和`addChild`。
+
+```javascript
+properties: {
+  backgroundNode: {
+    default: null,
+    type: cc.Node
+  }
+}
+
+onload () {
+  // 获取挂载在该节点下的所有动画
+  // cc.Sprite则为Sprite组件
+  // Sprite组件可以在该node下的属性检查器中找到
+  // 获取挂载在该节点下的所有精灵
+  // getComponent也可以获取到同节点的其它组件，如：Animation，Button等
+  this.sprites = this.backgroundNode.getComponent(cc.Sprite)
+}
+```
+
+
 
 
