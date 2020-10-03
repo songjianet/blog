@@ -576,16 +576,3 @@ cc.audioEngine.resumeMusic(audio)
 // 播放声音（非背景音乐）
 cc.audioEngine.play(audio, false, 1)
 ```
-
----
-
-## 状态管理器
-
----
-
-## 屏幕适配
-
----
-
-## 针对小游戏进行分包
-
