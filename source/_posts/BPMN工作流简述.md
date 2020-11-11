@@ -171,12 +171,92 @@ import Modeler from 'bpmn-js/lib/NavigatedViewer'
 
 ```ecmascript6
 import Modeler from 'bpmn-js/lib/Modeler'
-import 'bpmn-js/dist/assets/diagram-js.css' // 左边工具栏以及编辑节点的样式
+import 'bpmn-js/dist/assets/diagram-js.css'
 import 'bpmn-js/dist/assets/bpmn-font/css/bpmn.css'
 import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css'
 import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css'
 ```
 
 ![使用Modeler](/blog/images/BPMN工作流简述/1605084566835.jpg)
+
+### 节点属性配置面板
+
+- 一个默认的`bpmn`设计器是不带有右侧的节点属性配置面板的。
+
+- 节点属性配置面板可以有两种实现方式，其一是使用官方提供的插件实现，其二是可以通过自定义`vue`组件，在将`Shape`从`Palette`中拖拽到`Render`时，可以通过`Modeler`提供的事件监听，对用户点击过的`Shape`在右侧替换对应的`vue`组件。
+
+- 这一部分会使用第一种方式进行配置右侧的节点属性栏，第二种方式会在后续的自定义中进行讲解。
+
+- 安装`bpmn-js-properties-panel`和`camunda-bpmn-moddle`插件。
+
+```shell
+# yarn
+yarn add bpmn-js-properties-panel
+yarn add camunda-bpmn-moddle
+
+# npm
+npm install bpmn-js-properties-panel
+npm install camunda-bpmn-moddle
+
+#cnpm
+cnpm install bpmn-js-properties-panel
+cnpm install camunda-bpmn-moddle
+```
+
+- 在`html`部分与`canvas`同级，增加用于承载节点属性配置面板的容器。
+
+```vue
+<div class="bpmn-container">
+  <div class="canvas" ref="canvas"></div>
+  <div class="properties" ref="properties"></div>
+</div>
+```
+
+- 引入对应的`js`和`css`。
+
+```ecmascript6
+import propertiesPanelModule from 'bpmn-js-properties-panel'
+import propertiesProviderModule from 'bpmn-js-properties-panel/lib/provider/camunda'
+import camundaModdleDescriptor from 'camunda-bpmn-moddle/resources/camunda'
+import 'bpmn-js-properties-panel/dist/assets/bpmn-js-properties-panel.css'
+```
+
+- 在`new Modeler`中增加`propertiesPanel`、`additionalModules`和`moddleExtensions`对象。
+
+```javascript
+this.viewer = new Modeler({
+  container: this.$refs.canvas,
+  propertiesPanel: {
+    parent: this.$refs.properties
+  },
+  additionalModules: [
+    propertiesProviderModule,
+    propertiesPanelModule
+  ],
+  moddleExtensions: {
+    camunda: camundaModdleDescriptor
+  }
+})
+```
+
+- 由于之前将`class`为`canvas`容器的样式设置成了`100%`，所以节点属性配置面板不会展示出来，对此需要修改一部分样式。
+
+```scss
+.bpmn-container {
+  display: flex;
+  justify-content: space-between;
+
+  .canvas {
+    width: 80%;
+    height: 100vh;
+  }
+
+  .properties {
+    width: 20%;
+  }
+}
+```
+
+![节点属性配置面板](/blog/images/BPMN工作流简述/1605087706732.jpg)
 
 ---
