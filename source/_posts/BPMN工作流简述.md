@@ -725,3 +725,116 @@ export default {
 ![重写`Palette`方法展示图](/blog/images/BPMN工作流简述/1605172503339.jpg)
 
 #### 新建目录和文件
+
+- 在`components`目录下新建`modeler`目录和`index.js`文件。
+
+- 在`modeler`目录下新建`CustomPalette.js`和`index.js`文件。
+
+![重写`Palette`方法目录结构](/blog/images/BPMN工作流简述/1605172865749.jpg)
+
+#### 编写`CustomPalette.js`代码
+
+```ecmascript6
+export default function PaletteProvider(palette, create, elementFactory, globalConnect) {
+  this.create = create
+  this.elementFactory = elementFactory
+  this.globalConnect = globalConnect
+
+  palette.registerProvider(this)
+}
+
+PaletteProvider.$inject = [
+  'palette',
+  'create',
+  'elementFactory',
+  'globalConnect'
+]
+
+PaletteProvider.prototype.getPaletteEntries = function() {
+  const {
+    create,
+    elementFactory
+  } = this
+
+  function createTask() {
+    return function(event) {
+      const shape = elementFactory.createShape({
+        type: 'bpmn:StartEvent'
+      })
+      console.log(shape)
+      create.start(event, shape)
+    }
+  }
+
+  return {
+    'create.test-start-event': {
+      group: 'model',
+      className: 'icon-custom test-start-event',
+      title: '创建一个开始节点',
+      action: {
+        dragstart: createTask(),
+        click: createTask()
+      }
+    }
+  }
+}
+```
+
+#### 编写`palette/index.js`代码
+
+```ecmascript6
+import CustomPalette from './CustomPalette'
+
+export default {
+  __init__: ['paletteProvider'],
+  paletteProvider: ['type', CustomPalette]
+}
+```
+
+#### 编写`modeler/index.js`代码
+
+```ecmascript6
+import Modeler from 'bpmn-js/lib/Modeler'
+import inherits from 'inherits'
+import CustomModule from './palette'
+
+export default function CustomModeler(options) {
+  Modeler.call(this, options)
+  this._customElements = []
+}
+
+inherits(CustomModeler, Modeler)
+CustomModeler.prototype._modules = [].concat(
+  CustomModeler.prototype._modules, [
+    CustomModule
+  ]
+)
+```
+
+#### 在`vue`文件中引入
+
+- 当重写`Palette`方法后，将不再通过`BpmnModeler`进行创建，需要通过`CustomModeler`进行创建。
+
+```vue
+<script>
+import CustomModeler from './components/modeler'
+
+export default {
+  mounted() {
+    this.modeler = new CustomModeler({
+      container: this.$refs.canvas
+    })
+  }
+}
+</script>
+```
+
+#### 编写样式
+
+- 样式使用《基于`Modeler`中的`Palette`进行自定义》中的样式。
+
+#### 产看效果
+
+![重写`Palette`方法完成效果](/blog/images/BPMN工作流简述/1605172865749.jpg)
+
+---
