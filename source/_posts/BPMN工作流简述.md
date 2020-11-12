@@ -575,3 +575,153 @@ this.modeler.get('minimap').open()
 - 如果不满意默认的缩放预览效果，可以通过样式覆盖的形式去更改，在后续的文章中会以一个例子介绍具体的更改方法。
 
 ---
+
+## 自定义`Palette`
+
+- 在了解了`bpmn`基础概念和使用后，对一些模块以及它们之间的配合应该有了一定的概念，同时`bpmn`的默认样式可能无法满足业务的需求。
+
+- 自定义`Palette`后允许通过配置生成工具栏、更改工具栏样式和布局等。
+
+- 自定义的方式包含两种，其一是基于`Modeler`中的`Palette`进行修改，其二是完全重写`Palette`方法。
+
+### 基于`Modeler`中的`Palette`进行自定义
+
+#### 新建目录和文件
+
+- 在`components`目录下新建`palette`目录。
+
+- 在`palette`目录下新建`CustomPalette.js`和`index.js`文件。
+
+![基于`Modeler`中的`Palette`进行自定义目录结构](/blog/images/BPMN工作流简述/1605168951242.jpg)
+
+#### 编写`CustomPalette.js`代码
+
+- 使用`$inject`注入一些需要的变量。
+
+- 在类中使用`palette.registerProvider(this)`指定这是一个`palette`。
+
+- `CustomPalette`类中的核心代码是`getPaletteEntries`函数，该函数的名称不能改变, 该函数返回的是一个对象, 对象中指定的内容就是自定义的中的每一项。
+
+- `group`: 属于哪个分组, `比如tools`、`event`、`gateway`、`activity等等`。
+
+- `className`: 样式类名, 我们可以通过它给元素修改样式。
+
+- `title`: 鼠标移动到元素上面给出的提示信息。
+
+- `action`: 用户操作时会触发的事件
+
+```ecmascript6
+export default class CustomPalette {
+  constructor(bpmnFactory, create, elementFactory, palette, translate) {
+    this.bpmnFactory = bpmnFactory
+    this.create = create
+    this.elementFactory = elementFactory
+    this.translate = translate
+
+    palette.registerProvider(this)
+  }
+
+  getPaletteEntries(element) {
+    console.log(element)
+
+    const {
+      bpmnFactory,
+      create,
+      elementFactory,
+      translate
+    } = this
+
+    function createTask() {
+      return function(event) {
+        const businessObject = bpmnFactory.create('bpmn:StartEvent')
+        const shape = elementFactory.createShape({
+          type: 'bpmn:StartEvent',
+          businessObject
+        })
+        create.start(event, shape)
+      }
+    }
+
+    return {
+      'create.test-start-event': {
+        group: 'model',
+        className: 'icon-custom test-start-event',
+        title: translate('创建一个开始节点'),
+        action: {
+          dragstart: createTask(),
+          click: createTask()
+        }
+      }
+    }
+  }
+}
+
+CustomPalette.$inject = [
+  'bpmnFactory',
+  'create',
+  'elementFactory',
+  'palette',
+  'translate'
+]
+```
+
+#### 编写`index.js`文件
+
+- `__init__`中的名字就必须是`customPalette`。
+
+```ecmascript6
+import CustomPalette from './CustomPalette'
+
+export default {
+  __init__: ['customPalette'],
+  customPalette: ['type', CustomPalette]
+}
+```
+
+#### 在`vue`文件中引入
+
+```vue
+<script>
+import customPalette from './components/palette'
+
+export default {
+  mounted() {
+    this.modeler = new Modeler({
+      container: this.$refs.canvas,
+      additionalModules: [
+        customPalette
+      ]
+    })
+  }
+}
+</script>
+```
+
+#### 编写样式
+
+- 编写样式样式，能够在左侧`Palette`中展示自定义的节点。
+
+```css
+.icon-custom {
+  border-radius: 50%;
+  background-size: 65%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.icon-custom.test-start-event {
+  background-image: url('https://zdgg-scrm.oss-cn-shanghai.aliyuncs.com/bpmn/liuchengkongzhi/start.png');
+}
+```
+
+#### 查看效果
+
+![基于`Modeler`中的`Palette`进行自定义完成效果](/blog/images/BPMN工作流简述/1605170483360.jpg)
+
+### 重写`Palette`方法
+
+- 上面的代码通过修改`Modeler`中的`Palette`实现了对`Palette`中的节点进行自定义的功能，但是如果想实现以下红线圈出效果，则需要重写`Palette`方法。
+
+![重写`Palette`方法展示图](/blog/images/BPMN工作流简述/1605172503339.jpg)
+
+#### 新建目录和文件
