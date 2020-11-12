@@ -169,12 +169,45 @@ import Modeler from 'bpmn-js/lib/NavigatedViewer'
 
 - 下图显示的是`bpmn`在`Modeler`模式下提供的默认组件，并非全部组件。
 
-```ecmascript6
+```vue
+<template>
+  <div class="canvas" ref="canvas"></div>
+</template>
+
+<script>
 import Modeler from 'bpmn-js/lib/Modeler'
 import 'bpmn-js/dist/assets/diagram-js.css'
 import 'bpmn-js/dist/assets/bpmn-font/css/bpmn.css'
 import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css'
 import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css'
+import defaultXML from './default-xml'
+
+export default {
+  name: 'App',
+  data() {
+    return {
+      modeler: null
+    }
+  },
+  mounted() {
+    this.modeler = new Modeler({
+      container: this.$refs.canvas
+    })
+    try {
+      this.modeler.importXML(defaultXML())
+    } catch (err) {
+      console.log(err)
+    }
+  }
+}
+</script>
+
+<style lang="scss">
+.canvas {
+  width: 100%;
+  height: 100vh;
+}
+</style>
 ```
 
 ![使用Modeler](/blog/images/BPMN工作流简述/1605084566835.jpg)
@@ -258,5 +291,287 @@ this.viewer = new Modeler({
 ```
 
 ![节点属性配置面板](/blog/images/BPMN工作流简述/1605087706732.jpg)
+
+---
+
+## 全局操作
+
+- 全局操作包括用户的缩放行为、画布的自适应、上一步下一步、下载、保存、打开等操作。
+
+![全剧操作](/blog/images/BPMN工作流简述/1605146722819.jpg)
+
+### 上一步
+
+```vue
+previous() {
+  const commandStack = this.modeler.get('commandStack')
+
+  // 没有可以执行的上一步操作，可以通过下面条件对上一步按钮设置禁用
+  if (commandStack._stackIdx === -1) { return false }
+
+  commandStack.undo()
+}
+```
+
+### 下一步
+
+```vue
+next() {
+  const commandStack = this.modeler.get('commandStack')
+  
+  // 没有可以执行的下一步操作，可以通过下面条件对下一步按钮设置禁用
+  if (commandStack._stack.length - 1 === commandStack._stackIdx) { return false }
+
+  commandStack.redo()
+}
+```
+
+### 放大
+
+```vue
+zoomIn() {
+  let zoom = this.modeler.get('canvas').zoom()
+
+  zoom += 0.1
+
+  // 保存当前的缩放比例到vue的data中，后续用于通过输入框控制缩放时使用
+  // 保留一位小数，避免出现计算精度影响功能的情况
+  this.zoom = Number(zoom.toFixed(1))
+
+  this.modeler.get('canvas').zoom(zoom)
+}
+```
+
+### 缩小
+
+```vue
+zoomOut() {
+  let zoom = this.modeler.get('canvas').zoom()
+
+  zoom -= 0.1
+
+  this.zoom = Number(zoom.toFixed(1))
+
+  this.modeler.get('canvas').zoom(zoom)
+}
+```
+
+### 输入框控制缩放
+
+```vue
+<template>
+  <div>
+    <el-input v-model.number="zoomScale" size="mini" @change="setZoom" suffix-icon="el-icon-connection"></el-input>
+    <div class="canvas" ref="canvas"></div>
+    <div class="properties" ref="properties"></div>
+  </div>
+</template>
+
+<script>
+import Modeler from 'bpmn-js/lib/Modeler'
+import 'bpmn-js/dist/assets/diagram-js.css'
+import 'bpmn-js/dist/assets/bpmn-font/css/bpmn.css'
+import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css'
+import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css'
+
+export default {
+  data() {
+    return {
+      zoom: 1, // 缩放比例
+      zoomScale: 100, // 缩放基础值
+      modeler: null
+    }
+  },
+  mounted() {
+    this.modeler = new Modeler({
+      container: this.$refs.canvas
+    })
+  },
+  methods: {
+     setZoom() {
+       this.zoom = this.zoomScale / 100
+       this.modeler.get('canvas').zoom(this.zoom)
+     }
+  }
+}
+</script>
+```
+
+### 适应画布
+
+```vue
+<template>
+  <div>
+    <div class="canvas" ref="canvas"></div>
+    <div class="properties" ref="properties"></div>
+  </div>
+</template>
+
+<script>
+import Modeler from 'bpmn-js/lib/Modeler'
+import 'bpmn-js/dist/assets/diagram-js.css'
+import 'bpmn-js/dist/assets/bpmn-font/css/bpmn.css'
+import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css'
+import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css'
+
+export default {
+  data() {
+    return {
+      zoom: 1, // 缩放比例
+      modeler: null
+    }
+  },
+  mounted() {
+    this.modeler = new Modeler({
+      container: this.$refs.canvas
+    })
+  },
+  methods: {
+    fitViewport() {
+      this.zoom = this.modeler.get('canvas').zoom('fit-viewport')
+    
+      const bBox = document.querySelector('.viewport').getBBox()
+      const currentViewBox = this.modeler.get('canvas').viewbox()
+      const elementMid = {
+        x: bBox.x + bBox.width / 2 - 65,
+        y: bBox.y + bBox.height / 2
+      }
+    
+      this.modeler.get('canvas').viewbox({
+        x: elementMid.x - currentViewBox.width / 2,
+        y: elementMid.y - currentViewBox.height / 2,
+        width: currentViewBox.width,
+        height: currentViewBox.height
+      })
+    
+      this.zoom = bBox.width / currentViewBox.width * 1.8
+    }
+  }
+}
+</script>
+```
+
+### 打开
+
+- 打开`xml`本质就是一个上传文件的方法，然后将文件中的`xml`内容重新装载。
+
+- 装载方式是使用`importXML`方法装载`xml`，可以查看文章中《快速上手 -> 使用`Modeler`编辑器》部分的介绍。
+
+```vue
+<template>
+  <el-upload action="" :before-upload="beforeUpload">
+    <div class="open">
+      <i class="el-icon-folder-opened"></i>
+      <p>打开</p>
+    </div>
+  </el-upload>
+</template>
+
+<script>
+export default {
+  methods: {
+    beforeUpload(file) {
+      const reader = new FileReader()
+
+      reader.readAsText(file, 'utf-8')
+      reader.onload = () => {
+        console.log(reader.result) // xml内容
+      }
+
+      return false
+    }
+  }
+}
+</script>
+```
+
+### 新建
+
+- 新建可以用于加载后端提供的`xml`模板，可以让使用者基于不同的模板进行绘制，减少用户的绘制时间。
+
+### 重做
+
+- 重做就是使用`importXML`方法装载一个空的`xml`文件。
+
+### 下载xml
+
+```ecmascript6
+async downloadXML() {
+  try {
+    let { xml } = await this.modeler.saveXML({ format: true })
+
+    downloadFile(`${this.modeler.getDefinitions().rootElements[0].name}.bpmn20.xml`, drawToXML(xml), 'application/xml')
+
+    return xml
+  } catch (err) {
+    console.log(err)
+  }
+}
+```
+
+### 下载svg
+
+```ecmascript6
+async downloadSVG() {
+  try {
+    const { svg } = await this.modeler.saveSVG({ format: true })
+
+    downloadFile(this.modeler.getDefinitions().rootElements[0].name, svg, 'image/svg+xml')
+
+    return svg
+  } catch (err) {
+    console.log(err)
+  }
+}
+```
+
+### 保存
+
+- 保存方法与下载`xml`方法是一致的，保存方法主要用于将`xml`通过接口发送给后端服务。
+
+### 缩略预览
+
+- 安装`diagram-js-minimap`插件。
+
+```shell
+# yarn
+yarn add diagram-js-minimap
+
+# npm
+npm install diagram-js-minimap
+
+# cnpm
+cnpm install diagram-js-minimap
+```
+
+- 引入。
+
+```ecmascript6
+import minimapModule from 'diagram-js-minimap'
+import 'diagram-js-minimap/assets/diagram-js-minimap.css'
+```
+
+- 在`Modeler`中装载插件。
+
+```ecmascript6
+this.modeler = new Modeler({
+  container: this.$refs.canvas,
+  additionalModules: [
+    minimapModule
+  ]
+})
+```
+
+![关闭状态的效果](/blog/images/BPMN工作流简述/1605156209317.jpg)
+
+- 插件默认为`close`状态，如果需要在项目打开时缩放预览为`open`状态，可执行以下代码。
+
+```ecmascript6
+this.modeler.get('minimap').open()
+```
+
+![打开状态的效果](/blog/images/BPMN工作流简述/1605156282864.jpg)
+
+- 如果不满意默认的缩放预览效果，可以通过样式覆盖的形式去更改，在后续的文章中会以一个例子介绍具体的更改方法。
 
 ---
