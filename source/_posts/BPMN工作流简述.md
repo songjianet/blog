@@ -835,6 +835,6 @@ export default {
 
 #### 产看效果
 
-![重写`Palette`方法完成效果](/blog/images/BPMN工作流简述/1605172865749.jpg)
+![重写`Palette`方法完成效果](/blog/images/BPMN工作流简述/1605174390912.jpg)
 
 ---
