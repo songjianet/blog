@@ -837,4 +837,17 @@ export default {
 
 ![重写`Palette`方法完成效果](/blog/images/BPMN工作流简述/1605174390912.jpg)
 
----
+### 修改`Palette`样式
+
+- 想要更改默认的`Palette`侧边栏的样式需要对`dom`结构有一定的更改，同时也要增加一部分样式。
+
+- 获取`canvas`容器，获取`Palette`侧边栏的`dom`节点。
+
+```ecmascript6
+const canvas = this.$refs.canvas
+const djsPalette = canvas.children[0].children[1].children[5]
+```
+
+- 拿到节点后就可以对其进行节点以及样式的增删改等操作。
+
+
