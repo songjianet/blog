@@ -1224,3 +1224,69 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
 ![`ContextPad`自定义效果](/blog/images/BPMN工作流简述/1605252668249.jpg)
 
 ---
+
+## 自定义连接线和箭头
+
+### 默认效果
+
+![默认效果](/blog/images/BPMN工作流简述/1605254672725.jpg)
+
+### 修改连接线颜色
+
+```scss
+.djs-connection {
+  path {
+    stroke: blue !important;
+    marker-end: url(#sequenceflow-arrow-normal) !important;
+  }
+}
+```
+
+![修改连接线颜色](/blog/images/BPMN工作流简述/1605254549761.jpg)
+
+### 自定义箭头
+
+- 绘制箭头需要有一定的`svg`开发能力，因为`Render`中的所有节点都是以`svg`进行呈现的。
+
+- 自定义`svg`需要引入以下两个包。
+
+```ecmascript6
+import { append as svgAppend, attr as svgAttr, create as svgCreate } from 'tiny-svg'
+import { query as domQuery } from 'min-dom'
+```
+
+- 修改装载`xml`时候的方法。
+
+```ecmascript6
+bpmnModeler.importXML(xml).then(() => {
+  const marker = svgCreate('marker')
+
+  svgAttr(marker, {
+    id: '#sequenceflow-arrow-normal',
+    viewBox: '0 0 20 20',
+    refX: '11',
+    refY: '10',
+    markerWidth: '10',
+    markerHeight: '10',
+    orient: 'auto'
+  })
+
+  const path = svgCreate('path')
+
+  svgAttr(path, {
+    d: 'M 1 5 L 11 10 L 1 15 Z',
+    style:
+      ' stroke-width: 1px; stroke-linecap: round; stroke-dasharray: 10000, 1; '
+  })
+
+  const defs = domQuery('defs')
+  svgAppend(marker, path)
+  svgAppend(defs, marker)
+})
+```
+
+### 实现效果
+
+![实现效果](/blog/images/BPMN工作流简述/1605255869265.jpg)
+
+---
