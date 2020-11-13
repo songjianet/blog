@@ -584,15 +584,15 @@ this.modeler.get('minimap').open()
 
 - 自定义的方式包含两种，其一是基于`Modeler`中的`Palette`进行修改，其二是完全重写`Palette`方法。
 
+### 新建目录和文件
+
+- 在`components`目录下新建`modeler`目录，在`modeler`目录下新建`palette`目录和`index.js`文件。
+
+- 在`palette`目录下新建`CustomPalette.js`文件。
+
+![基于`Modeler`中的`Palette`进行自定义目录结构](/blog/images/BPMN工作流简述/1605245857229.jpg)
+
 ### 基于`Modeler`中的`Palette`进行自定义
-
-#### 新建目录和文件
-
-- 在`components`目录下新建`palette`目录。
-
-- 在`palette`目录下新建`CustomPalette.js`和`index.js`文件。
-
-![基于`Modeler`中的`Palette`进行自定义目录结构](/blog/images/BPMN工作流简述/1605168951242.jpg)
 
 #### 编写`CustomPalette.js`代码
 
@@ -670,7 +670,7 @@ CustomPalette.$inject = [
 - `__init__`中的名字就必须是`customPalette`。
 
 ```ecmascript6
-import CustomPalette from './CustomPalette'
+import CustomPalette from './palette/CustomPalette'
 
 export default {
   __init__: ['customPalette'],
@@ -682,7 +682,7 @@ export default {
 
 ```vue
 <script>
-import customPalette from './components/palette'
+import customPalette from './components/modeler'
 
 export default {
   mounted() {
@@ -723,14 +723,6 @@ export default {
 - 上面的代码通过修改`Modeler`中的`Palette`实现了对`Palette`中的节点进行自定义的功能，但是如果想实现以下红线圈出效果，则需要重写`Palette`方法。
 
 ![重写`Palette`方法展示图](/blog/images/BPMN工作流简述/1605172503339.jpg)
-
-#### 新建目录和文件
-
-- 在`components`目录下新建`modeler`目录和`index.js`文件。
-
-- 在`modeler`目录下新建`CustomPalette.js`和`index.js`文件。
-
-![重写`Palette`方法目录结构](/blog/images/BPMN工作流简述/1605172865749.jpg)
 
 #### 编写`CustomPalette.js`代码
 
@@ -780,23 +772,17 @@ PaletteProvider.prototype.getPaletteEntries = function() {
 }
 ```
 
-#### 编写`palette/index.js`代码
+#### 编写`index.js`代码
 
 ```ecmascript6
-import CustomPalette from './CustomPalette'
+import Modeler from 'bpmn-js/lib/Modeler'
+import inherits from 'inherits'
+import CustomPalette from './palette/CustomPalette'
 
 export default {
   __init__: ['paletteProvider'],
   paletteProvider: ['type', CustomPalette]
 }
-```
-
-#### 编写`modeler/index.js`代码
-
-```ecmascript6
-import Modeler from 'bpmn-js/lib/Modeler'
-import inherits from 'inherits'
-import CustomModule from './palette'
 
 export default function CustomModeler(options) {
   Modeler.call(this, options)
@@ -860,15 +846,15 @@ const djsPalette = canvas.children[0].children[1].children[5]
 
 ![重写`Palette`方法完成效果](/blog/images/BPMN工作流简述/1605235889814.jpg)
 
-### 在默认的`Renderer`上进行自定义
-
-#### 新建目录和文件
+### 新建目录和文件
 
 - 在`components -> modeler`下新建`renderer`文件夹，在`renderer`文件夹下新建`CustomRenderer.js`文件。
 
 - 在`components -> modeler`下新建`utils.js`文件。
 
 ![在默认的`Renderer`上进行自定义目录结构](/blog/images/BPMN工作流简述/1605236911318.jpg)
+
+### 在默认的`Renderer`上进行自定义
 
 #### 编写`CustomRenderer.js`代码
 
