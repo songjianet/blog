@@ -1290,3 +1290,7 @@ bpmnModeler.importXML(xml).then(() => {
 ![实现效果](/blog/images/BPMN工作流简述/1605255869265.jpg)
 
 ---
+
+## 封装与优化
+
+
