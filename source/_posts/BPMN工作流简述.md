@@ -858,10 +858,159 @@ const djsPalette = canvas.children[0].children[1].children[5]
 
 #### 编写`CustomRenderer.js`代码
 
+- 由于是在`bpmn.js`已有的元素上进行修改, 所以所以需要将`BaseRenderer`这个类引入进来, 然后自定义`renderer`来继承它。
 
+- 代码中`HIGH_PRIORITY`不能去掉, 否则不会执行`drawShape`函数。
+
+```ecmascript6
+import BaseRenderer from 'diagram-js/lib/draw/BaseRenderer'
+import { customElements, customConfig } from '../utils'
+import { append as svgAppend, create as svgCreate } from 'tiny-svg'
+
+const HIGH_PRIORITY = 1500
+
+export default class CustomRenderer extends BaseRenderer {
+  constructor(eventBus, bpmnRenderer) {
+    super(eventBus, HIGH_PRIORITY)
+    this.bpmnRenderer = bpmnRenderer
+  }
+
+  canRender(element) {
+    return !element.labelTarget
+  }
+
+  drawShape(parentNode, element) {
+    const type = element.type
+
+    if (customElements.includes(type)) {
+      const { url, attr } = customConfig[type]
+      const customIcon = svgCreate('image', {
+        ...attr,
+        href: url
+      })
+      element['width'] = attr.width
+      element['height'] = attr.height
+      svgAppend(parentNode, customIcon)
+
+      return customIcon
+    }
+
+    const shape = this.bpmnRenderer.drawShape(parentNode, element)
+
+    return shape
+  }
+
+  getShapePath(shape) {
+    return this.bpmnRenderer.getShapePath(shape)
+  }
+}
+
+CustomRenderer.$inject = ['eventBus', 'bpmnRenderer']
+```
+
+#### 编写`utils.js`代码
+
+- 自定义的`Palette`中的节点的类型需要在`customElements`中注册，否则当用户拖拽一个节点从`Palette`侧边栏到`Render`中会提示找不到组件的错误。
+
+- `customConfig`中的对象在`CustomRenderer.js`中
+
+```ecmascript6
+const customElements = ['bpmn:StartEvent']
+
+const customConfig = {
+  'bpmn:StartEvent': {
+    'url': 'https://zdgg-scrm.oss-cn-shanghai.aliyuncs.com/bpmn/liuchengkongzhi/start.png',
+    'attr': { x: 0, y: 0, width: 48, height: 48 }
+  }
+}
+
+export { customElements, customConfig }
+```
+
+#### 编写`index.js`代码
+
+```ecmascript6
+import Modeler from 'bpmn-js/lib/Modeler'
+import inherits from 'inherits'
+import CustomPalette from './palette/CustomPalette'
+import CustomRenderer from './renderer/CustomRenderer'
+
+const CustomModule =  {
+  __init__: ['paletteProvider', 'customRenderer'],
+  paletteProvider: ['type', CustomPalette],
+  customRenderer: ['type', CustomRenderer]
+}
+
+export default function CustomModeler(options) {
+  Modeler.call(this, options)
+  this._customElements = []
+}
+
+inherits(CustomModeler, Modeler)
+CustomModeler.prototype._modules = [].concat(
+  CustomModeler.prototype._modules, [
+    CustomModule
+  ]
+)
+```
 
 ### 重写`Renderer`方法
 
+- 对于重写`Renderer`方法而言，只需修改`CustomRenderer.js`文件的代码，`index.js`和`utils.js`文件与在默认的`Renderer`上进行自定义的内容一致。
 
+#### 编写`CustomRenderer.js`代码
+
+```ecmascript6
+import inherits from 'inherits'
+import BaseRenderer from 'diagram-js/lib/draw/BaseRenderer'
+import { append as svgAppend, create as svgCreate } from 'tiny-svg'
+import { customElements, customConfig } from '../utils'
+
+export default function CustomRenderer(eventBus) {
+  BaseRenderer.call(this, eventBus, 2000)
+
+  this.drawCustomElements = function(parentNode, element) {
+    const type = element.type // 获取到类型
+
+    if (customElements.includes(type)) { // or customConfig[type]
+      const { url, attr } = customConfig[type]
+      const customIcon = svgCreate('image', {
+        ...attr,
+        href: url
+      })
+
+      element['width'] = attr.width
+      element['height'] = attr.height
+      svgAppend(parentNode, customIcon)
+
+      return customIcon
+    }
+
+    const shape = this.bpmnRenderer.drawShape(parentNode, element)
+
+    return shape
+  }
+}
+
+inherits(CustomRenderer, BaseRenderer)
+
+CustomRenderer.$inject = ['eventBus', 'styles']
+
+CustomRenderer.prototype.canRender = function(element) {
+  return !element.labelTarget
+}
+
+CustomRenderer.prototype.drawShape = function(p, element) {
+  return this.drawCustomElements(p, element)
+}
+
+CustomRenderer.prototype.getShapePath = function(shape) {
+  console.log(shape)
+}
+```
+
+### 实现效果
+
+![自定义`Renderer`效果](/blog/images/BPMN工作流简述/1605249951861.jpg)
 
 ---
