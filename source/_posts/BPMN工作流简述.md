@@ -850,4 +850,32 @@ const djsPalette = canvas.children[0].children[1].children[5]
 
 - 拿到节点后就可以对其进行节点以及样式的增删改等操作。
 
+---
 
+## 自定义`Renderer`
+
+- 由于画布中的图形为`svg`，与`Palette`不同的是`Palette`使用的是`html`，如果需要深度自定义（不仅仅是替换节点在`Render`中显示的图标）需要一定的`svg`知识。
+
+- 在自定义`Palette`后，将一个节点从`Palette`栏拖拽到`Render`后，节点在`Render`上展示的还是默认类型的样子。
+
+![重写`Palette`方法完成效果](/blog/images/BPMN工作流简述/1605235889814.jpg)
+
+### 在默认的`Renderer`上进行自定义
+
+#### 新建目录和文件
+
+- 在`components -> modeler`下新建`renderer`文件夹，在`renderer`文件夹下新建`CustomRenderer.js`文件。
+
+- 在`components -> modeler`下新建`utils.js`文件。
+
+![在默认的`Renderer`上进行自定义目录结构](/blog/images/BPMN工作流简述/1605236911318.jpg)
+
+#### 编写`CustomRenderer.js`代码
+
+
+
+### 重写`Renderer`方法
+
+
+
+---
