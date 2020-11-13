@@ -956,7 +956,7 @@ CustomModeler.prototype._modules = [].concat(
 
 ### 重写`Renderer`方法
 
-- 对于重写`Renderer`方法而言，只需修改`CustomRenderer.js`文件的代码，`index.js`和`utils.js`文件与在默认的`Renderer`上进行自定义的内容一致。
+- 对于重写`Renderer`方法而言，只需修改`CustomRenderer.js`文件的代码，`index.js`和`utils.js`文件与在《默认的`Renderer`上进行自定义》的内容一致。
 
 #### 编写`CustomRenderer.js`代码
 
@@ -1012,5 +1012,215 @@ CustomRenderer.prototype.getShapePath = function(shape) {
 ### 实现效果
 
 ![自定义`Renderer`效果](/blog/images/BPMN工作流简述/1605249951861.jpg)
+
+---
+
+## 自定义`ContextPad`
+
+- 默认效果的`ContextPad`。
+
+- 可以看到除了在左侧的工具栏处能添加节点之外, 点击节点的时候也会出现一个小弹窗, 这里面也可以添加节点。
+
+![`ContextPad`默认效果](/blog/images/BPMN工作流简述/1605252528039.jpg)
+
+### 新建目录和文件
+
+- 在`components -> modeler`下新建`context-pad`文件夹，在`context-pad`文件夹下新建`CustomContextPad.js`文件。
+
+![自定义`CustomContextPad`目录结构](/blog/images/BPMN工作流简述/1605252797758.jpg)
+
+### 在默认的`ContextPad`上自定义
+
+#### 编写`CustomContextPad.js`代码
+
+- 其实自定义`ContextPad`和`Palette`很像, 只不过是使用`contextPad.registerProvider(this)`来指定它是一个`ContextPad`, 而自定义`Palette`是用`paltette.registerProvider(this)`。
+
+- `getContextPadEntries`方法与自定义`palette`时候的`getPaletteEntries`方法返回的参数相似。
+
+```ecmascript6
+export default class CustomContextPad {
+  constructor(config, contextPad, create, elementFactory, injector, translate) {
+    this.create = create
+    this.elementFactory = elementFactory
+    this.translate = translate
+
+    if (config.autoPlace !== false) {
+      this.autoPlace = injector.get('autoPlace', false)
+    }
+
+    contextPad.registerProvider(this)
+  }
+
+  getContextPadEntries(element) {
+    const {
+      autoPlace,
+      create,
+      elementFactory,
+      translate
+    } = this
+
+    function appendTask(event, element) {
+      if (autoPlace) {
+        const shape = elementFactory.createShape({ type: 'bpmn:StartEvent' })
+        autoPlace.append(element, shape)
+      } else {
+        appendTaskStart(event, element)
+      }
+    }
+
+    function appendTaskStart(event) {
+      const shape = elementFactory.createShape({ type: 'bpmn:StartEvent' })
+      create.start(event, shape, element)
+    }
+
+    return {
+      'append.test-start-event': {
+        group: 'model',
+        className: 'icon-custom test-start-event',
+        title: translate('创建一个开始节点'),
+        action: {
+          click: appendTask,
+          dragstart: appendTaskStart
+        }
+      }
+    }
+  }
+}
+
+CustomContextPad.$inject = [
+  'config',
+  'contextPad',
+  'create',
+  'elementFactory',
+  'injector',
+  'translate'
+]
+```
+
+#### 编写`index.js`代码
+
+```ecmascript6
+import Modeler from 'bpmn-js/lib/Modeler'
+import inherits from 'inherits'
+import CustomPalette from './palette/CustomPalette'
+import CustomRenderer from './renderer/CustomRenderer'
+import CustomContextPadProvider from './context-pad/CustomContextPad'
+
+const CustomModule =  {
+  __init__: ['paletteProvider', 'customRenderer', 'contextPadProvider'],
+  paletteProvider: ['type', CustomPalette],
+  customRenderer: ['type', CustomRenderer],
+  contextPadProvider: ['type', CustomContextPadProvider]
+}
+
+export default function CustomModeler(options) {
+  Modeler.call(this, options)
+  this._customElements = []
+}
+
+inherits(CustomModeler, Modeler)
+CustomModeler.prototype._modules = [].concat(
+  CustomModeler.prototype._modules, [
+    CustomModule
+  ]
+)
+```
+
+#### 编写样式
+
+- 在`App.vue`中增加样式。
+
+```css
+.djs-context-pad .test-start-event.entry:hover {
+  background: url('https://zdgg-scrm.oss-cn-shanghai.aliyuncs.com/bpmn/liuchengkongzhi/start.png') center no-repeat !important;
+  background-size: cover !important;
+}
+
+.djs-context-pad .entry:hover { /* 重新修改了 hover 之后的样式 */
+  border: 1px solid #1890ff;
+}
+
+.djs-context-pad .entry {
+  box-sizing: border-box;
+  background-size: 94%;
+  transition: all 0.3s;
+}
+```
+
+### 重写`ContextPad`方法
+
+- 重写`ContextPad`方法只需要修改`CustomContextPad.js`中的代码，对于`utils.js`和`App.vue`则与《在默认的`ContextPad`上自定义》相同。
+
+#### 编写`CustomContextPad.js`代码
+
+```ecmascript6
+export default function ContextPadProvider(contextPad, config, injector, translate, bpmnFactory, elementFactory, create, modeling, connect) {
+  this.create = create
+  this.elementFactory = elementFactory
+  this.translate = translate
+  this.bpmnFactory = bpmnFactory
+  this.modeling = modeling
+  this.connect = connect
+
+  config = config || {}
+
+  if (config.autoPlace !== false) {
+    this._autoPlace = injector.get('autoPlace', false)
+  }
+
+  contextPad.registerProvider(this)
+}
+
+ContextPadProvider.$inject = [
+  'contextPad',
+  'config',
+  'injector',
+  'translate',
+  'bpmnFactory',
+  'elementFactory',
+  'create',
+  'modeling',
+  'connect'
+]
+
+ContextPadProvider.prototype.getContextPadEntries = function(element) {
+  const {
+    autoPlace,
+    create,
+    elementFactory,
+    translate
+  } = this
+
+  function appendTask(event, element) {
+    if (autoPlace) {
+      const shape = elementFactory.createShape({ type: 'bpmn:StartEvent' })
+      autoPlace.append(element, shape)
+    } else {
+      appendTaskStart(event, element)
+    }
+  }
+
+  function appendTaskStart(event) {
+    const shape = elementFactory.createShape({ type: 'bpmn:StartEvent' })
+    create.start(event, shape, element)
+  }
+
+  return {
+    'append.test-start-event': {
+      group: 'model',
+      className: 'icon-custom test-start-event',
+      title: translate('创建一个开始节点'),
+      action: {
+        click: appendTask,
+        dragstart: appendTaskStart
+      }
+    }
+  }
+}
+```
+
+### 实现效果
+
+![`ContextPad`自定义效果](/blog/images/BPMN工作流简述/1605252668249.jpg)
 
 ---
