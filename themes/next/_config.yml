@@ -96,7 +96,7 @@ menu:
   about: /about|| user
   tags: /tags|| tags
   categories: /categories|| th
-  archives: /archives|| archive
+  archives: /archives
   resume: /resume|| file
   #home: / || home
   #about: /about/ || user
@@ -153,12 +153,12 @@ links_icon: link
 links_title: 友情链接
 links_layout: block
 #links_layout: inline
-links:
-  Hua Ge: http://www.lixh.cn/
-  Xiao Heipangzi: http://www.zhangyujia.cn/
+#links:
+#  Hua Ge: http://www.lixh.cn/
+#  Xiao Heipangzi: http://www.zhangyujia.cn/
 #  Ba Fenku: https://slidetounlock.github.io/
 #  Dui Zhang: https://0v0.club/
-  He He: http://blog.linhe3306.com/
+#  He He: http://blog.linhe3306.com/
 
 # Sidebar Avatar
 # in theme directory(source/images): /images/avatar.gif
