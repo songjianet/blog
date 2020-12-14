@@ -97,7 +97,7 @@ menu:
   tags: /tags|| tags
   categories: /categories|| th
   archives: /archives
-  resume: /resume|| file
+#  resume: /resume|| file
   #home: / || home
   #about: /about/ || user
 #  tags: /tags/ || tags
