@@ -1,0 +1,1654 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=5.0.13" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
+<link href="/blog/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/blog/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="cocos," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="导读 scene： 场景canvas： 画布prefab： 预制体animation： 动画sprite： 精灵position： 精灵位置rotate： 精灵旋转scale： 精灵缩放opacity： 精灵透明度color： 精灵颜色anchor： 基点texture： 图片资源sound： 声音资源node： 节点   相关链接 Cocos CreatorCocos Creator编辑器基础m">
+<meta property="og:type" content="article">
+<meta property="og:title" content="cocos creator简述">
+<meta property="og:url" content="https://songjianet.github.io/blog/2020/09/28/CocosCreator%E7%AE%80%E8%BF%B0/index.html">
+<meta property="og:site_name" content="songjianet">
+<meta property="og:description" content="导读 scene： 场景canvas： 画布prefab： 预制体animation： 动画sprite： 精灵position： 精灵位置rotate： 精灵旋转scale： 精灵缩放opacity： 精灵透明度color： 精灵颜色anchor： 基点texture： 图片资源sound： 声音资源node： 节点   相关链接 Cocos CreatorCocos Creator编辑器基础m">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601429624326.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601429920794.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/7814A061-DC9F-4A86-9BD3-19C7DD951B4F.png">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601430679113.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601433806377.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/create_scene.png">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601444413564.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601445429445.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601448150617.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601453429993.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601453581158.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601457135329.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601458180992.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601458653128.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601459099288.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601599450411.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601601452462.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601601778261.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601601913242.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/QQ20201002-093007-HD.gif">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601449503406.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601449536008.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601605395313.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601605601374.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601638944773.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601639906991.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601639670961.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601640060813.jpg">
+<meta property="article:published_time" content="2020-09-28T15:09:13.000Z">
+<meta property="article:modified_time" content="2020-09-28T15:09:13.000Z">
+<meta property="article:author" content="songjianet">
+<meta property="article:tag" content="cocos">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://songjianet.github.io/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601429624326.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://songjianet.github.io/blog/2020/09/28/CocosCreator简述/"/>
+
+
+
+
+
+  <title>cocos creator简述 | songjianet</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-179158342-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?438c779a7f3be467cf001cecb671aed7";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">songjianet</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/blog/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://songjianet.github.io/blog/blog/2020/09/28/CocosCreator%E7%AE%80%E8%BF%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="songjianet">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/blog/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="songjianet">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">cocos creator简述</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-09-28T15:09:13+00:00">
+                2020-09-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/cocos/" itemprop="url" rel="index">
+                    <span itemprop="name">cocos</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/blog/2020/09/28/CocosCreator%E7%AE%80%E8%BF%B0/" class="leancloud_visitors" data-flag-title="cocos creator简述">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  4.7k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  16 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="导读"><a href="#导读" class="headerlink" title="导读"></a>导读</h2><blockquote>
+<p><code>scene</code>： 场景<br><code>canvas</code>： 画布<br><code>prefab</code>： 预制体<br><code>animation</code>： 动画<br><code>sprite</code>： 精灵<br><code>position</code>： 精灵位置<br><code>rotate</code>： 精灵旋转<br><code>scale</code>： 精灵缩放<br><code>opacity</code>： 精灵透明度<br><code>color</code>： 精灵颜色<br><code>anchor</code>： 基点<br><code>texture</code>： 图片资源<br><code>sound</code>： 声音资源<br><code>node</code>： 节点</p>
+</blockquote>
+<hr>
+<h2 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h2><blockquote>
+<p><a href="https://www.cocos.com/" target="_blank" rel="noopener">Cocos Creator</a><br><a href="https://docs.cocos.com/creator/manual/zh/getting-started/basics/editor-overview.html" target="_blank" rel="noopener">Cocos Creator编辑器基础</a><br><a href="https://docs.cocos.com/creator/manual/zh/extension/reference/meta-reference.html?h=meta" target="_blank" rel="noopener">meta文件介绍</a><br><a href="https://docs.cocos.com/creator/manual/zh/components/sprite.html?h=size%20mode" target="_blank" rel="noopener">Sprite精灵组件中的Size Mode属性</a><br><a href="https://docs.cocos.com/creator/manual/zh/asset-workflow/prefab.html?h=prefab" target="_blank" rel="noopener">Prefab介绍</a><br><a href="https://docs.cocos.com/creator/manual/zh/components/animation.html?h=animation" target="_blank" rel="noopener">Animation介绍</a><br><a href="https://docs.cocos.com/creator/manual/zh/animation/animation.html#clip-%E5%8A%A8%E7%94%BB%E5%89%AA%E8%BE%91" target="_blank" rel="noopener">AnimationClip介绍</a><br><a href="https://docs.cocos.com/creator/manual/zh/getting-started/quick-start.html?h=instantiate" target="_blank" rel="noopener">instantiate方法</a><br><a href="https://docs.cocos.com/creator/manual/zh/scripting/access-node-component.html?h=getcomponent" target="_blank" rel="noopener">getComponent方法</a><br><a href="https://docs.cocos.com/creator/manual/zh/scripting/scene-managing.html" target="_blank" rel="noopener">场景切换与加载</a><br><a href="https://docs.cocos.com/creator/manual/zh/scripting/internal-events.html" target="_blank" rel="noopener">节点系统事件</a></p>
+</blockquote>
+<hr>
+<h2 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h2><h3 id="引擎基本介绍"><a href="#引擎基本介绍" class="headerlink" title="引擎基本介绍"></a>引擎基本介绍</h3><ul>
+<li><p><code>cocos creator</code>是一个完整的游戏开发解决方案，包含了轻量高效的跨平台游戏引擎，以及能让你更快速开发游戏所需要的各种图形界面工具。</p>
+</li>
+<li><p><code>cocos creator</code>的编辑器是完全为引擎定制打造，包含从设计、开发、预览、调试到发布的整个工作流所需的全功能一体化编辑器。</p>
+</li>
+<li><p><code>cocos creator</code>支持<code>web</code>、<code>ios</code>、<code>android</code>、各类”小游戏”、<code>pc</code>客户端等平台。</p>
+</li>
+</ul>
+<hr>
+<h3 id="游戏基本概念"><a href="#游戏基本概念" class="headerlink" title="游戏基本概念"></a>游戏基本概念</h3><p>在游戏开发的过程中会设定如<code>scene</code>、<code>canvas</code>、<code>prefab</code>、<code>animation</code>、<code>sprite</code>、<code>anchor</code>等基本概念，如果涉及其它概念请参阅官网介绍。</p>
+<ul>
+<li><p><code>scene</code>：代指游戏中的场景，每个场景都是由不同的物体组合而成的一个集合，可以是建筑、特效、道具等。<br>  在游戏开发过程中场景管理的意义在于方便开发者快速定位到场景中的不同物体、能够处理巨大场景带来的内存开销问题和渲染效率问题、减少判断不同物体边界碰撞的检测效率问题。<br>  对于<code>2d</code>的游戏场景在内存和渲染的开销上都会远远小于<code>3d</code>游戏的场景。</p>
+</li>
+<li><p><code>canvas</code>：画布可以隶属于任何一个节点下，但是通常情况下在一个<code>scene</code>场景下只应有一个层级最高的<code>canvas</code>，所有的<code>ui</code>和可渲染元素都应设置为层级最高的<code>canvas</code>的子节点。<br>  <code>canvas</code>能够随时获得设备屏幕的实际分辨率并对场景中所有渲染元素进行适当的缩放。</p>
+</li>
+<li><p><code>prefab</code>：是一种资源类型，是一个能够在项目中反复使用的一个对象，因而当遇到需要反复使用的对象或资源时可以使用<code>prefab</code>，如游戏中的弹出框。<br>  <code>prefab</code>允许放置在多个<code>scene</code>中，也可以在一个<code>scene</code>中使用多个<code>prefab</code>。<br>  当一个<code>prefab</code>被放置在了一个<code>scene</code>中，就相当于在<code>scene</code>中创建了一个<code>prefab</code>实例。<br>  如果一个<code>prefab</code>在不同的<code>scene</code>中被实例化了多次，只需修改<code>prefab</code>就可以达到全部修改的效果。</p>
+</li>
+<li><p><code>animation</code>：作为动画可以使用在任何一种物体组件上。<br>  一般一个游戏会制作很多种动画，其中一部分可以通过组件自动调用，另一部分也可以通过代码去调用。</p>
+</li>
+<li><p><code>sprite</code>：精灵是游戏中十分重要的组成部分，每一个物体都可以理解为一个精灵元素，如游戏的背景、人物模型、道具等。<br>  <code>sprite</code>可以是一个允许被用户控制的对象，也可以是一个跟用户操作无关的对象。<br>  <code>sprite</code>的属性包含很多，如<code>position</code>、<code>rotate</code>、<code>scale</code>，<code>opacity</code>，<code>color</code>等。<br>  <code>sprite</code>包括单色精灵和普通精灵，两者的区别在于单色精灵创建后会有个纯白色的背景，通过设置背景颜色可以更改纯白色背景，而普通精灵则是创建了一个透明的背景。<br>  单色精灵和普通精灵在<code>Sprite</code>精灵组件的<code>Size Mode</code>属性上有不同的差异。</p>
+</li>
+<li><p><code>anchor</code>：基点可以理解为游戏中所有物体或组件的一个对齐点，如果一个游戏中存在多个<code>scene</code>，则允许对<code>scene</code>设置不同的基点。<br>  基点的坐标<code>x: 0, y: 0</code>表示左下角，<code>x: 1, y: 1</code>表示右上角。<br>  基点的改变会影响该<code>node</code>下的所有元素。</p>
+</li>
+</ul>
+<hr>
+<h3 id="创建一个基于cocos引擎的项目"><a href="#创建一个基于cocos引擎的项目" class="headerlink" title="创建一个基于cocos引擎的项目"></a>创建一个基于<code>cocos</code>引擎的项目</h3><ul>
+<li>打开<code>Cocos Dashboard</code>控制台。</li>
+</ul>
+<p><img src="/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601429624326.jpg" alt="cocos dashboard控制台"></p>
+<ul>
+<li>点击<code>Cocos Dashboard</code>控制台左侧菜单中的编辑器按钮，下载用于游戏开发<code>CocosCreator</code>编辑器。</li>
+</ul>
+<p><img src="/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601429920794.jpg" alt="CocosCreator编辑器"></p>
+<ul>
+<li>点击<code>Cocos Dashboard</code>控制台左侧菜单中的项目按钮，点击右下角可以创建一个<code>Creator</code>或<code>Creator 3D</code>项目。</li>
+</ul>
+<p><img src="/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/7814A061-DC9F-4A86-9BD3-19C7DD951B4F.png" alt="创建项目"></p>
+<ul>
+<li>可以根据自己的需求进行初始的项目模板选择、项目名称、项目路径等，选择后点击创建并打开按钮，即可完成项目的创建。</li>
+</ul>
+<p><img src="/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601430679113.jpg" alt="选择项目模板"></p>
+<hr>
+<h3 id="项目管理与多人协作"><a href="#项目管理与多人协作" class="headerlink" title="项目管理与多人协作"></a>项目管理与多人协作</h3><ul>
+<li><p>通常情况下开发者会使用<code>git</code>进行项目的管理，针对<code>CocosCreator</code>编辑器可视化界面的操作也是可以通过<code>git</code>进行管理的。</p>
+</li>
+<li><p>在项目创建后开发者可以在编辑器的资源管理器里面看到整个项目的目录结构，开发者只需管理<code>assets</code>目录即可，针对<code>internal</code>目录则是引擎自动为你创建的一个不可变动的目录。</p>
+</li>
+</ul>
+<p><img src="/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601433806377.jpg" alt="资源管理器"></p>
+<hr>
+<h3 id="项目目录介绍"><a href="#项目目录介绍" class="headerlink" title="项目目录介绍"></a>项目目录介绍</h3><ul>
+<li><p><code>assets</code>目录是需要进行代码管理的，这个文件夹下会记录所有在<code>CocosCreator</code>编辑器可视化界面的操作。</p>
+</li>
+<li><p>之所以能与可视化编辑器做关联是因为在可视化编辑器操作的每一个属性都会与之对应的<code>prefab</code>或<code>scene</code>等资源做关联，可视化编辑器就相当于在操作资源中的某一个对象或属性。</p>
+</li>
+<li><p>在<code>assets</code>目录下每创建一个文件或者文件夹都会生成一个对应名称的<code>meta</code>文件，<code>meta</code>文件用于记录引擎使用该资源时所需的数据。</p>
+</li>
+<li><p>在对文件或文件夹执行创建、修改和删除操作的时候建议在<code>CocosCreator</code>编辑器中执行，通过<code>CocosCreator</code>编辑器之外对文件或文件夹的任何操作都无法记录到<code>meta</code>文件。</p>
+</li>
+<li><p><code>Cocos</code>游戏引擎的资源管理器是按照<code>uid</code>进行区分的，不是传统的按照文件路径进行区分，所以开发者无法设置相同的资源名称，如<code>scripts -&gt; login -&gt; index.js</code>和<code>scripts -&gt; home -&gt; index.js</code>也是会被引擎是别成一个相同的文件。</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">assets&#x2F;</span><br><span class="line">├─scripts &#x2F;&#x2F; 脚本文件夹</span><br><span class="line">├─scripts.meta</span><br><span class="line">|    ├─utils &#x2F;&#x2F; 公共脚本文件夹</span><br><span class="line">|    ├─utils.meta</span><br><span class="line">├─scenes &#x2F;&#x2F; 场景文件夹</span><br><span class="line">├─scenes.meta</span><br><span class="line">├─resources &#x2F;&#x2F; 静态资源文件夹</span><br><span class="line">├─resources.meta</span><br><span class="line">|    ├─textures &#x2F;&#x2F; 纹理、图片资源文件夹</span><br><span class="line">|    ├─textures.meta</span><br><span class="line">|    ├─sounds &#x2F;&#x2F; 声音资源文件夹</span><br><span class="line">|    ├─sounds.meta</span><br><span class="line">|    ├─fonts &#x2F;&#x2F; 字体资源文件夹</span><br><span class="line">|    ├─fonts.meta</span><br><span class="line">├─prefabs &#x2F;&#x2F; 预制体文件夹</span><br><span class="line">├─prefabs.meta</span><br><span class="line">├─animations &#x2F;&#x2F; 动画文件夹</span><br><span class="line">├─animations.meta</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="scene"><a href="#scene" class="headerlink" title="scene"></a><code>scene</code></h2><ul>
+<li><p>在游戏开发的过程中，开发者可以把<code>scene</code>理解为一个<code>html</code>页面，页面之间的切换就是<code>scene</code>之间的切换。</p>
+</li>
+<li><p><code>html</code>页面中的<code>button</code>、<code>table</code>都可以理解成<code>scene</code>中的一个物体元素组件。</p>
+</li>
+<li><p>文章下面会介绍如何在<code>scene</code>添加一个背景图片，如果想添加其它组件，其原理和操作方式大相径庭，所以不多做举例。</p>
+</li>
+</ul>
+<hr>
+<h3 id="创建scene"><a href="#创建scene" class="headerlink" title="创建scene"></a>创建<code>scene</code></h3><ul>
+<li>创建<code>scenes</code>文件夹，并在<code>scenes</code>文件夹下创建一个名为<code>index</code>的<code>scene</code>场景。</li>
+</ul>
+<p><img src="/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/create_scene.png" alt="创建场景"></p>
+<hr>
+<h3 id="进入scene编辑状态"><a href="#进入scene编辑状态" class="headerlink" title="进入scene编辑状态"></a>进入<code>scene</code>编辑状态</h3><ul>
+<li>通过点击创建好的<code>index</code>场景文件，进入场景的可视化编辑。</li>
+</ul>
+<p><img src="/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601444413564.jpg" alt="进入场景编辑状态"></p>
+<hr>
+<h3 id="设置scene中canvas的尺寸"><a href="#设置scene中canvas的尺寸" class="headerlink" title="设置scene中canvas的尺寸"></a>设置<code>scene</code>中<code>canvas</code>的尺寸</h3><ul>
+<li><p>点击层级管理器中的根<code>canvas</code>节点后，属性检查器也对对应的发生变化。</p>
+</li>
+<li><p>属性检查器会对应当前在层级管理器中选中的节点。</p>
+</li>
+<li><p>作为开发者没有办法去直接修改一个<code>scene</code>中根<code>canvas</code>节点上的<code>size</code>属性，但是可以通过修改根节点上<code>Canvas</code>组件的画布中的<code>Design Resolution</code>属性的尺寸。</p>
+</li>
+<li><p><code>scene</code>中<code>canvas</code>的尺寸取决于<code>ui</code>设计图的尺寸。</p>
+</li>
+<li><p><code>canvas</code>会根据不同的屏幕自动进行一定的适配，但是这并不是最完全的解决方案。</p>
+</li>
+</ul>
+<p><img src="/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601445429445.jpg" alt="修改场景中画布的尺寸"></p>
+<hr>
+<h3 id="在scene中添加背景图片"><a href="#在scene中添加背景图片" class="headerlink" title="在scene中添加背景图片"></a>在<code>scene</code>中添加背景图片</h3><ul>
+<li><p>通常情况下一个<code>scene</code>场景是需要一个甚至多个背景图片的。</p>
+</li>
+<li><p>在<code>scene</code>中添加背景图片需要在根<code>Canvas</code>组件的节点下创建一个<code>sprite</code>精灵元素，通过给<code>sprite</code>精灵元素设置尺寸与背景图片进而实现场景中有背景图片的效果。</p>
+</li>
+<li><p>出于要设置<code>scene</code>的背景图片，所以这里选择普通精灵组件进行设置。</p>
+</li>
+<li><p>更改<code>scene</code>中的根节点上<code>Canvas</code>组件尺寸为<code>1280*720</code>。</p>
+</li>
+<li><p>创建一个普通的<code>Sprite</code>组件，右键层级选择器中的<code>Sprite</code>组件重命名为<code>background</code>。</p>
+</li>
+<li><p>将资源管理器中的背景图片拖拽到名为<code>background</code>的<code>Sprite</code>精灵组件中<code>Sprite Frame</code>上。</p>
+</li>
+<li><p>设置<code>background</code>精灵的大小。</p>
+</li>
+</ul>
+<p><img src="/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601448150617.jpg" alt="设置场景背景图片"></p>
+<hr>
+<h2 id="prefab"><a href="#prefab" class="headerlink" title="prefab"></a><code>prefab</code></h2><ul>
+<li><p><code>prefab</code>是一个想要用在一个或多个项目中一个组件节点。</p>
+</li>
+<li><p><code>prefab</code>一旦创建后并且层级管理的<code>node</code>节点也被删除后，该<code>node</code>节点的信息不会自动在项目中加入，需要使用脚本进行控制。</p>
+</li>
+<li><p>当一个节点被拖拽转变成了<code>prefab</code>后，可以在层级管理器对该节点进行删除，如果想要对<code>prefab</code>有更改，可以在资源管理器中双击该<code>prefab</code>。</p>
+</li>
+<li><p><code>prefab</code>的根节点一般是一个空的<code>Node</code>组件，切该<code>Node</code>组件下允许有多个组件或脚本文件。</p>
+</li>
+</ul>
+<p><img src="/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601453429993.jpg" alt="创建空节点"></p>
+<ul>
+<li><code>prefab</code>并不能通过资源管理器进行创建，只能将一部分的节点从层级管理器中拖拽到资源管理器的一个目标路径。</li>
+</ul>
+<p><img src="/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601453581158.jpg" alt="拖拽节点成Prefab"></p>
+<hr>
+<h2 id="animation"><a href="#animation" class="headerlink" title="animation"></a><code>animation</code></h2><ul>
+<li><p><code>animation</code>是一个帧动画，它允许控制组件上所有属性动画，如：宽、高、缩放等。</p>
+</li>
+<li><p>一个<code>animation</code>上允许设置多个属性的动画。</p>
+</li>
+<li><p><code>animation</code>有两种播放形式，一种为自动播放，另一种为脚本调用。</p>
+</li>
+<li><p>当你的想从动画编辑器转身去做其它任何操作的时候，一定要关闭动画编辑器，否则会有动画无法保存的情况。</p>
+</li>
+</ul>
+<hr>
+<h3 id="创建animation"><a href="#创建animation" class="headerlink" title="创建animation"></a>创建<code>animation</code></h3><ul>
+<li><p>点击想要创建动画的节点，并打开动画编辑器。</p>
+</li>
+<li><p>当节点上没有<code>Animation</code>是，可以通过属性检查器添加或者通过动画编辑器进行添加。</p>
+</li>
+</ul>
+<p><img src="/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601457135329.jpg" alt="创建animation"></p>
+<hr>
+<h3 id="创建clip"><a href="#创建clip" class="headerlink" title="创建clip"></a>创建<code>clip</code></h3><ul>
+<li><code>clip</code>动画剪辑就是一份动画的声明数据，需要将它挂载到<code>Animation</code>组件上，就能够将这份动画数据应用到节点上。</li>
+</ul>
+<p><img src="/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601458180992.jpg" alt="创建clip"></p>
+<hr>
+<h3 id="绑定clip到animation"><a href="#绑定clip到animation" class="headerlink" title="绑定clip到animation"></a>绑定<code>clip</code>到<code>animation</code></h3><ul>
+<li>将创建好的<code>clip</code>从资源管理器拖拽到属性检查器中<code>Animation</code>组件的<code>Default Clip</code>属性上。</li>
+</ul>
+<p><img src="/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601458653128.jpg" alt="绑定clip到animation"></p>
+<hr>
+<h3 id="打开动画编辑器编辑功能"><a href="#打开动画编辑器编辑功能" class="headerlink" title="打开动画编辑器编辑功能"></a>打开动画编辑器编辑功能</h3><ul>
+<li>打开动画编辑器进行编辑，关闭动画编辑器的编辑功能也是该按钮。</li>
+</ul>
+<p><img src="/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601459099288.jpg" alt="打开动画编辑器进行编辑"></p>
+<ul>
+<li>动画编辑器的节点与<code>Animation</code>组件所在的节点是相同的，并且动画可操作的属性也是<code>Animation</code>组件所属节点的属性。</li>
+</ul>
+<p><img src="/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601599450411.jpg" alt="打开动画编辑器进行编辑"></p>
+<hr>
+<h3 id="添加一个scale动画"><a href="#添加一个scale动画" class="headerlink" title="添加一个scale动画"></a>添加一个<code>scale</code>动画</h3><ul>
+<li><p>这里实现的是一个简单的<code>scale</code>动画，其它类型的动画和动画组合不再讲述。</p>
+</li>
+<li><p>选择<code>scale</code>制作一个缩放的动画，在修改属性检查器中的<code>Scale</code>属性的时候，动画编辑器会自动为开发者插入一个关键帧。</p>
+</li>
+<li><p>如果没有开启动画编辑器的编辑状态，则不会动态创建一个关键帧。</p>
+</li>
+<li><p>在设置<code>Scale</code>属性值为<code>0</code>的时候，则该节点不会进行显示。</p>
+</li>
+</ul>
+<p><img src="/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601601452462.jpg" alt="添加动画第一帧"></p>
+<ul>
+<li>设置动画结束时间为<code>1.5</code>秒，并将动画编辑器中的播放头（红色竖线）拖拽到<code>0:15</code>的位置。</li>
+</ul>
+<p><img src="/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601601778261.jpg" alt="拖动播放头"></p>
+<ul>
+<li>设置属性检查器中的<code>Scale</code>属性，将其值为<code>1</code>。</li>
+</ul>
+<p><img src="/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601601913242.jpg" alt="设置结束值"></p>
+<ul>
+<li>点击动画编辑器中的播放按钮，查看编辑后的动画效果。</li>
+</ul>
+<p><img src="/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/QQ20201002-093007-HD.gif" alt="查看动画效果"></p>
+<hr>
+<h2 id="预览方式"><a href="#预览方式" class="headerlink" title="预览方式"></a>预览方式</h2><ul>
+<li>预览能够帮助开发者查看到当前的效果，通常预览方式有三种，分别为浏览器预览、模拟器预览、真机预览。</li>
+</ul>
+<hr>
+<h3 id="浏览器预览和模拟器预览"><a href="#浏览器预览和模拟器预览" class="headerlink" title="浏览器预览和模拟器预览"></a>浏览器预览和模拟器预览</h3><ul>
+<li><p><code>CocosCreator</code>编辑器最顶部中间位置上的播放按钮为浏览器预览和模拟器预览。</p>
+</li>
+<li><p>浏览器预览不会自动播放背景音乐，需要进行一次点击才会播放。</p>
+</li>
+</ul>
+<p><img src="/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601449503406.jpg" alt="浏览器预览和模拟器预览"></p>
+<hr>
+<h3 id="真机预览"><a href="#真机预览" class="headerlink" title="真机预览"></a>真机预览</h3><ul>
+<li><p>真机预览在<code>CocosCreator</code>编辑器右上角位置。</p>
+</li>
+<li><p>真机预览可以使用手机上的任何带有扫描二维码功能的软件进行扫码预览。</p>
+</li>
+</ul>
+<p><img src="/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601449536008.jpg" alt="真机局域网预览"></p>
+<hr>
+<h2 id="脚本操作"><a href="#脚本操作" class="headerlink" title="脚本操作"></a>脚本操作</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><ul>
+<li><p>由于脚本存在一定的逻辑性和业务导向性，所以在这里只做一些简单的介绍，更多的请前往官网查看相关<code>api</code>。</p>
+</li>
+<li><p><code>Cocos</code>游戏引擎允许开发者使用<code>JavaScript</code>语言进行编写，这点对于前端工作人员是非常友好的，不仅<code>Cocos</code>一家，很多游戏引擎都支持<code>JavaScript</code>。</p>
+</li>
+<li><p>在游戏的脚本开发中，允许开发者使用代码去实现一些无法通过可视化编辑器操作的业务逻辑，如：接口、动态创建节点、修改节点属性、全局的事件分发机制等。</p>
+</li>
+</ul>
+<hr>
+<h3 id="脚本模板"><a href="#脚本模板" class="headerlink" title="脚本模板"></a>脚本模板</h3><ul>
+<li><p><code>cc.Class</code>用于声明<code>Cocos Creator</code>中的类。它是一个很常用的<code>api</code>。</p>
+</li>
+<li><p><code>extends: cc.Component</code>基类，可以是任意创建好的<code>cc.Class</code>。</p>
+</li>
+<li><p><code>properties</code>用于属性值的定义。</p>
+</li>
+<li><p><code>onLoad</code>加载节点。</p>
+</li>
+<li><p><code>start</code>所有节点都执行完<code>onLoad</code>后才执行。</p>
+</li>
+<li><p><code>update</code>会在场景加载完成后每一帧都执行一次，一般把需要经常计算或及时更新的逻辑内容放在<code>update</code>中。</p>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">cc.Class(&#123;</span><br><span class="line">    extends: cc.Component,</span><br><span class="line"></span><br><span class="line">    properties: &#123;&#125;,</span><br><span class="line"></span><br><span class="line">    onLoad () &#123;&#125;,</span><br><span class="line"></span><br><span class="line">    start () &#123;&#125;,</span><br><span class="line"></span><br><span class="line">    update (dt) &#123;&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="为组件创建脚本"><a href="#为组件创建脚本" class="headerlink" title="为组件创建脚本"></a>为组件创建脚本</h3><ul>
+<li><p>在资源管理器中新建一个<code>JavaScript</code>文件。</p>
+</li>
+<li><p>点击需要此脚本的节点，在属性检查器中点击添加组件 -&gt; 用户脚本组件后，可以看到整个项目中所有的脚本文件。</p>
+</li>
+</ul>
+<p><img src="/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601605395313.jpg" alt="给组件添加脚本"></p>
+<hr>
+<h3 id="关联脚本变量与资源"><a href="#关联脚本变量与资源" class="headerlink" title="关联脚本变量与资源"></a>关联脚本变量与资源</h3><ul>
+<li><p>每一个脚本中都有一个<code>properties</code>对象，该对象可以理解为一个在当前脚本内的一个变量。</p>
+</li>
+<li><p>通常脚本中的变量有两种使用方式，其一是作为与资源关联的桥梁，其二是可以用作当前脚本内的变量。</p>
+</li>
+<li><p>在脚本中需要创建一个变量才能与资源做关联，做关联的方式也是直接将资源拖拽到属性检查器脚本组件下的属性中。</p>
+</li>
+</ul>
+<p><img src="/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601605601374.jpg" alt="给组件添加脚本"></p>
+<ul>
+<li>当作为资源关联桥梁时，需要指定默认值和类型，类型可以是<code>Cocos</code>游戏引擎所有组件的类型。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">properties: &#123;</span><br><span class="line">  soundPrefab: &#123;</span><br><span class="line">    <span class="keyword">default</span>: <span class="literal">null</span>, <span class="comment">// 设置资源默认值</span></span><br><span class="line">    type: cc.Prefab <span class="comment">// 设置资源类型</span></span><br><span class="line">  &#125;,</span><br><span class="line">  count: <span class="number">0</span> <span class="comment">// 计数器，当作脚本内的运行变量</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="获取prefab"><a href="#获取prefab" class="headerlink" title="获取prefab"></a>获取<code>prefab</code></h3><ul>
+<li><p>当把一个节点从层级管理器拖拽到资源管理器中变成一个<code>prefab</code>时，应该将这个节点从层级管理器中删除。</p>
+</li>
+<li><p><code>prefab</code>无法自动加载到一个<code>sence</code>中的某一个位置，只能通过脚本获取该<code>prefab</code>并将其挂载到一个<code>sence</code>中的一个<code>node</code>下。</p>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">onLoad () &#123;</span><br><span class="line">  <span class="comment">// 使用给定模板在场景中生成一个新的节点</span></span><br><span class="line">  <span class="keyword">this</span>.sound = cc.instantiate(<span class="keyword">this</span>.soundPrefab)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="将prefab添加到node"><a href="#将prefab添加到node" class="headerlink" title="将prefab添加到node"></a>将<code>prefab</code>添加到<code>node</code></h3><ul>
+<li><p>通过脚本加载<code>prefab</code>到<code>node</code>上时，不仅需要获取<code>prefab</code>资源，也需要获取<code>node</code>节点。</p>
+</li>
+<li><p>获取<code>node</code>节点的方式和获取<code>prefab</code>资源的方式相同，先声明一个变量，将其从层级管理器中拖拽到属性检查器中。</p>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">properties: &#123;</span><br><span class="line">  soundPrefab: &#123;</span><br><span class="line">    <span class="keyword">default</span>: <span class="literal">null</span>,</span><br><span class="line">    type: cc.Prefab</span><br><span class="line">  &#125;,</span><br><span class="line">  backgroundNode: &#123;</span><br><span class="line">    <span class="keyword">default</span>: <span class="literal">null</span>,</span><br><span class="line">    type: cc.Node</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">onLoad () &#123;</span><br><span class="line">  <span class="keyword">this</span>.sound = cc.instantiate(<span class="keyword">this</span>.soundPrefab)</span><br><span class="line">  <span class="comment">// 将prefab挂载在node下</span></span><br><span class="line">  <span class="keyword">this</span>.backgroundNode.addChild(<span class="keyword">this</span>.sound)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="通过脚本获取sprite"><a href="#通过脚本获取sprite" class="headerlink" title="通过脚本获取sprite"></a>通过脚本获取<code>sprite</code></h3><ul>
+<li><p>在开发者动态修改、创建一个或多个<code>sprite</code>时，则需要通过脚本获取<code>node</code>下的<code>sprite</code>。</p>
+</li>
+<li><p>该<code>node</code>也需要通过创建变量后与资源进行关联。</p>
+</li>
+<li><p>如果一个<code>node</code>只需要获取并没有其它节点需要挂载在该<code>node</code>下时，可以不写<code>instantiate</code>和<code>addChild</code>。</p>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">properties: &#123;</span><br><span class="line">  backgroundNode: &#123;</span><br><span class="line">    <span class="keyword">default</span>: <span class="literal">null</span>,</span><br><span class="line">    type: cc.Node</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">onload () &#123;</span><br><span class="line">  <span class="comment">// 获取挂载在该节点下的所有动画</span></span><br><span class="line">  <span class="comment">// cc.Sprite则为Sprite组件</span></span><br><span class="line">  <span class="comment">// Sprite组件可以在该node下的属性检查器中找到</span></span><br><span class="line">  <span class="comment">// 获取挂载在该节点下的所有精灵</span></span><br><span class="line">  <span class="comment">// getComponent也可以获取到同节点的其它组件，如：Animation，Button等</span></span><br><span class="line">  <span class="keyword">this</span>.sprites = <span class="keyword">this</span>.backgroundNode.getComponent(cc.Sprite)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="点击事件"><a href="#点击事件" class="headerlink" title="点击事件"></a>点击事件</h3><ul>
+<li><p>在游戏开发过程中，我们需要捕获某些用户的行为后给用户展示不同的信息，针对这种行为我们称之为交互。</p>
+</li>
+<li><p>交互方式有很多种，在<code>Cocos Creator</code>引擎中，我们把交互事件划分为三大类，它们分别是：系统内置事件、玩家输入事件以及对事件的发射和监听。</p>
+</li>
+<li><p>点击事件是交互事件中最常见的事件。</p>
+</li>
+<li><p>点击事件有两种形式，其一是使用<code>Button</code>组件自带的点击事件，其二则是使用脚本动态绑定一个点击事件。</p>
+</li>
+</ul>
+<hr>
+<h4 id="通过按钮绑定点击事件"><a href="#通过按钮绑定点击事件" class="headerlink" title="通过按钮绑定点击事件"></a>通过按钮绑定点击事件</h4><ul>
+<li>在层级管理器中创建一个<code>Button</code>组件，点击<code>Button</code>组件后可以在属性检查器中找到<code>Click Events</code>属性。</li>
+</ul>
+<p><img src="/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601638944773.jpg" alt="通过按钮增加点击事件"></p>
+<ul>
+<li>编辑一个脚本文件，在脚本文件内增加一个<code>onClick</code>方法。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">cc.Class(&#123;</span><br><span class="line">    extends: cc.Component,</span><br><span class="line"></span><br><span class="line">    properties: &#123;&#125;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// LIFE-CYCLE CALLBACKS:</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// onLoad () &#123;&#125;,</span></span><br><span class="line"></span><br><span class="line">    onClick () &#123;&#125;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// start () &#123;&#125;,</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// update (dt) &#123;&#125;,</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在属性检查器中添加带有点击方法的用户脚本组件。</li>
+</ul>
+<p><img src="/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601639906991.jpg" alt="添加带有点击方法的用户脚本"></p>
+<ul>
+<li>在属性检查器中点击<code>Click Events</code>属性右边的上箭头，代表对此按钮增加一个点击事件。</li>
+</ul>
+<p><img src="/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601639670961.jpg" alt="点击按钮增加一个点击事件"></p>
+<ul>
+<li>将要绑定的按钮事件、用户脚本拖拽到相应位置后选择脚本中的点击方法。</li>
+</ul>
+<p><img src="/blog/images/CocosCreator%E7%AE%80%E8%BF%B0/1601640060813.jpg" alt="点击按钮绑定节点和脚本"></p>
+<hr>
+<h4 id="通过脚本创建一个点击事件"><a href="#通过脚本创建一个点击事件" class="headerlink" title="通过脚本创建一个点击事件"></a>通过脚本创建一个点击事件</h4><ul>
+<li>通过脚本绑定的点击事件可以应用在任意一个组件节点。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 通过脚本动态绑定一个点击事件</span></span><br><span class="line">node.on(<span class="string">'touchstart'</span>, <span class="keyword">this</span>.touchStart, <span class="keyword">this</span>)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="场景切换"><a href="#场景切换" class="headerlink" title="场景切换"></a>场景切换</h3><ul>
+<li><p>对于一个成品的游戏而言，只有一个<code>scene</code>是远远不够的，我们可以在一个游戏中只设置一个场景，但是我们更推荐开发者将场景中的不同表现进行细化。</p>
+</li>
+<li><p>对于场景的加载，我们可以做到直接加载、预加载、加载回调等。</p>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 直接加载场景</span></span><br><span class="line">cc.director.loadScene(<span class="string">'MyScene'</span>)</span><br><span class="line"><span class="comment">// 加载场景的回调</span></span><br><span class="line">cc.director.loadScene(<span class="string">'MyScene'</span>, onSceneLaunched)</span><br><span class="line"><span class="comment">// 预加载场景</span></span><br><span class="line">cc.director.preloadScene(<span class="string">'MyScene'</span>, () =&gt; &#123;&#125;)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="播放音频"><a href="#播放音频" class="headerlink" title="播放音频"></a>播放音频</h3><ul>
+<li>背景音乐无法在浏览器中自动播放。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 播放背景音乐，第一个参数为AudioClip，第二个参数为是否循环播放</span></span><br><span class="line">cc.audioEngine.playMusic(audio, <span class="literal">true</span>, <span class="number">1</span>)</span><br><span class="line"><span class="comment">// 暂停正在播放的所有音乐</span></span><br><span class="line">cc.audioEngine.pauseMusic(audio)</span><br><span class="line"><span class="comment">// 恢复被暂停的音乐</span></span><br><span class="line">cc.audioEngine.resumeMusic(audio)</span><br><span class="line"><span class="comment">// 播放声音（非背景音乐）</span></span><br><span class="line">cc.audioEngine.play(audio, <span class="literal">false</span>, <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/cocos/" rel="tag"># cocos</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2019/11/29/git%E8%A7%84%E8%8C%83/" rel="next" title="Git规范">
+                <i class="fa fa-chevron-left"></i> Git规范
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2020/11/09/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/" rel="prev" title="bpmn工作流简述">
+                bpmn工作流简述 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">songjianet</p>
+              <p class="site-description motion-element" itemprop="description">佛系码农</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/blog/archives">
+              
+                  <span class="site-state-item-count">69</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/blog/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/blog/tags/index.html">
+                  <span class="site-state-item-count">115</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/songjianet" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:1778651752@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#导读"><span class="nav-number">1.</span> <span class="nav-text">导读</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关链接"><span class="nav-number">2.</span> <span class="nav-text">相关链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基础概念"><span class="nav-number">3.</span> <span class="nav-text">基础概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#引擎基本介绍"><span class="nav-number">3.1.</span> <span class="nav-text">引擎基本介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#游戏基本概念"><span class="nav-number">3.2.</span> <span class="nav-text">游戏基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建一个基于cocos引擎的项目"><span class="nav-number">3.3.</span> <span class="nav-text">创建一个基于cocos引擎的项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#项目管理与多人协作"><span class="nav-number">3.4.</span> <span class="nav-text">项目管理与多人协作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#项目目录介绍"><span class="nav-number">3.5.</span> <span class="nav-text">项目目录介绍</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#scene"><span class="nav-number">4.</span> <span class="nav-text">scene</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建scene"><span class="nav-number">4.1.</span> <span class="nav-text">创建scene</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进入scene编辑状态"><span class="nav-number">4.2.</span> <span class="nav-text">进入scene编辑状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置scene中canvas的尺寸"><span class="nav-number">4.3.</span> <span class="nav-text">设置scene中canvas的尺寸</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在scene中添加背景图片"><span class="nav-number">4.4.</span> <span class="nav-text">在scene中添加背景图片</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#prefab"><span class="nav-number">5.</span> <span class="nav-text">prefab</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#animation"><span class="nav-number">6.</span> <span class="nav-text">animation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建animation"><span class="nav-number">6.1.</span> <span class="nav-text">创建animation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建clip"><span class="nav-number">6.2.</span> <span class="nav-text">创建clip</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#绑定clip到animation"><span class="nav-number">6.3.</span> <span class="nav-text">绑定clip到animation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#打开动画编辑器编辑功能"><span class="nav-number">6.4.</span> <span class="nav-text">打开动画编辑器编辑功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加一个scale动画"><span class="nav-number">6.5.</span> <span class="nav-text">添加一个scale动画</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#预览方式"><span class="nav-number">7.</span> <span class="nav-text">预览方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#浏览器预览和模拟器预览"><span class="nav-number">7.1.</span> <span class="nav-text">浏览器预览和模拟器预览</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#真机预览"><span class="nav-number">7.2.</span> <span class="nav-text">真机预览</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#脚本操作"><span class="nav-number">8.</span> <span class="nav-text">脚本操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#介绍"><span class="nav-number">8.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#脚本模板"><span class="nav-number">8.2.</span> <span class="nav-text">脚本模板</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为组件创建脚本"><span class="nav-number">8.3.</span> <span class="nav-text">为组件创建脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关联脚本变量与资源"><span class="nav-number">8.4.</span> <span class="nav-text">关联脚本变量与资源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取prefab"><span class="nav-number">8.5.</span> <span class="nav-text">获取prefab</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将prefab添加到node"><span class="nav-number">8.6.</span> <span class="nav-text">将prefab添加到node</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通过脚本获取sprite"><span class="nav-number">8.7.</span> <span class="nav-text">通过脚本获取sprite</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#点击事件"><span class="nav-number">8.8.</span> <span class="nav-text">点击事件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#通过按钮绑定点击事件"><span class="nav-number">8.8.1.</span> <span class="nav-text">通过按钮绑定点击事件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#通过脚本创建一个点击事件"><span class="nav-number">8.8.2.</span> <span class="nav-text">通过脚本创建一个点击事件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#场景切换"><span class="nav-number">8.9.</span> <span class="nav-text">场景切换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#播放音频"><span class="nav-number">8.10.</span> <span class="nav-text">播放音频</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">songjianet</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">全站总字数&#58;</span>
+    
+    <span title="全站总字数">62.4k</span>
+  
+</div>
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/blog/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("tnShnVs7Somna4Addyb8SQJx-gzGzoHsz", "KY89RvNsxFH2zEk5hqBfVlIa");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

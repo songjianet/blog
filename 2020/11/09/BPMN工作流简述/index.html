@@ -1,0 +1,1626 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=5.0.13" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
+<link href="/blog/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/blog/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="bpmn," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言 BPMN全称为Business Process Modeling Notation，它是由业务流程管理倡议组织BPMI全称The Business Process Management Initiative开发的一套标准的业务流程建模符号规范。  BPMN为用户提供一套容易理解的标准符号，这些符号作为BPMN的基础元素，将业务流程建模简单化、图形化，将复杂的建模过程视觉化，让业务建模者、业务">
+<meta property="og:type" content="article">
+<meta property="og:title" content="bpmn工作流简述">
+<meta property="og:url" content="https://songjianet.github.io/blog/2020/11/09/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/index.html">
+<meta property="og:site_name" content="songjianet">
+<meta property="og:description" content="前言 BPMN全称为Business Process Modeling Notation，它是由业务流程管理倡议组织BPMI全称The Business Process Management Initiative开发的一套标准的业务流程建模符号规范。  BPMN为用户提供一套容易理解的标准符号，这些符号作为BPMN的基础元素，将业务流程建模简单化、图形化，将复杂的建模过程视觉化，让业务建模者、业务">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/1604987259267.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/1605064724382.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/1605084566835.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/1605087706732.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/1605146722819.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/1605156209317.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/1605156282864.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/1605245857229.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/1605170483360.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/1605172503339.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/1605174390912.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/1605235889814.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/1605236911318.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/1605249951861.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/1605252528039.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/1605252797758.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/1605252668249.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/1605254672725.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/1605254549761.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/1605255869265.jpg">
+<meta property="article:published_time" content="2020-11-09T17:39:12.000Z">
+<meta property="article:modified_time" content="2020-11-09T17:39:12.000Z">
+<meta property="article:author" content="songjianet">
+<meta property="article:tag" content="bpmn">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://songjianet.github.io/blog/images/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/1604987259267.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://songjianet.github.io/blog/2020/11/09/BPMN工作流简述/"/>
+
+
+
+
+
+  <title>bpmn工作流简述 | songjianet</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-179158342-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?438c779a7f3be467cf001cecb671aed7";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">songjianet</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/blog/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://songjianet.github.io/blog/blog/2020/11/09/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="songjianet">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/blog/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="songjianet">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">bpmn工作流简述</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-09T17:39:12+00:00">
+                2020-11-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/bpmn/" itemprop="url" rel="index">
+                    <span itemprop="name">bpmn</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/blog/2020/11/09/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/" class="leancloud_visitors" data-flag-title="bpmn工作流简述">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  6.1k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  30 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><ul>
+<li><p><code>BPMN</code>全称为<code>Business Process Modeling Notation</code>，它是由业务流程管理倡议组织<code>BPMI</code>全称<code>The Business Process Management Initiative</code>开发的一套标准的业务流程建模符号规范。</p>
+</li>
+<li><p><code>BPMN</code>为用户提供一套容易理解的标准符号，这些符号作为<code>BPMN</code>的基础元素，将业务流程建模简单化、图形化，将复杂的建模过程视觉化，让业务建模者、业务实施人员、管理监督人员对<code>BPMN</code>描述的业务流程都有一个更加清晰明了的了解。</p>
+</li>
+<li><p><code>BPMN</code>允许开发者在现有的标准符号基础上自定义一些符合业务逻辑的元素，让使用者可以不去学习<code>BPMN</code>的流程图的绘制方式，以更简洁的元素展示给使用者。</p>
+</li>
+<li><p>如果使用<code>BPMN</code>自定义一些元素，则开发人员会有一定的负担，但是使用者会得到一个比较好的体验。</p>
+</li>
+</ul>
+<hr>
+<h2 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h2><ul>
+<li><p><code>Render</code>: 承载绘制流程的画布容器。</p>
+</li>
+<li><p><code>Viewer</code>: 流程查看器，功能最简单，仅用来展示。</p>
+</li>
+<li><p><code>NavigatedViewer</code>: 包含鼠标导航工具的图表查看器，在<code>Viewer</code>上扩展了导航和缩放功能。</p>
+</li>
+<li><p><code>Modeler</code>: 流程编辑器，融合了<code>Viewer</code>和<code>NavigatedViewer</code>。并拥有工具栏、属性面板等，实现建模能力。</p>
+</li>
+<li><p><code>Palette</code>: 指代左侧工具栏。</p>
+</li>
+<li><p><code>Shape</code>: 左侧工具栏中的每一个节点。</p>
+</li>
+<li><p><code>Connection</code>: 连接线节点。</p>
+</li>
+<li><p><code>Context-Pad</code>: 节点拖拽到<code>Render</code>中后，点击节点右侧出现的菜单。</p>
+</li>
+<li><p><code>Properties-Panel</code>: 节点属性的配置栏。</p>
+</li>
+</ul>
+<p><img src="/blog/images/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/1604987259267.jpg" alt="基础概念图"></p>
+<hr>
+<h2 id="bpmn2-0规范的xml介绍"><a href="#bpmn2-0规范的xml介绍" class="headerlink" title="bpmn2.0规范的xml介绍"></a><code>bpmn2.0</code>规范的<code>xml</code>介绍</h2><ul>
+<li><p><code>xml</code>的<code>definitions</code>标签内必须含有<code>bpmn</code>规范的属性。</p>
+</li>
+<li><p><code>xml</code>中所有标签的<code>id</code>属性不能有重复。</p>
+</li>
+<li><p>所有从<code>Palette</code>中拖拽到<code>Render</code>的节点，包括<code>Shape</code>和<code>Connection</code>，都需要在<code>process</code>标签中呈现。</p>
+</li>
+<li><p><code>bpmndi</code>标签代表<code>Render</code>中绘制的所有内容，包括<code>Shape</code>、<code>Connection</code>以及位置和路径。</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">export default function() &#123;</span><br><span class="line">  return &#96;&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt;</span><br><span class="line">            &lt;definitions xmlns&#x3D;&quot;http:&#x2F;&#x2F;www.omg.org&#x2F;spec&#x2F;BPMN&#x2F;20100524&#x2F;MODEL&quot; xmlns:bpmndi&#x3D;&quot;http:&#x2F;&#x2F;www.omg.org&#x2F;spec&#x2F;BPMN&#x2F;20100524&#x2F;DI&quot; xmlns:omgdi&#x3D;&quot;http:&#x2F;&#x2F;www.omg.org&#x2F;spec&#x2F;DD&#x2F;20100524&#x2F;DI&quot; xmlns:omgdc&#x3D;&quot;http:&#x2F;&#x2F;www.omg.org&#x2F;spec&#x2F;DD&#x2F;20100524&#x2F;DC&quot; xmlns:xsi&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema-instance&quot; id&#x3D;&quot;sid-38422fae-e03e-43a3-bef4-bd33b32041b2&quot; targetNamespace&#x3D;&quot;http:&#x2F;&#x2F;bpmn.io&#x2F;bpmn&quot; exporter&#x3D;&quot;bpmn-js (https:&#x2F;&#x2F;demo.bpmn.io)&quot; exporterVersion&#x3D;&quot;5.1.2&quot;&gt;</span><br><span class="line">              &lt;process id&#x3D;&quot;Process_1&quot; isExecutable&#x3D;&quot;false&quot;&gt;</span><br><span class="line">                &lt;startEvent id&#x3D;&quot;StartEvent_1y45yut&quot; name&#x3D;&quot;开始&quot;&gt;</span><br><span class="line">                &lt;outgoing&gt;SequenceFlow_0h21x7r&lt;&#x2F;outgoing&gt;</span><br><span class="line">                &lt;&#x2F;startEvent&gt;</span><br><span class="line">                &lt;task id&#x3D;&quot;Task_1hcentk&quot;&gt;</span><br><span class="line">                &lt;incoming&gt;SequenceFlow_0h21x7r&lt;&#x2F;incoming&gt;</span><br><span class="line">                &lt;&#x2F;task&gt;</span><br><span class="line">                &lt;sequenceFlow id&#x3D;&quot;SequenceFlow_0h21x7r&quot; sourceRef&#x3D;&quot;StartEvent_1y45yut&quot; targetRef&#x3D;&quot;Task_1hcentk&quot; &#x2F;&gt;</span><br><span class="line">              &lt;&#x2F;process&gt;</span><br><span class="line">              &lt;bpmndi:BPMNDiagram id&#x3D;&quot;BpmnDiagram_1&quot;&gt;</span><br><span class="line">                &lt;bpmndi:BPMNPlane id&#x3D;&quot;BpmnPlane_1&quot; bpmnElement&#x3D;&quot;Process_1&quot;&gt;</span><br><span class="line">                  &lt;bpmndi:BPMNShape id&#x3D;&quot;StartEvent_1y45yut_di&quot; bpmnElement&#x3D;&quot;StartEvent_1y45yut&quot;&gt;</span><br><span class="line">                    &lt;omgdc:Bounds x&#x3D;&quot;152&quot; y&#x3D;&quot;102&quot; width&#x3D;&quot;36&quot; height&#x3D;&quot;36&quot; &#x2F;&gt;</span><br><span class="line">                    &lt;bpmndi:BPMNLabel&gt;</span><br><span class="line">                      &lt;omgdc:Bounds x&#x3D;&quot;160&quot; y&#x3D;&quot;145&quot; width&#x3D;&quot;22&quot; height&#x3D;&quot;14&quot; &#x2F;&gt;</span><br><span class="line">                    &lt;&#x2F;bpmndi:BPMNLabel&gt;</span><br><span class="line">                  &lt;&#x2F;bpmndi:BPMNShape&gt;</span><br><span class="line">                  &lt;bpmndi:BPMNShape id&#x3D;&quot;Task_1hcentk_di&quot; bpmnElement&#x3D;&quot;Task_1hcentk&quot;&gt;</span><br><span class="line">                    &lt;omgdc:Bounds x&#x3D;&quot;240&quot; y&#x3D;&quot;80&quot; width&#x3D;&quot;100&quot; height&#x3D;&quot;80&quot; &#x2F;&gt;</span><br><span class="line">                  &lt;&#x2F;bpmndi:BPMNShape&gt;</span><br><span class="line">                  &lt;bpmndi:BPMNEdge id&#x3D;&quot;SequenceFlow_0h21x7r_di&quot; bpmnElement&#x3D;&quot;SequenceFlow_0h21x7r&quot;&gt;</span><br><span class="line">                    &lt;omgdi:waypoint x&#x3D;&quot;188&quot; y&#x3D;&quot;120&quot; &#x2F;&gt;</span><br><span class="line">                    &lt;omgdi:waypoint x&#x3D;&quot;240&quot; y&#x3D;&quot;120&quot; &#x2F;&gt;</span><br><span class="line">                  &lt;&#x2F;bpmndi:BPMNEdge&gt;</span><br><span class="line">                &lt;&#x2F;bpmndi:BPMNPlane&gt;</span><br><span class="line">              &lt;&#x2F;bpmndi:BPMNDiagram&gt;</span><br><span class="line">            &lt;&#x2F;definitions&gt;&#96;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> yarn</span></span><br><span class="line">yarn add bpmn-js</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> npm</span></span><br><span class="line">npm install bpmn-js</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> cnpm</span></span><br><span class="line">cnpm install bpmn-js</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="快速上手"><a href="#快速上手" class="headerlink" title="快速上手"></a>快速上手</h2><ul>
+<li>查看器和编译器都要对一个<code>html</code>容器设置一个宽高，否则会造成内容显示不全和闪现的问题。</li>
+</ul>
+<h3 id="使用Viewer查看器"><a href="#使用Viewer查看器" class="headerlink" title="使用Viewer查看器"></a>使用<code>Viewer</code>查看器</h3><ul>
+<li><code>Viewer</code>不包含任何的鼠标拖拽、缩放、新增、编辑和删除节点等功能，只能用做展示使用。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class&#x3D;&quot;canvas&quot; ref&#x3D;&quot;canvas&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import Modeler from &#39;bpmn-js&#x2F;lib&#x2F;Viewer&#39;</span><br><span class="line">import defaultXML from &#39;.&#x2F;default-xml&#39;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#39;App&#39;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      viewer: null</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  mounted() &#123;</span><br><span class="line">    this.viewer &#x3D; new Modeler(&#123;</span><br><span class="line">      container: this.$refs.canvas</span><br><span class="line">    &#125;)</span><br><span class="line">    try &#123;</span><br><span class="line">      this.viewer.importXML(defaultXML())</span><br><span class="line">    &#125; catch (err) &#123;</span><br><span class="line">      console.log(err)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style lang&#x3D;&quot;scss&quot;&gt;</span><br><span class="line">.canvas &#123;</span><br><span class="line">  width: 100%;</span><br><span class="line">  height: 100vh;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;style&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/blog/images/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/1605064724382.jpg" alt="使用Viewer"></p>
+<h3 id="使用NavigatedViewer包含鼠标导航工具的查看器"><a href="#使用NavigatedViewer包含鼠标导航工具的查看器" class="headerlink" title="使用NavigatedViewer包含鼠标导航工具的查看器"></a>使用<code>NavigatedViewer</code>包含鼠标导航工具的查看器</h3><ul>
+<li>使用<code>NavigatedViewer</code>后，<code>Render</code>画布内的节点属性支持缩放、拖拽功能。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import Modeler from &#39;bpmn-js&#x2F;lib&#x2F;NavigatedViewer&#39;</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用Modeler编辑器"><a href="#使用Modeler编辑器" class="headerlink" title="使用Modeler编辑器"></a>使用<code>Modeler</code>编辑器</h3><ul>
+<li><p>使用<code>Modeler</code>时需要引入<code>css</code>文件，可以通过<code>scss</code>等其它预编译器引入。</p>
+</li>
+<li><p>缩放、前进后退、打开、下载等功能需要单独编写方法进行支持。</p>
+</li>
+<li><p>下图显示的是<code>bpmn</code>在<code>Modeler</code>模式下提供的默认组件，并非全部组件。</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class&#x3D;&quot;canvas&quot; ref&#x3D;&quot;canvas&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import Modeler from &#39;bpmn-js&#x2F;lib&#x2F;Modeler&#39;</span><br><span class="line">import &#39;bpmn-js&#x2F;dist&#x2F;assets&#x2F;diagram-js.css&#39;</span><br><span class="line">import &#39;bpmn-js&#x2F;dist&#x2F;assets&#x2F;bpmn-font&#x2F;css&#x2F;bpmn.css&#39;</span><br><span class="line">import &#39;bpmn-js&#x2F;dist&#x2F;assets&#x2F;bpmn-font&#x2F;css&#x2F;bpmn-codes.css&#39;</span><br><span class="line">import &#39;bpmn-js&#x2F;dist&#x2F;assets&#x2F;bpmn-font&#x2F;css&#x2F;bpmn-embedded.css&#39;</span><br><span class="line">import defaultXML from &#39;.&#x2F;default-xml&#39;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#39;App&#39;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      modeler: null</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  mounted() &#123;</span><br><span class="line">    this.modeler &#x3D; new Modeler(&#123;</span><br><span class="line">      container: this.$refs.canvas</span><br><span class="line">    &#125;)</span><br><span class="line">    try &#123;</span><br><span class="line">      this.modeler.importXML(defaultXML())</span><br><span class="line">    &#125; catch (err) &#123;</span><br><span class="line">      console.log(err)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style lang&#x3D;&quot;scss&quot;&gt;</span><br><span class="line">.canvas &#123;</span><br><span class="line">  width: 100%;</span><br><span class="line">  height: 100vh;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;style&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/blog/images/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/1605084566835.jpg" alt="使用Modeler"></p>
+<h3 id="节点属性配置面板"><a href="#节点属性配置面板" class="headerlink" title="节点属性配置面板"></a>节点属性配置面板</h3><ul>
+<li><p>一个默认的<code>bpmn</code>设计器是不带有右侧的节点属性配置面板的。</p>
+</li>
+<li><p>节点属性配置面板可以有两种实现方式，其一是使用官方提供的插件实现，其二是可以通过自定义<code>vue</code>组件，在将<code>Shape</code>从<code>Palette</code>中拖拽到<code>Render</code>时，可以通过<code>Modeler</code>提供的事件监听，对用户点击过的<code>Shape</code>在右侧替换对应的<code>vue</code>组件。</p>
+</li>
+<li><p>这一部分会使用第一种方式进行配置右侧的节点属性栏，第二种方式会在后续的自定义中进行讲解。</p>
+</li>
+<li><p>安装<code>bpmn-js-properties-panel</code>和<code>camunda-bpmn-moddle</code>插件。</p>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> yarn</span></span><br><span class="line">yarn add bpmn-js-properties-panel</span><br><span class="line">yarn add camunda-bpmn-moddle</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> npm</span></span><br><span class="line">npm install bpmn-js-properties-panel</span><br><span class="line">npm install camunda-bpmn-moddle</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">cnpm</span></span><br><span class="line">cnpm install bpmn-js-properties-panel</span><br><span class="line">cnpm install camunda-bpmn-moddle</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在<code>html</code>部分与<code>canvas</code>同级，增加用于承载节点属性配置面板的容器。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class&#x3D;&quot;bpmn-container&quot;&gt;</span><br><span class="line">  &lt;div class&#x3D;&quot;canvas&quot; ref&#x3D;&quot;canvas&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">  &lt;div class&#x3D;&quot;properties&quot; ref&#x3D;&quot;properties&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>引入对应的<code>js</code>和<code>css</code>。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import propertiesPanelModule from &#39;bpmn-js-properties-panel&#39;</span><br><span class="line">import propertiesProviderModule from &#39;bpmn-js-properties-panel&#x2F;lib&#x2F;provider&#x2F;camunda&#39;</span><br><span class="line">import camundaModdleDescriptor from &#39;camunda-bpmn-moddle&#x2F;resources&#x2F;camunda&#39;</span><br><span class="line">import &#39;bpmn-js-properties-panel&#x2F;dist&#x2F;assets&#x2F;bpmn-js-properties-panel.css&#39;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在<code>new Modeler</code>中增加<code>propertiesPanel</code>、<code>additionalModules</code>和<code>moddleExtensions</code>对象。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span>.viewer = <span class="keyword">new</span> Modeler(&#123;</span><br><span class="line">  container: <span class="keyword">this</span>.$refs.canvas,</span><br><span class="line">  propertiesPanel: &#123;</span><br><span class="line">    parent: <span class="keyword">this</span>.$refs.properties</span><br><span class="line">  &#125;,</span><br><span class="line">  additionalModules: [</span><br><span class="line">    propertiesProviderModule,</span><br><span class="line">    propertiesPanelModule</span><br><span class="line">  ],</span><br><span class="line">  moddleExtensions: &#123;</span><br><span class="line">    camunda: camundaModdleDescriptor</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>由于之前将<code>class</code>为<code>canvas</code>容器的样式设置成了<code>100%</code>，所以节点属性配置面板不会展示出来，对此需要修改一部分样式。</li>
+</ul>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.bpmn-container</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">justify-content</span>: space-between;</span><br><span class="line"></span><br><span class="line">  <span class="selector-class">.canvas</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">80%</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">100vh</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="selector-class">.properties</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">20%</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/blog/images/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/1605087706732.jpg" alt="节点属性配置面板"></p>
+<hr>
+<h2 id="全局操作"><a href="#全局操作" class="headerlink" title="全局操作"></a>全局操作</h2><ul>
+<li>全局操作包括用户的缩放行为、画布的自适应、上一步下一步、下载、保存、打开等操作。</li>
+</ul>
+<p><img src="/blog/images/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/1605146722819.jpg" alt="全剧操作"></p>
+<h3 id="上一步"><a href="#上一步" class="headerlink" title="上一步"></a>上一步</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">previous() &#123;</span><br><span class="line">  const commandStack &#x3D; this.modeler.get(&#39;commandStack&#39;)</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 没有可以执行的上一步操作，可以通过下面条件对上一步按钮设置禁用</span><br><span class="line">  if (commandStack._stackIdx &#x3D;&#x3D;&#x3D; -1) &#123; return false &#125;</span><br><span class="line"></span><br><span class="line">  commandStack.undo()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="下一步"><a href="#下一步" class="headerlink" title="下一步"></a>下一步</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">next() &#123;</span><br><span class="line">  const commandStack &#x3D; this.modeler.get(&#39;commandStack&#39;)</span><br><span class="line">  </span><br><span class="line">  &#x2F;&#x2F; 没有可以执行的下一步操作，可以通过下面条件对下一步按钮设置禁用</span><br><span class="line">  if (commandStack._stack.length - 1 &#x3D;&#x3D;&#x3D; commandStack._stackIdx) &#123; return false &#125;</span><br><span class="line"></span><br><span class="line">  commandStack.redo()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="放大"><a href="#放大" class="headerlink" title="放大"></a>放大</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">zoomIn() &#123;</span><br><span class="line">  let zoom &#x3D; this.modeler.get(&#39;canvas&#39;).zoom()</span><br><span class="line"></span><br><span class="line">  zoom +&#x3D; 0.1</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 保存当前的缩放比例到vue的data中，后续用于通过输入框控制缩放时使用</span><br><span class="line">  &#x2F;&#x2F; 保留一位小数，避免出现计算精度影响功能的情况</span><br><span class="line">  this.zoom &#x3D; Number(zoom.toFixed(1))</span><br><span class="line"></span><br><span class="line">  this.modeler.get(&#39;canvas&#39;).zoom(zoom)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="缩小"><a href="#缩小" class="headerlink" title="缩小"></a>缩小</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">zoomOut() &#123;</span><br><span class="line">  let zoom &#x3D; this.modeler.get(&#39;canvas&#39;).zoom()</span><br><span class="line"></span><br><span class="line">  zoom -&#x3D; 0.1</span><br><span class="line"></span><br><span class="line">  this.zoom &#x3D; Number(zoom.toFixed(1))</span><br><span class="line"></span><br><span class="line">  this.modeler.get(&#39;canvas&#39;).zoom(zoom)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="输入框控制缩放"><a href="#输入框控制缩放" class="headerlink" title="输入框控制缩放"></a>输入框控制缩放</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;el-input v-model.number&#x3D;&quot;zoomScale&quot; size&#x3D;&quot;mini&quot; @change&#x3D;&quot;setZoom&quot; suffix-icon&#x3D;&quot;el-icon-connection&quot;&gt;&lt;&#x2F;el-input&gt;</span><br><span class="line">    &lt;div class&#x3D;&quot;canvas&quot; ref&#x3D;&quot;canvas&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">    &lt;div class&#x3D;&quot;properties&quot; ref&#x3D;&quot;properties&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import Modeler from &#39;bpmn-js&#x2F;lib&#x2F;Modeler&#39;</span><br><span class="line">import &#39;bpmn-js&#x2F;dist&#x2F;assets&#x2F;diagram-js.css&#39;</span><br><span class="line">import &#39;bpmn-js&#x2F;dist&#x2F;assets&#x2F;bpmn-font&#x2F;css&#x2F;bpmn.css&#39;</span><br><span class="line">import &#39;bpmn-js&#x2F;dist&#x2F;assets&#x2F;bpmn-font&#x2F;css&#x2F;bpmn-codes.css&#39;</span><br><span class="line">import &#39;bpmn-js&#x2F;dist&#x2F;assets&#x2F;bpmn-font&#x2F;css&#x2F;bpmn-embedded.css&#39;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      zoom: 1, &#x2F;&#x2F; 缩放比例</span><br><span class="line">      zoomScale: 100, &#x2F;&#x2F; 缩放基础值</span><br><span class="line">      modeler: null</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  mounted() &#123;</span><br><span class="line">    this.modeler &#x3D; new Modeler(&#123;</span><br><span class="line">      container: this.$refs.canvas</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">     setZoom() &#123;</span><br><span class="line">       this.zoom &#x3D; this.zoomScale &#x2F; 100</span><br><span class="line">       this.modeler.get(&#39;canvas&#39;).zoom(this.zoom)</span><br><span class="line">     &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="适应画布"><a href="#适应画布" class="headerlink" title="适应画布"></a>适应画布</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;div class&#x3D;&quot;canvas&quot; ref&#x3D;&quot;canvas&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">    &lt;div class&#x3D;&quot;properties&quot; ref&#x3D;&quot;properties&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import Modeler from &#39;bpmn-js&#x2F;lib&#x2F;Modeler&#39;</span><br><span class="line">import &#39;bpmn-js&#x2F;dist&#x2F;assets&#x2F;diagram-js.css&#39;</span><br><span class="line">import &#39;bpmn-js&#x2F;dist&#x2F;assets&#x2F;bpmn-font&#x2F;css&#x2F;bpmn.css&#39;</span><br><span class="line">import &#39;bpmn-js&#x2F;dist&#x2F;assets&#x2F;bpmn-font&#x2F;css&#x2F;bpmn-codes.css&#39;</span><br><span class="line">import &#39;bpmn-js&#x2F;dist&#x2F;assets&#x2F;bpmn-font&#x2F;css&#x2F;bpmn-embedded.css&#39;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      zoom: 1, &#x2F;&#x2F; 缩放比例</span><br><span class="line">      modeler: null</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  mounted() &#123;</span><br><span class="line">    this.modeler &#x3D; new Modeler(&#123;</span><br><span class="line">      container: this.$refs.canvas</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    fitViewport() &#123;</span><br><span class="line">      this.zoom &#x3D; this.modeler.get(&#39;canvas&#39;).zoom(&#39;fit-viewport&#39;)</span><br><span class="line">    </span><br><span class="line">      const bBox &#x3D; document.querySelector(&#39;.viewport&#39;).getBBox()</span><br><span class="line">      const currentViewBox &#x3D; this.modeler.get(&#39;canvas&#39;).viewbox()</span><br><span class="line">      const elementMid &#x3D; &#123;</span><br><span class="line">        x: bBox.x + bBox.width &#x2F; 2 - 65,</span><br><span class="line">        y: bBox.y + bBox.height &#x2F; 2</span><br><span class="line">      &#125;</span><br><span class="line">    </span><br><span class="line">      this.modeler.get(&#39;canvas&#39;).viewbox(&#123;</span><br><span class="line">        x: elementMid.x - currentViewBox.width &#x2F; 2,</span><br><span class="line">        y: elementMid.y - currentViewBox.height &#x2F; 2,</span><br><span class="line">        width: currentViewBox.width,</span><br><span class="line">        height: currentViewBox.height</span><br><span class="line">      &#125;)</span><br><span class="line">    </span><br><span class="line">      this.zoom &#x3D; bBox.width &#x2F; currentViewBox.width * 1.8</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="打开"><a href="#打开" class="headerlink" title="打开"></a>打开</h3><ul>
+<li><p>打开<code>xml</code>本质就是一个上传文件的方法，然后将文件中的<code>xml</code>内容重新装载。</p>
+</li>
+<li><p>装载方式是使用<code>importXML</code>方法装载<code>xml</code>，可以查看文章中《快速上手 -&gt; 使用<code>Modeler</code>编辑器》部分的介绍。</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;el-upload action&#x3D;&quot;&quot; :before-upload&#x3D;&quot;beforeUpload&quot;&gt;</span><br><span class="line">    &lt;div class&#x3D;&quot;open&quot;&gt;</span><br><span class="line">      &lt;i class&#x3D;&quot;el-icon-folder-opened&quot;&gt;&lt;&#x2F;i&gt;</span><br><span class="line">      &lt;p&gt;打开&lt;&#x2F;p&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">  &lt;&#x2F;el-upload&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  methods: &#123;</span><br><span class="line">    beforeUpload(file) &#123;</span><br><span class="line">      const reader &#x3D; new FileReader()</span><br><span class="line"></span><br><span class="line">      reader.readAsText(file, &#39;utf-8&#39;)</span><br><span class="line">      reader.onload &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">        console.log(reader.result) &#x2F;&#x2F; xml内容</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      return false</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="新建"><a href="#新建" class="headerlink" title="新建"></a>新建</h3><ul>
+<li>新建可以用于加载后端提供的<code>xml</code>模板，可以让使用者基于不同的模板进行绘制，减少用户的绘制时间。</li>
+</ul>
+<h3 id="重做"><a href="#重做" class="headerlink" title="重做"></a>重做</h3><ul>
+<li>重做就是使用<code>importXML</code>方法装载一个空的<code>xml</code>文件。</li>
+</ul>
+<h3 id="下载xml"><a href="#下载xml" class="headerlink" title="下载xml"></a>下载xml</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">async downloadXML() &#123;</span><br><span class="line">  try &#123;</span><br><span class="line">    let &#123; xml &#125; &#x3D; await this.modeler.saveXML(&#123; format: true &#125;)</span><br><span class="line"></span><br><span class="line">    downloadFile(&#96;$&#123;this.modeler.getDefinitions().rootElements[0].name&#125;.bpmn20.xml&#96;, drawToXML(xml), &#39;application&#x2F;xml&#39;)</span><br><span class="line"></span><br><span class="line">    return xml</span><br><span class="line">  &#125; catch (err) &#123;</span><br><span class="line">    console.log(err)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="下载svg"><a href="#下载svg" class="headerlink" title="下载svg"></a>下载svg</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">async downloadSVG() &#123;</span><br><span class="line">  try &#123;</span><br><span class="line">    const &#123; svg &#125; &#x3D; await this.modeler.saveSVG(&#123; format: true &#125;)</span><br><span class="line"></span><br><span class="line">    downloadFile(this.modeler.getDefinitions().rootElements[0].name, svg, &#39;image&#x2F;svg+xml&#39;)</span><br><span class="line"></span><br><span class="line">    return svg</span><br><span class="line">  &#125; catch (err) &#123;</span><br><span class="line">    console.log(err)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="保存"><a href="#保存" class="headerlink" title="保存"></a>保存</h3><ul>
+<li>保存方法与下载<code>xml</code>方法是一致的，保存方法主要用于将<code>xml</code>通过接口发送给后端服务。</li>
+</ul>
+<h3 id="缩略预览"><a href="#缩略预览" class="headerlink" title="缩略预览"></a>缩略预览</h3><ul>
+<li>安装<code>diagram-js-minimap</code>插件。</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> yarn</span></span><br><span class="line">yarn add diagram-js-minimap</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> npm</span></span><br><span class="line">npm install diagram-js-minimap</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> cnpm</span></span><br><span class="line">cnpm install diagram-js-minimap</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>引入。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import minimapModule from &#39;diagram-js-minimap&#39;</span><br><span class="line">import &#39;diagram-js-minimap&#x2F;assets&#x2F;diagram-js-minimap.css&#39;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在<code>Modeler</code>中装载插件。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">this.modeler &#x3D; new Modeler(&#123;</span><br><span class="line">  container: this.$refs.canvas,</span><br><span class="line">  additionalModules: [</span><br><span class="line">    minimapModule</span><br><span class="line">  ]</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/blog/images/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/1605156209317.jpg" alt="关闭状态的效果"></p>
+<ul>
+<li>插件默认为<code>close</code>状态，如果需要在项目打开时缩放预览为<code>open</code>状态，可执行以下代码。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">this.modeler.get(&#39;minimap&#39;).open()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/blog/images/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/1605156282864.jpg" alt="打开状态的效果"></p>
+<ul>
+<li>如果不满意默认的缩放预览效果，可以通过样式覆盖的形式去更改，在后续的文章中会以一个例子介绍具体的更改方法。</li>
+</ul>
+<hr>
+<h2 id="自定义Palette"><a href="#自定义Palette" class="headerlink" title="自定义Palette"></a>自定义<code>Palette</code></h2><ul>
+<li><p>在了解了<code>bpmn</code>基础概念和使用后，对一些模块以及它们之间的配合应该有了一定的概念，同时<code>bpmn</code>的默认样式可能无法满足业务的需求。</p>
+</li>
+<li><p>自定义<code>Palette</code>后允许通过配置生成工具栏、更改工具栏样式和布局等。</p>
+</li>
+<li><p>自定义的方式包含两种，其一是基于<code>Modeler</code>中的<code>Palette</code>进行修改，其二是完全重写<code>Palette</code>方法。</p>
+</li>
+</ul>
+<h3 id="新建目录和文件"><a href="#新建目录和文件" class="headerlink" title="新建目录和文件"></a>新建目录和文件</h3><ul>
+<li><p>在<code>components</code>目录下新建<code>modeler</code>目录，在<code>modeler</code>目录下新建<code>palette</code>目录和<code>index.js</code>文件。</p>
+</li>
+<li><p>在<code>palette</code>目录下新建<code>CustomPalette.js</code>文件。</p>
+</li>
+</ul>
+<p><img src="/blog/images/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/1605245857229.jpg" alt="基于`Modeler`中的`Palette`进行自定义目录结构"></p>
+<h3 id="基于Modeler中的Palette进行自定义"><a href="#基于Modeler中的Palette进行自定义" class="headerlink" title="基于Modeler中的Palette进行自定义"></a>基于<code>Modeler</code>中的<code>Palette</code>进行自定义</h3><h4 id="编写CustomPalette-js代码"><a href="#编写CustomPalette-js代码" class="headerlink" title="编写CustomPalette.js代码"></a>编写<code>CustomPalette.js</code>代码</h4><ul>
+<li><p>使用<code>$inject</code>注入一些需要的变量。</p>
+</li>
+<li><p>在类中使用<code>palette.registerProvider(this)</code>指定这是一个<code>palette</code>。</p>
+</li>
+<li><p><code>CustomPalette</code>类中的核心代码是<code>getPaletteEntries</code>函数，该函数的名称不能改变, 该函数返回的是一个对象, 对象中指定的内容就是自定义的中的每一项。</p>
+</li>
+<li><p><code>group</code>: 属于哪个分组, <code>比如tools</code>、<code>event</code>、<code>gateway</code>、<code>activity等等</code>。</p>
+</li>
+<li><p><code>className</code>: 样式类名, 我们可以通过它给元素修改样式。</p>
+</li>
+<li><p><code>title</code>: 鼠标移动到元素上面给出的提示信息。</p>
+</li>
+<li><p><code>action</code>: 用户操作时会触发的事件</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">export default class CustomPalette &#123;</span><br><span class="line">  constructor(bpmnFactory, create, elementFactory, palette, translate) &#123;</span><br><span class="line">    this.bpmnFactory &#x3D; bpmnFactory</span><br><span class="line">    this.create &#x3D; create</span><br><span class="line">    this.elementFactory &#x3D; elementFactory</span><br><span class="line">    this.translate &#x3D; translate</span><br><span class="line"></span><br><span class="line">    palette.registerProvider(this)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  getPaletteEntries(element) &#123;</span><br><span class="line">    console.log(element)</span><br><span class="line"></span><br><span class="line">    const &#123;</span><br><span class="line">      bpmnFactory,</span><br><span class="line">      create,</span><br><span class="line">      elementFactory,</span><br><span class="line">      translate</span><br><span class="line">    &#125; &#x3D; this</span><br><span class="line"></span><br><span class="line">    function createTask() &#123;</span><br><span class="line">      return function(event) &#123;</span><br><span class="line">        const businessObject &#x3D; bpmnFactory.create(&#39;bpmn:StartEvent&#39;)</span><br><span class="line">        const shape &#x3D; elementFactory.createShape(&#123;</span><br><span class="line">          type: &#39;bpmn:StartEvent&#39;,</span><br><span class="line">          businessObject</span><br><span class="line">        &#125;)</span><br><span class="line">        create.start(event, shape)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return &#123;</span><br><span class="line">      &#39;create.test-start-event&#39;: &#123;</span><br><span class="line">        group: &#39;model&#39;,</span><br><span class="line">        className: &#39;icon-custom test-start-event&#39;,</span><br><span class="line">        title: translate(&#39;创建一个开始节点&#39;),</span><br><span class="line">        action: &#123;</span><br><span class="line">          dragstart: createTask(),</span><br><span class="line">          click: createTask()</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">CustomPalette.$inject &#x3D; [</span><br><span class="line">  &#39;bpmnFactory&#39;,</span><br><span class="line">  &#39;create&#39;,</span><br><span class="line">  &#39;elementFactory&#39;,</span><br><span class="line">  &#39;palette&#39;,</span><br><span class="line">  &#39;translate&#39;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<h4 id="编写index-js文件"><a href="#编写index-js文件" class="headerlink" title="编写index.js文件"></a>编写<code>index.js</code>文件</h4><ul>
+<li><code>__init__</code>中的名字就必须是<code>customPalette</code>。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import CustomPalette from &#39;.&#x2F;palette&#x2F;CustomPalette&#39;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  __init__: [&#39;customPalette&#39;],</span><br><span class="line">  customPalette: [&#39;type&#39;, CustomPalette]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="在vue文件中引入"><a href="#在vue文件中引入" class="headerlink" title="在vue文件中引入"></a>在<code>vue</code>文件中引入</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">import customPalette from &#39;.&#x2F;components&#x2F;modeler&#39;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  mounted() &#123;</span><br><span class="line">    this.modeler &#x3D; new Modeler(&#123;</span><br><span class="line">      container: this.$refs.canvas,</span><br><span class="line">      additionalModules: [</span><br><span class="line">        customPalette</span><br><span class="line">      ]</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="编写样式"><a href="#编写样式" class="headerlink" title="编写样式"></a>编写样式</h4><ul>
+<li>编写样式样式，能够在左侧<code>Palette</code>中展示自定义的节点。</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.icon-custom</span> &#123;</span><br><span class="line">  <span class="attribute">border-radius</span>: <span class="number">50%</span>;</span><br><span class="line">  <span class="attribute">background-size</span>: <span class="number">65%</span>;</span><br><span class="line">  <span class="attribute">background-repeat</span>: no-repeat;</span><br><span class="line">  <span class="attribute">background-position</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.icon-custom</span><span class="selector-class">.test-start-event</span> &#123;</span><br><span class="line">  <span class="attribute">background-image</span>: <span class="built_in">url</span>(<span class="string">'https://zdgg-scrm.oss-cn-shanghai.aliyuncs.com/bpmn/liuchengkongzhi/start.png'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="查看效果"><a href="#查看效果" class="headerlink" title="查看效果"></a>查看效果</h4><p><img src="/blog/images/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/1605170483360.jpg" alt="基于`Modeler`中的`Palette`进行自定义完成效果"></p>
+<h3 id="重写Palette方法"><a href="#重写Palette方法" class="headerlink" title="重写Palette方法"></a>重写<code>Palette</code>方法</h3><ul>
+<li>上面的代码通过修改<code>Modeler</code>中的<code>Palette</code>实现了对<code>Palette</code>中的节点进行自定义的功能，但是如果想实现以下红线圈出效果，则需要重写<code>Palette</code>方法。</li>
+</ul>
+<p><img src="/blog/images/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/1605172503339.jpg" alt="重写`Palette`方法展示图"></p>
+<h4 id="编写CustomPalette-js代码-1"><a href="#编写CustomPalette-js代码-1" class="headerlink" title="编写CustomPalette.js代码"></a>编写<code>CustomPalette.js</code>代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">export default function PaletteProvider(palette, create, elementFactory, globalConnect) &#123;</span><br><span class="line">  this.create &#x3D; create</span><br><span class="line">  this.elementFactory &#x3D; elementFactory</span><br><span class="line">  this.globalConnect &#x3D; globalConnect</span><br><span class="line"></span><br><span class="line">  palette.registerProvider(this)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">PaletteProvider.$inject &#x3D; [</span><br><span class="line">  &#39;palette&#39;,</span><br><span class="line">  &#39;create&#39;,</span><br><span class="line">  &#39;elementFactory&#39;,</span><br><span class="line">  &#39;globalConnect&#39;</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">PaletteProvider.prototype.getPaletteEntries &#x3D; function() &#123;</span><br><span class="line">  const &#123;</span><br><span class="line">    create,</span><br><span class="line">    elementFactory</span><br><span class="line">  &#125; &#x3D; this</span><br><span class="line"></span><br><span class="line">  function createTask() &#123;</span><br><span class="line">    return function(event) &#123;</span><br><span class="line">      const shape &#x3D; elementFactory.createShape(&#123;</span><br><span class="line">        type: &#39;bpmn:StartEvent&#39;</span><br><span class="line">      &#125;)</span><br><span class="line">      console.log(shape)</span><br><span class="line">      create.start(event, shape)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  return &#123;</span><br><span class="line">    &#39;create.test-start-event&#39;: &#123;</span><br><span class="line">      group: &#39;model&#39;,</span><br><span class="line">      className: &#39;icon-custom test-start-event&#39;,</span><br><span class="line">      title: &#39;创建一个开始节点&#39;,</span><br><span class="line">      action: &#123;</span><br><span class="line">        dragstart: createTask(),</span><br><span class="line">        click: createTask()</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="编写index-js代码"><a href="#编写index-js代码" class="headerlink" title="编写index.js代码"></a>编写<code>index.js</code>代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">import Modeler from &#39;bpmn-js&#x2F;lib&#x2F;Modeler&#39;</span><br><span class="line">import inherits from &#39;inherits&#39;</span><br><span class="line">import CustomPalette from &#39;.&#x2F;palette&#x2F;CustomPalette&#39;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  __init__: [&#39;paletteProvider&#39;],</span><br><span class="line">  paletteProvider: [&#39;type&#39;, CustomPalette]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default function CustomModeler(options) &#123;</span><br><span class="line">  Modeler.call(this, options)</span><br><span class="line">  this._customElements &#x3D; []</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">inherits(CustomModeler, Modeler)</span><br><span class="line">CustomModeler.prototype._modules &#x3D; [].concat(</span><br><span class="line">  CustomModeler.prototype._modules, [</span><br><span class="line">    CustomModule</span><br><span class="line">  ]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h4 id="在vue文件中引入-1"><a href="#在vue文件中引入-1" class="headerlink" title="在vue文件中引入"></a>在<code>vue</code>文件中引入</h4><ul>
+<li>当重写<code>Palette</code>方法后，将不再通过<code>BpmnModeler</code>进行创建，需要通过<code>CustomModeler</code>进行创建。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">import CustomModeler from &#39;.&#x2F;components&#x2F;modeler&#39;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  mounted() &#123;</span><br><span class="line">    this.modeler &#x3D; new CustomModeler(&#123;</span><br><span class="line">      container: this.$refs.canvas</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="编写样式-1"><a href="#编写样式-1" class="headerlink" title="编写样式"></a>编写样式</h4><ul>
+<li>样式使用《基于<code>Modeler</code>中的<code>Palette</code>进行自定义》中的样式。</li>
+</ul>
+<h4 id="产看效果"><a href="#产看效果" class="headerlink" title="产看效果"></a>产看效果</h4><p><img src="/blog/images/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/1605174390912.jpg" alt="重写`Palette`方法完成效果"></p>
+<h3 id="修改Palette样式"><a href="#修改Palette样式" class="headerlink" title="修改Palette样式"></a>修改<code>Palette</code>样式</h3><ul>
+<li><p>想要更改默认的<code>Palette</code>侧边栏的样式需要对<code>dom</code>结构有一定的更改，同时也要增加一部分样式。</p>
+</li>
+<li><p>获取<code>canvas</code>容器，获取<code>Palette</code>侧边栏的<code>dom</code>节点。</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const canvas &#x3D; this.$refs.canvas</span><br><span class="line">const djsPalette &#x3D; canvas.children[0].children[1].children[5]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>拿到节点后就可以对其进行节点以及样式的增删改等操作。</li>
+</ul>
+<hr>
+<h2 id="自定义Renderer"><a href="#自定义Renderer" class="headerlink" title="自定义Renderer"></a>自定义<code>Renderer</code></h2><ul>
+<li><p>由于画布中的图形为<code>svg</code>，与<code>Palette</code>不同的是<code>Palette</code>使用的是<code>html</code>，如果需要深度自定义（不仅仅是替换节点在<code>Render</code>中显示的图标）需要一定的<code>svg</code>知识。</p>
+</li>
+<li><p>在自定义<code>Palette</code>后，将一个节点从<code>Palette</code>栏拖拽到<code>Render</code>后，节点在<code>Render</code>上展示的还是默认类型的样子。</p>
+</li>
+</ul>
+<p><img src="/blog/images/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/1605235889814.jpg" alt="重写`Palette`方法完成效果"></p>
+<h3 id="新建目录和文件-1"><a href="#新建目录和文件-1" class="headerlink" title="新建目录和文件"></a>新建目录和文件</h3><ul>
+<li><p>在<code>components -&gt; modeler</code>下新建<code>renderer</code>文件夹，在<code>renderer</code>文件夹下新建<code>CustomRenderer.js</code>文件。</p>
+</li>
+<li><p>在<code>components -&gt; modeler</code>下新建<code>utils.js</code>文件。</p>
+</li>
+</ul>
+<p><img src="/blog/images/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/1605236911318.jpg" alt="在默认的`Renderer`上进行自定义目录结构"></p>
+<h3 id="在默认的Renderer上进行自定义"><a href="#在默认的Renderer上进行自定义" class="headerlink" title="在默认的Renderer上进行自定义"></a>在默认的<code>Renderer</code>上进行自定义</h3><h4 id="编写CustomRenderer-js代码"><a href="#编写CustomRenderer-js代码" class="headerlink" title="编写CustomRenderer.js代码"></a>编写<code>CustomRenderer.js</code>代码</h4><ul>
+<li><p>由于是在<code>bpmn.js</code>已有的元素上进行修改, 所以所以需要将<code>BaseRenderer</code>这个类引入进来, 然后自定义<code>renderer</code>来继承它。</p>
+</li>
+<li><p>代码中<code>HIGH_PRIORITY</code>不能去掉, 否则不会执行<code>drawShape</code>函数。</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">import BaseRenderer from &#39;diagram-js&#x2F;lib&#x2F;draw&#x2F;BaseRenderer&#39;</span><br><span class="line">import &#123; customElements, customConfig &#125; from &#39;..&#x2F;utils&#39;</span><br><span class="line">import &#123; append as svgAppend, create as svgCreate &#125; from &#39;tiny-svg&#39;</span><br><span class="line"></span><br><span class="line">const HIGH_PRIORITY &#x3D; 1500</span><br><span class="line"></span><br><span class="line">export default class CustomRenderer extends BaseRenderer &#123;</span><br><span class="line">  constructor(eventBus, bpmnRenderer) &#123;</span><br><span class="line">    super(eventBus, HIGH_PRIORITY)</span><br><span class="line">    this.bpmnRenderer &#x3D; bpmnRenderer</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  canRender(element) &#123;</span><br><span class="line">    return !element.labelTarget</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  drawShape(parentNode, element) &#123;</span><br><span class="line">    const type &#x3D; element.type</span><br><span class="line"></span><br><span class="line">    if (customElements.includes(type)) &#123;</span><br><span class="line">      const &#123; url, attr &#125; &#x3D; customConfig[type]</span><br><span class="line">      const customIcon &#x3D; svgCreate(&#39;image&#39;, &#123;</span><br><span class="line">        ...attr,</span><br><span class="line">        href: url</span><br><span class="line">      &#125;)</span><br><span class="line">      element[&#39;width&#39;] &#x3D; attr.width</span><br><span class="line">      element[&#39;height&#39;] &#x3D; attr.height</span><br><span class="line">      svgAppend(parentNode, customIcon)</span><br><span class="line"></span><br><span class="line">      return customIcon</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    const shape &#x3D; this.bpmnRenderer.drawShape(parentNode, element)</span><br><span class="line"></span><br><span class="line">    return shape</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  getShapePath(shape) &#123;</span><br><span class="line">    return this.bpmnRenderer.getShapePath(shape)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">CustomRenderer.$inject &#x3D; [&#39;eventBus&#39;, &#39;bpmnRenderer&#39;]</span><br></pre></td></tr></table></figure>
+
+<h4 id="编写utils-js代码"><a href="#编写utils-js代码" class="headerlink" title="编写utils.js代码"></a>编写<code>utils.js</code>代码</h4><ul>
+<li><p>自定义的<code>Palette</code>中的节点的类型需要在<code>customElements</code>中注册，否则当用户拖拽一个节点从<code>Palette</code>侧边栏到<code>Render</code>中会提示找不到组件的错误。</p>
+</li>
+<li><p><code>customConfig</code>中的对象在<code>CustomRenderer.js</code>中</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">const customElements &#x3D; [&#39;bpmn:StartEvent&#39;]</span><br><span class="line"></span><br><span class="line">const customConfig &#x3D; &#123;</span><br><span class="line">  &#39;bpmn:StartEvent&#39;: &#123;</span><br><span class="line">    &#39;url&#39;: &#39;https:&#x2F;&#x2F;zdgg-scrm.oss-cn-shanghai.aliyuncs.com&#x2F;bpmn&#x2F;liuchengkongzhi&#x2F;start.png&#39;,</span><br><span class="line">    &#39;attr&#39;: &#123; x: 0, y: 0, width: 48, height: 48 &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export &#123; customElements, customConfig &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="编写index-js代码-1"><a href="#编写index-js代码-1" class="headerlink" title="编写index.js代码"></a>编写<code>index.js</code>代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">import Modeler from &#39;bpmn-js&#x2F;lib&#x2F;Modeler&#39;</span><br><span class="line">import inherits from &#39;inherits&#39;</span><br><span class="line">import CustomPalette from &#39;.&#x2F;palette&#x2F;CustomPalette&#39;</span><br><span class="line">import CustomRenderer from &#39;.&#x2F;renderer&#x2F;CustomRenderer&#39;</span><br><span class="line"></span><br><span class="line">const CustomModule &#x3D;  &#123;</span><br><span class="line">  __init__: [&#39;paletteProvider&#39;, &#39;customRenderer&#39;],</span><br><span class="line">  paletteProvider: [&#39;type&#39;, CustomPalette],</span><br><span class="line">  customRenderer: [&#39;type&#39;, CustomRenderer]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default function CustomModeler(options) &#123;</span><br><span class="line">  Modeler.call(this, options)</span><br><span class="line">  this._customElements &#x3D; []</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">inherits(CustomModeler, Modeler)</span><br><span class="line">CustomModeler.prototype._modules &#x3D; [].concat(</span><br><span class="line">  CustomModeler.prototype._modules, [</span><br><span class="line">    CustomModule</span><br><span class="line">  ]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h3 id="重写Renderer方法"><a href="#重写Renderer方法" class="headerlink" title="重写Renderer方法"></a>重写<code>Renderer</code>方法</h3><ul>
+<li>对于重写<code>Renderer</code>方法而言，只需修改<code>CustomRenderer.js</code>文件的代码，<code>index.js</code>和<code>utils.js</code>文件与在《默认的<code>Renderer</code>上进行自定义》的内容一致。</li>
+</ul>
+<h4 id="编写CustomRenderer-js代码-1"><a href="#编写CustomRenderer-js代码-1" class="headerlink" title="编写CustomRenderer.js代码"></a>编写<code>CustomRenderer.js</code>代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">import inherits from &#39;inherits&#39;</span><br><span class="line">import BaseRenderer from &#39;diagram-js&#x2F;lib&#x2F;draw&#x2F;BaseRenderer&#39;</span><br><span class="line">import &#123; append as svgAppend, create as svgCreate &#125; from &#39;tiny-svg&#39;</span><br><span class="line">import &#123; customElements, customConfig &#125; from &#39;..&#x2F;utils&#39;</span><br><span class="line"></span><br><span class="line">export default function CustomRenderer(eventBus) &#123;</span><br><span class="line">  BaseRenderer.call(this, eventBus, 2000)</span><br><span class="line"></span><br><span class="line">  this.drawCustomElements &#x3D; function(parentNode, element) &#123;</span><br><span class="line">    const type &#x3D; element.type &#x2F;&#x2F; 获取到类型</span><br><span class="line"></span><br><span class="line">    if (customElements.includes(type)) &#123; &#x2F;&#x2F; or customConfig[type]</span><br><span class="line">      const &#123; url, attr &#125; &#x3D; customConfig[type]</span><br><span class="line">      const customIcon &#x3D; svgCreate(&#39;image&#39;, &#123;</span><br><span class="line">        ...attr,</span><br><span class="line">        href: url</span><br><span class="line">      &#125;)</span><br><span class="line"></span><br><span class="line">      element[&#39;width&#39;] &#x3D; attr.width</span><br><span class="line">      element[&#39;height&#39;] &#x3D; attr.height</span><br><span class="line">      svgAppend(parentNode, customIcon)</span><br><span class="line"></span><br><span class="line">      return customIcon</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    const shape &#x3D; this.bpmnRenderer.drawShape(parentNode, element)</span><br><span class="line"></span><br><span class="line">    return shape</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">inherits(CustomRenderer, BaseRenderer)</span><br><span class="line"></span><br><span class="line">CustomRenderer.$inject &#x3D; [&#39;eventBus&#39;, &#39;styles&#39;]</span><br><span class="line"></span><br><span class="line">CustomRenderer.prototype.canRender &#x3D; function(element) &#123;</span><br><span class="line">  return !element.labelTarget</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">CustomRenderer.prototype.drawShape &#x3D; function(p, element) &#123;</span><br><span class="line">  return this.drawCustomElements(p, element)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">CustomRenderer.prototype.getShapePath &#x3D; function(shape) &#123;</span><br><span class="line">  console.log(shape)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="实现效果"><a href="#实现效果" class="headerlink" title="实现效果"></a>实现效果</h3><p><img src="/blog/images/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/1605249951861.jpg" alt="自定义`Renderer`效果"></p>
+<hr>
+<h2 id="自定义ContextPad"><a href="#自定义ContextPad" class="headerlink" title="自定义ContextPad"></a>自定义<code>ContextPad</code></h2><ul>
+<li><p>默认效果的<code>ContextPad</code>。</p>
+</li>
+<li><p>可以看到除了在左侧的工具栏处能添加节点之外, 点击节点的时候也会出现一个小弹窗, 这里面也可以添加节点。</p>
+</li>
+</ul>
+<p><img src="/blog/images/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/1605252528039.jpg" alt="`ContextPad`默认效果"></p>
+<h3 id="新建目录和文件-2"><a href="#新建目录和文件-2" class="headerlink" title="新建目录和文件"></a>新建目录和文件</h3><ul>
+<li>在<code>components -&gt; modeler</code>下新建<code>context-pad</code>文件夹，在<code>context-pad</code>文件夹下新建<code>CustomContextPad.js</code>文件。</li>
+</ul>
+<p><img src="/blog/images/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/1605252797758.jpg" alt="自定义`CustomContextPad`目录结构"></p>
+<h3 id="在默认的ContextPad上自定义"><a href="#在默认的ContextPad上自定义" class="headerlink" title="在默认的ContextPad上自定义"></a>在默认的<code>ContextPad</code>上自定义</h3><h4 id="编写CustomContextPad-js代码"><a href="#编写CustomContextPad-js代码" class="headerlink" title="编写CustomContextPad.js代码"></a>编写<code>CustomContextPad.js</code>代码</h4><ul>
+<li><p>其实自定义<code>ContextPad</code>和<code>Palette</code>很像, 只不过是使用<code>contextPad.registerProvider(this)</code>来指定它是一个<code>ContextPad</code>, 而自定义<code>Palette</code>是用<code>paltette.registerProvider(this)</code>。</p>
+</li>
+<li><p><code>getContextPadEntries</code>方法与自定义<code>palette</code>时候的<code>getPaletteEntries</code>方法返回的参数相似。</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">export default class CustomContextPad &#123;</span><br><span class="line">  constructor(config, contextPad, create, elementFactory, injector, translate) &#123;</span><br><span class="line">    this.create &#x3D; create</span><br><span class="line">    this.elementFactory &#x3D; elementFactory</span><br><span class="line">    this.translate &#x3D; translate</span><br><span class="line"></span><br><span class="line">    if (config.autoPlace !&#x3D;&#x3D; false) &#123;</span><br><span class="line">      this.autoPlace &#x3D; injector.get(&#39;autoPlace&#39;, false)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    contextPad.registerProvider(this)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  getContextPadEntries(element) &#123;</span><br><span class="line">    const &#123;</span><br><span class="line">      autoPlace,</span><br><span class="line">      create,</span><br><span class="line">      elementFactory,</span><br><span class="line">      translate</span><br><span class="line">    &#125; &#x3D; this</span><br><span class="line"></span><br><span class="line">    function appendTask(event, element) &#123;</span><br><span class="line">      if (autoPlace) &#123;</span><br><span class="line">        const shape &#x3D; elementFactory.createShape(&#123; type: &#39;bpmn:StartEvent&#39; &#125;)</span><br><span class="line">        autoPlace.append(element, shape)</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        appendTaskStart(event, element)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function appendTaskStart(event) &#123;</span><br><span class="line">      const shape &#x3D; elementFactory.createShape(&#123; type: &#39;bpmn:StartEvent&#39; &#125;)</span><br><span class="line">      create.start(event, shape, element)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return &#123;</span><br><span class="line">      &#39;append.test-start-event&#39;: &#123;</span><br><span class="line">        group: &#39;model&#39;,</span><br><span class="line">        className: &#39;icon-custom test-start-event&#39;,</span><br><span class="line">        title: translate(&#39;创建一个开始节点&#39;),</span><br><span class="line">        action: &#123;</span><br><span class="line">          click: appendTask,</span><br><span class="line">          dragstart: appendTaskStart</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">CustomContextPad.$inject &#x3D; [</span><br><span class="line">  &#39;config&#39;,</span><br><span class="line">  &#39;contextPad&#39;,</span><br><span class="line">  &#39;create&#39;,</span><br><span class="line">  &#39;elementFactory&#39;,</span><br><span class="line">  &#39;injector&#39;,</span><br><span class="line">  &#39;translate&#39;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<h4 id="编写index-js代码-2"><a href="#编写index-js代码-2" class="headerlink" title="编写index.js代码"></a>编写<code>index.js</code>代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">import Modeler from &#39;bpmn-js&#x2F;lib&#x2F;Modeler&#39;</span><br><span class="line">import inherits from &#39;inherits&#39;</span><br><span class="line">import CustomPalette from &#39;.&#x2F;palette&#x2F;CustomPalette&#39;</span><br><span class="line">import CustomRenderer from &#39;.&#x2F;renderer&#x2F;CustomRenderer&#39;</span><br><span class="line">import CustomContextPadProvider from &#39;.&#x2F;context-pad&#x2F;CustomContextPad&#39;</span><br><span class="line"></span><br><span class="line">const CustomModule &#x3D;  &#123;</span><br><span class="line">  __init__: [&#39;paletteProvider&#39;, &#39;customRenderer&#39;, &#39;contextPadProvider&#39;],</span><br><span class="line">  paletteProvider: [&#39;type&#39;, CustomPalette],</span><br><span class="line">  customRenderer: [&#39;type&#39;, CustomRenderer],</span><br><span class="line">  contextPadProvider: [&#39;type&#39;, CustomContextPadProvider]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default function CustomModeler(options) &#123;</span><br><span class="line">  Modeler.call(this, options)</span><br><span class="line">  this._customElements &#x3D; []</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">inherits(CustomModeler, Modeler)</span><br><span class="line">CustomModeler.prototype._modules &#x3D; [].concat(</span><br><span class="line">  CustomModeler.prototype._modules, [</span><br><span class="line">    CustomModule</span><br><span class="line">  ]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h4 id="编写样式-2"><a href="#编写样式-2" class="headerlink" title="编写样式"></a>编写样式</h4><ul>
+<li>在<code>App.vue</code>中增加样式。</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.djs-context-pad</span> <span class="selector-class">.test-start-event</span><span class="selector-class">.entry</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">url</span>(<span class="string">'https://zdgg-scrm.oss-cn-shanghai.aliyuncs.com/bpmn/liuchengkongzhi/start.png'</span>) center no-repeat <span class="meta">!important</span>;</span><br><span class="line">  <span class="attribute">background-size</span>: cover <span class="meta">!important</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.djs-context-pad</span> <span class="selector-class">.entry</span><span class="selector-pseudo">:hover</span> &#123; <span class="comment">/* 重新修改了 hover 之后的样式 */</span></span><br><span class="line">  <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#1890ff</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.djs-context-pad</span> <span class="selector-class">.entry</span> &#123;</span><br><span class="line">  <span class="attribute">box-sizing</span>: border-box;</span><br><span class="line">  <span class="attribute">background-size</span>: <span class="number">94%</span>;</span><br><span class="line">  <span class="attribute">transition</span>: all <span class="number">0.3s</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="重写ContextPad方法"><a href="#重写ContextPad方法" class="headerlink" title="重写ContextPad方法"></a>重写<code>ContextPad</code>方法</h3><ul>
+<li>重写<code>ContextPad</code>方法只需要修改<code>CustomContextPad.js</code>中的代码，对于<code>utils.js</code>和<code>App.vue</code>则与《在默认的<code>ContextPad</code>上自定义》相同。</li>
+</ul>
+<h4 id="编写CustomContextPad-js代码-1"><a href="#编写CustomContextPad-js代码-1" class="headerlink" title="编写CustomContextPad.js代码"></a>编写<code>CustomContextPad.js</code>代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">export default function ContextPadProvider(contextPad, config, injector, translate, bpmnFactory, elementFactory, create, modeling, connect) &#123;</span><br><span class="line">  this.create &#x3D; create</span><br><span class="line">  this.elementFactory &#x3D; elementFactory</span><br><span class="line">  this.translate &#x3D; translate</span><br><span class="line">  this.bpmnFactory &#x3D; bpmnFactory</span><br><span class="line">  this.modeling &#x3D; modeling</span><br><span class="line">  this.connect &#x3D; connect</span><br><span class="line"></span><br><span class="line">  config &#x3D; config || &#123;&#125;</span><br><span class="line"></span><br><span class="line">  if (config.autoPlace !&#x3D;&#x3D; false) &#123;</span><br><span class="line">    this._autoPlace &#x3D; injector.get(&#39;autoPlace&#39;, false)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  contextPad.registerProvider(this)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ContextPadProvider.$inject &#x3D; [</span><br><span class="line">  &#39;contextPad&#39;,</span><br><span class="line">  &#39;config&#39;,</span><br><span class="line">  &#39;injector&#39;,</span><br><span class="line">  &#39;translate&#39;,</span><br><span class="line">  &#39;bpmnFactory&#39;,</span><br><span class="line">  &#39;elementFactory&#39;,</span><br><span class="line">  &#39;create&#39;,</span><br><span class="line">  &#39;modeling&#39;,</span><br><span class="line">  &#39;connect&#39;</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">ContextPadProvider.prototype.getContextPadEntries &#x3D; function(element) &#123;</span><br><span class="line">  const &#123;</span><br><span class="line">    autoPlace,</span><br><span class="line">    create,</span><br><span class="line">    elementFactory,</span><br><span class="line">    translate</span><br><span class="line">  &#125; &#x3D; this</span><br><span class="line"></span><br><span class="line">  function appendTask(event, element) &#123;</span><br><span class="line">    if (autoPlace) &#123;</span><br><span class="line">      const shape &#x3D; elementFactory.createShape(&#123; type: &#39;bpmn:StartEvent&#39; &#125;)</span><br><span class="line">      autoPlace.append(element, shape)</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      appendTaskStart(event, element)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  function appendTaskStart(event) &#123;</span><br><span class="line">    const shape &#x3D; elementFactory.createShape(&#123; type: &#39;bpmn:StartEvent&#39; &#125;)</span><br><span class="line">    create.start(event, shape, element)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  return &#123;</span><br><span class="line">    &#39;append.test-start-event&#39;: &#123;</span><br><span class="line">      group: &#39;model&#39;,</span><br><span class="line">      className: &#39;icon-custom test-start-event&#39;,</span><br><span class="line">      title: translate(&#39;创建一个开始节点&#39;),</span><br><span class="line">      action: &#123;</span><br><span class="line">        click: appendTask,</span><br><span class="line">        dragstart: appendTaskStart</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="实现效果-1"><a href="#实现效果-1" class="headerlink" title="实现效果"></a>实现效果</h3><p><img src="/blog/images/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/1605252668249.jpg" alt="`ContextPad`自定义效果"></p>
+<hr>
+<h2 id="自定义连接线和箭头"><a href="#自定义连接线和箭头" class="headerlink" title="自定义连接线和箭头"></a>自定义连接线和箭头</h2><h3 id="默认效果"><a href="#默认效果" class="headerlink" title="默认效果"></a>默认效果</h3><p><img src="/blog/images/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/1605254672725.jpg" alt="默认效果"></p>
+<h3 id="修改连接线颜色"><a href="#修改连接线颜色" class="headerlink" title="修改连接线颜色"></a>修改连接线颜色</h3><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.djs-connection</span> &#123;</span><br><span class="line">  path &#123;</span><br><span class="line">    stroke: blue <span class="meta">!important</span>;</span><br><span class="line">    marker-end: url(#sequenceflow-arrow-normal) <span class="meta">!important</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/blog/images/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/1605254549761.jpg" alt="修改连接线颜色"></p>
+<h3 id="自定义箭头"><a href="#自定义箭头" class="headerlink" title="自定义箭头"></a>自定义箭头</h3><ul>
+<li><p>绘制箭头需要有一定的<code>svg</code>开发能力，因为<code>Render</code>中的所有节点都是以<code>svg</code>进行呈现的。</p>
+</li>
+<li><p>自定义<code>svg</code>需要引入以下两个包。</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import &#123; append as svgAppend, attr as svgAttr, create as svgCreate &#125; from &#39;tiny-svg&#39;</span><br><span class="line">import &#123; query as domQuery &#125; from &#39;min-dom&#39;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>修改装载<code>xml</code>时候的方法。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">bpmnModeler.importXML(xml).then(() &#x3D;&gt; &#123;</span><br><span class="line">  const marker &#x3D; svgCreate(&#39;marker&#39;)</span><br><span class="line"></span><br><span class="line">  svgAttr(marker, &#123;</span><br><span class="line">    id: &#39;#sequenceflow-arrow-normal&#39;,</span><br><span class="line">    viewBox: &#39;0 0 20 20&#39;,</span><br><span class="line">    refX: &#39;11&#39;,</span><br><span class="line">    refY: &#39;10&#39;,</span><br><span class="line">    markerWidth: &#39;10&#39;,</span><br><span class="line">    markerHeight: &#39;10&#39;,</span><br><span class="line">    orient: &#39;auto&#39;</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  const path &#x3D; svgCreate(&#39;path&#39;)</span><br><span class="line"></span><br><span class="line">  svgAttr(path, &#123;</span><br><span class="line">    d: &#39;M 1 5 L 11 10 L 1 15 Z&#39;,</span><br><span class="line">    style:</span><br><span class="line">      &#39; stroke-width: 1px; stroke-linecap: round; stroke-dasharray: 10000, 1; &#39;</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  const defs &#x3D; domQuery(&#39;defs&#39;)</span><br><span class="line">  svgAppend(marker, path)</span><br><span class="line">  svgAppend(defs, marker)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="实现效果-2"><a href="#实现效果-2" class="headerlink" title="实现效果"></a>实现效果</h3><p><img src="/blog/images/BPMN%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%AE%80%E8%BF%B0/1605255869265.jpg" alt="实现效果"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/bpmn/" rel="tag"># bpmn</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2020/09/28/CocosCreator%E7%AE%80%E8%BF%B0/" rel="next" title="cocos creator简述">
+                <i class="fa fa-chevron-left"></i> cocos creator简述
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">songjianet</p>
+              <p class="site-description motion-element" itemprop="description">佛系码农</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/blog/archives">
+              
+                  <span class="site-state-item-count">69</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/blog/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/blog/tags/index.html">
+                  <span class="site-state-item-count">115</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/songjianet" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:1778651752@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基础概念"><span class="nav-number">2.</span> <span class="nav-text">基础概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bpmn2-0规范的xml介绍"><span class="nav-number">3.</span> <span class="nav-text">bpmn2.0规范的xml介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">4.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#快速上手"><span class="nav-number">5.</span> <span class="nav-text">快速上手</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Viewer查看器"><span class="nav-number">5.1.</span> <span class="nav-text">使用Viewer查看器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用NavigatedViewer包含鼠标导航工具的查看器"><span class="nav-number">5.2.</span> <span class="nav-text">使用NavigatedViewer包含鼠标导航工具的查看器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Modeler编辑器"><span class="nav-number">5.3.</span> <span class="nav-text">使用Modeler编辑器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#节点属性配置面板"><span class="nav-number">5.4.</span> <span class="nav-text">节点属性配置面板</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#全局操作"><span class="nav-number">6.</span> <span class="nav-text">全局操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#上一步"><span class="nav-number">6.1.</span> <span class="nav-text">上一步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下一步"><span class="nav-number">6.2.</span> <span class="nav-text">下一步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#放大"><span class="nav-number">6.3.</span> <span class="nav-text">放大</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缩小"><span class="nav-number">6.4.</span> <span class="nav-text">缩小</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输入框控制缩放"><span class="nav-number">6.5.</span> <span class="nav-text">输入框控制缩放</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#适应画布"><span class="nav-number">6.6.</span> <span class="nav-text">适应画布</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#打开"><span class="nav-number">6.7.</span> <span class="nav-text">打开</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#新建"><span class="nav-number">6.8.</span> <span class="nav-text">新建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重做"><span class="nav-number">6.9.</span> <span class="nav-text">重做</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下载xml"><span class="nav-number">6.10.</span> <span class="nav-text">下载xml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下载svg"><span class="nav-number">6.11.</span> <span class="nav-text">下载svg</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#保存"><span class="nav-number">6.12.</span> <span class="nav-text">保存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缩略预览"><span class="nav-number">6.13.</span> <span class="nav-text">缩略预览</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义Palette"><span class="nav-number">7.</span> <span class="nav-text">自定义Palette</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#新建目录和文件"><span class="nav-number">7.1.</span> <span class="nav-text">新建目录和文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于Modeler中的Palette进行自定义"><span class="nav-number">7.2.</span> <span class="nav-text">基于Modeler中的Palette进行自定义</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#编写CustomPalette-js代码"><span class="nav-number">7.2.1.</span> <span class="nav-text">编写CustomPalette.js代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#编写index-js文件"><span class="nav-number">7.2.2.</span> <span class="nav-text">编写index.js文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在vue文件中引入"><span class="nav-number">7.2.3.</span> <span class="nav-text">在vue文件中引入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#编写样式"><span class="nav-number">7.2.4.</span> <span class="nav-text">编写样式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看效果"><span class="nav-number">7.2.5.</span> <span class="nav-text">查看效果</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重写Palette方法"><span class="nav-number">7.3.</span> <span class="nav-text">重写Palette方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#编写CustomPalette-js代码-1"><span class="nav-number">7.3.1.</span> <span class="nav-text">编写CustomPalette.js代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#编写index-js代码"><span class="nav-number">7.3.2.</span> <span class="nav-text">编写index.js代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在vue文件中引入-1"><span class="nav-number">7.3.3.</span> <span class="nav-text">在vue文件中引入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#编写样式-1"><span class="nav-number">7.3.4.</span> <span class="nav-text">编写样式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#产看效果"><span class="nav-number">7.3.5.</span> <span class="nav-text">产看效果</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改Palette样式"><span class="nav-number">7.4.</span> <span class="nav-text">修改Palette样式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义Renderer"><span class="nav-number">8.</span> <span class="nav-text">自定义Renderer</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#新建目录和文件-1"><span class="nav-number">8.1.</span> <span class="nav-text">新建目录和文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在默认的Renderer上进行自定义"><span class="nav-number">8.2.</span> <span class="nav-text">在默认的Renderer上进行自定义</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#编写CustomRenderer-js代码"><span class="nav-number">8.2.1.</span> <span class="nav-text">编写CustomRenderer.js代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#编写utils-js代码"><span class="nav-number">8.2.2.</span> <span class="nav-text">编写utils.js代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#编写index-js代码-1"><span class="nav-number">8.2.3.</span> <span class="nav-text">编写index.js代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重写Renderer方法"><span class="nav-number">8.3.</span> <span class="nav-text">重写Renderer方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#编写CustomRenderer-js代码-1"><span class="nav-number">8.3.1.</span> <span class="nav-text">编写CustomRenderer.js代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现效果"><span class="nav-number">8.4.</span> <span class="nav-text">实现效果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义ContextPad"><span class="nav-number">9.</span> <span class="nav-text">自定义ContextPad</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#新建目录和文件-2"><span class="nav-number">9.1.</span> <span class="nav-text">新建目录和文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在默认的ContextPad上自定义"><span class="nav-number">9.2.</span> <span class="nav-text">在默认的ContextPad上自定义</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#编写CustomContextPad-js代码"><span class="nav-number">9.2.1.</span> <span class="nav-text">编写CustomContextPad.js代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#编写index-js代码-2"><span class="nav-number">9.2.2.</span> <span class="nav-text">编写index.js代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#编写样式-2"><span class="nav-number">9.2.3.</span> <span class="nav-text">编写样式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重写ContextPad方法"><span class="nav-number">9.3.</span> <span class="nav-text">重写ContextPad方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#编写CustomContextPad-js代码-1"><span class="nav-number">9.3.1.</span> <span class="nav-text">编写CustomContextPad.js代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现效果-1"><span class="nav-number">9.4.</span> <span class="nav-text">实现效果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义连接线和箭头"><span class="nav-number">10.</span> <span class="nav-text">自定义连接线和箭头</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#默认效果"><span class="nav-number">10.1.</span> <span class="nav-text">默认效果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改连接线颜色"><span class="nav-number">10.2.</span> <span class="nav-text">修改连接线颜色</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义箭头"><span class="nav-number">10.3.</span> <span class="nav-text">自定义箭头</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现效果-2"><span class="nav-number">10.4.</span> <span class="nav-text">实现效果</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">songjianet</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">全站总字数&#58;</span>
+    
+    <span title="全站总字数">62.4k</span>
+  
+</div>
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/blog/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("tnShnVs7Somna4Addyb8SQJx-gzGzoHsz", "KY89RvNsxFH2zEk5hqBfVlIa");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

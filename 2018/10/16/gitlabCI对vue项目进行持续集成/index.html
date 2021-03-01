@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=5.0.13" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
+<link href="/blog/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/blog/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="vue,CentOS7,Gitlab runner,Gitlab ci,Shell,tcp,Docker,Dockerfile," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="什么是持续集成​    在软件工程中，持续集成（CI）是指将所有开发者的工作副本每天多次合并到主干的做法。Grady Booch 在1991年的 Booch method 中首次命名并提出了 CI 的概念，尽管在当时他并不主张每天多次集成。而 XP（Extreme programming，极限编程）采用了 CI 的概念，并提倡每天不止一次集成。 使用Gitlib CI持续集成​    在七月份的时">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gitlab CI对vue项目进行持续集成">
+<meta property="og:url" content="https://songjianet.github.io/blog/2018/10/16/gitlabCI%E5%AF%B9vue%E9%A1%B9%E7%9B%AE%E8%BF%9B%E8%A1%8C%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/index.html">
+<meta property="og:site_name" content="songjianet">
+<meta property="og:description" content="什么是持续集成​    在软件工程中，持续集成（CI）是指将所有开发者的工作副本每天多次合并到主干的做法。Grady Booch 在1991年的 Booch method 中首次命名并提出了 CI 的概念，尽管在当时他并不主张每天多次集成。而 XP（Extreme programming，极限编程）采用了 CI 的概念，并提倡每天不止一次集成。 使用Gitlib CI持续集成​    在七月份的时">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/gitlabCI%E5%AF%B9vue%E9%A1%B9%E7%9B%AE%E8%BF%9B%E8%A1%8C%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/1.png">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/gitlabCI%E5%AF%B9vue%E9%A1%B9%E7%9B%AE%E8%BF%9B%E8%A1%8C%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/2.png">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/gitlabCI%E5%AF%B9vue%E9%A1%B9%E7%9B%AE%E8%BF%9B%E8%A1%8C%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/3.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/gitlabCI%E5%AF%B9vue%E9%A1%B9%E7%9B%AE%E8%BF%9B%E8%A1%8C%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/4.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/gitlabCI%E5%AF%B9vue%E9%A1%B9%E7%9B%AE%E8%BF%9B%E8%A1%8C%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/5.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/gitlabCI%E5%AF%B9vue%E9%A1%B9%E7%9B%AE%E8%BF%9B%E8%A1%8C%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/6.jpg">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/gitlabCI%E5%AF%B9vue%E9%A1%B9%E7%9B%AE%E8%BF%9B%E8%A1%8C%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/7.png">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/gitlabCI%E5%AF%B9vue%E9%A1%B9%E7%9B%AE%E8%BF%9B%E8%A1%8C%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/8.jpg">
+<meta property="article:published_time" content="2018-10-16T15:32:04.000Z">
+<meta property="article:modified_time" content="2018-10-17T13:43:15.000Z">
+<meta property="article:author" content="songjianet">
+<meta property="article:tag" content="vue">
+<meta property="article:tag" content="CentOS7">
+<meta property="article:tag" content="Gitlab runner">
+<meta property="article:tag" content="Gitlab ci">
+<meta property="article:tag" content="Shell">
+<meta property="article:tag" content="tcp">
+<meta property="article:tag" content="Docker">
+<meta property="article:tag" content="Dockerfile">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://songjianet.github.io/blog/images/gitlabCI%E5%AF%B9vue%E9%A1%B9%E7%9B%AE%E8%BF%9B%E8%A1%8C%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://songjianet.github.io/blog/2018/10/16/gitlabCI对vue项目进行持续集成/"/>
+
+
+
+
+
+  <title>Gitlab CI对vue项目进行持续集成 | songjianet</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-179158342-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?438c779a7f3be467cf001cecb671aed7";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">songjianet</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/blog/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://songjianet.github.io/blog/blog/2018/10/16/gitlabCI%E5%AF%B9vue%E9%A1%B9%E7%9B%AE%E8%BF%9B%E8%A1%8C%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="songjianet">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/blog/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="songjianet">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Gitlab CI对vue项目进行持续集成</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-16T15:32:04+00:00">
+                2018-10-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/Git/" itemprop="url" rel="index">
+                    <span itemprop="name">Git</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/blog/2018/10/16/gitlabCI%E5%AF%B9vue%E9%A1%B9%E7%9B%AE%E8%BF%9B%E8%A1%8C%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/" class="leancloud_visitors" data-flag-title="Gitlab CI对vue项目进行持续集成">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2.2k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  8 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="什么是持续集成"><a href="#什么是持续集成" class="headerlink" title="什么是持续集成"></a>什么是持续集成</h4><p>​    在软件工程中，持续集成（CI）是指将所有开发者的工作副本每天多次合并到主干的做法。Grady Booch 在1991年的 Booch method 中首次命名并提出了 CI 的概念，尽管在当时他并不主张每天多次集成。而 XP（Extreme programming，极限编程）采用了 CI 的概念，并提倡每天不止一次集成。</p>
+<h4 id="使用Gitlib-CI持续集成"><a href="#使用Gitlib-CI持续集成" class="headerlink" title="使用Gitlib CI持续集成"></a>使用Gitlib CI持续集成</h4><p>​    在七月份的时候离职来到了一个初创型的公司，参与了不少的公司基础环境配置。对代码管理使用了本地Gitlib，使用docker pull下来的Gitlib镜像。所以对于我司项目的持续集成开始也考虑过Jenkins等，但是最后决定使用Gitlib的CI进行持续集成，不仅缩小了硬件资源，而且Gitlib本身集成了CI，使用起来会更方便。</p>
+<h4 id="使用Gitlib-CI的基本流程"><a href="#使用Gitlib-CI的基本流程" class="headerlink" title="使用Gitlib CI的基本流程"></a>使用Gitlib CI的基本流程</h4><p>​    对于前四步我在这里就不进行介绍了，主要从Runner机器的环境配置开始一步步的介绍。</p>
+<p>​    1.安装至少两台CentOS7系统的机器</p>
+<p>​    2.在一台机器上面安装docker</p>
+<p>​    3.然后在docker环境中安装Gitlib</p>
+<p>​    4.准备一个vue项目，提交到Gitlib中</p>
+<p>​    5.在另一台机器中安装Runner</p>
+<p>​    6.将Runner与Gitlib中的vue项目进行关联</p>
+<p>​    7.更改docker服务tcp</p>
+<p>​    8.编写CI文件</p>
+<p>​    9.编写Dockerfile文件</p>
+<p>​    9.反复的提交，更改直到解决问题</p>
+<h4 id="安装Runner"><a href="#安装Runner" class="headerlink" title="安装Runner"></a>安装Runner</h4><h5 id="参考网址"><a href="#参考网址" class="headerlink" title="参考网址"></a>参考网址</h5><p><a href="https://docs.gitlab.com/runner/install/" target="_blank" rel="noopener"> Gitlib Runner </a>官网</p>
+<p><a href="https://docs.gitlab.com/runner/install/docker.html#docker-image-installation-and-configuration" target="_blank" rel="noopener"> Gitlib Runner Docker </a>环境安装文档</p>
+<p><a href="https://docs.gitlab.com/runner/register/index.html#docker" target="_blank" rel="noopener"> Gitlib Runner Docker </a>注册</p>
+<h5 id="1-安装docker"><a href="#1-安装docker" class="headerlink" title="1.安装docker"></a>1.安装docker</h5><p>​    安装docker环境，建议使用官网的安装方式，不要使用yum等其他方式。因为官网的脚本对系统环境进        行了一些基础的配置。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -sSL https://get.docker.com/ | sh</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-编写安装脚本install-sh"><a href="#2-编写安装脚本install-sh" class="headerlink" title="2.编写安装脚本install.sh"></a>2.编写安装脚本install.sh</h5><p>​    我们可以看到，官网的安装命令其实很长的，为此我们可以封装一个shell脚本，每次通过sh命令去执行脚本进行安装。而且按照官网的安装方式还会有一个bug，我们在文章的最后会进行介绍，当然你也可以先去查看<a href="#gitlab-runner"> gitlab-runner </a>。</p>
+<p>​    <img src="/blog/images/gitlabCI%E5%AF%B9vue%E9%A1%B9%E7%9B%AE%E8%BF%9B%E8%A1%8C%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/1.png" alt="1">    </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker stop gitlab-runner</span><br><span class="line">docker rm gitlab-runner</span><br><span class="line"></span><br><span class="line">docker run -d --name gitlab-runner --restart always \</span><br><span class="line">  -v /srv/runner/config:/etc/gitlab-runner \</span><br><span class="line">  -v /var/run/docker.sock:/var/run/docker.sock \</span><br><span class="line">  gitlab/gitlab-runner:latest</span><br></pre></td></tr></table></figure>
+
+<h5 id="3-编写注册脚本register-sh"><a href="#3-编写注册脚本register-sh" class="headerlink" title="3.编写注册脚本register.sh"></a>3.编写注册脚本register.sh</h5><p>​    在我们把安装完Runner的镜像后，我们要进行Runner机器的注册。通过注册，我们能够与Gitlib的项目进行绑定。但是由于使用命令行注册很麻烦，所以我们要将注册编写成一个shell脚本，在这里要对url和token等一系列信息进行设置。<p style="color: red;">秘钥来自于Gitlib中你所选择的项目中的秘钥。</p></p>
+<p><img src="/blog/images/gitlabCI%E5%AF%B9vue%E9%A1%B9%E7%9B%AE%E8%BF%9B%E8%A1%8C%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/2.png" alt="2"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">docker run --rm -t -i -v &#x2F;srv&#x2F;runner&#x2F;config:&#x2F;etc&#x2F;gitlab-runner --name gitlab-runner gitlab&#x2F;gitlab-runner register \</span><br><span class="line">  --non-interactive \</span><br><span class="line">  --executor &quot;docker&quot; \</span><br><span class="line">  --docker-image alpine:latest \</span><br><span class="line">  --url &quot;http:&#x2F;&#x2F;git.star&#x2F;&quot; \</span><br><span class="line">  --registration-token &quot;-my3Ce2mNjw1ByU56BAG&quot; \</span><br><span class="line">  --description &quot;docker-runner&quot; \</span><br><span class="line">  --tag-list &quot;admin&quot; \</span><br><span class="line">  --run-untagged \</span><br><span class="line">  --locked&#x3D;&quot;false&quot;</span><br></pre></td></tr></table></figure>
+
+<h5 id="4-首先执行注册脚本，然后在执行安装脚本"><a href="#4-首先执行注册脚本，然后在执行安装脚本" class="headerlink" title="4.首先执行注册脚本，然后在执行安装脚本"></a>4.首先执行注册脚本，然后在执行安装脚本</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sh register.sh</span><br><span class="line">sh install.sh</span><br></pre></td></tr></table></figure>
+
+<h5 id="5-查看Runner是否创建成功"><a href="#5-查看Runner是否创建成功" class="headerlink" title="5.查看Runner是否创建成功"></a>5.查看Runner是否创建成功</h5><p>​    出现绿色圆圈表示创建成功。</p>
+<p><img src="/blog/images/gitlabCI%E5%AF%B9vue%E9%A1%B9%E7%9B%AE%E8%BF%9B%E8%A1%8C%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/3.jpg" alt="3"></p>
+<h4 id="修改Runner机器中docker服务的tcp"><a href="#修改Runner机器中docker服务的tcp" class="headerlink" title="修改Runner机器中docker服务的tcp"></a>修改Runner机器中docker服务的tcp</h4><p>​    使用vim找到/lib/systemd/system/docker.service这个文件，进行编辑。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;lib&#x2F;systemd&#x2F;system&#x2F;docker.service</span><br></pre></td></tr></table></figure>
+
+<p>​    找到这段代码ExecStart=/usr/bin/dockerd，在后面添加。</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ExecStart=/usr/bin/dockerd -H unix:///var/run/docker.sock -H tcp://<span class="number">0.0</span>.<span class="number">0.0</span>:<span class="number">2375</span></span><br></pre></td></tr></table></figure>
+
+<p>​    重新加载配置文件，重启docker服务。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl restart docker</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="编写CI文件"><a href="#编写CI文件" class="headerlink" title="编写CI文件"></a>编写CI文件</h4><p><a href="https://fennay.github.io/gitlab-ci-cn/gitlab-ci-yaml.html" target="_blank" rel="noopener"> CI文件 </a>文档</p>
+<h5 id="1-在根目录中创建一个名问-gitlab-ci-yml的文件"><a href="#1-在根目录中创建一个名问-gitlab-ci-yml的文件" class="headerlink" title="1.在根目录中创建一个名问.gitlab-ci.yml的文件"></a>1.在根目录中创建一个名问.gitlab-ci.yml的文件</h5><h5 id="2-编写CI文件"><a href="#2-编写CI文件" class="headerlink" title="2.编写CI文件"></a>2.编写CI文件</h5><p>​    在文件中涉及到了一个dind的镜像，这个镜像允许我们在dind容器中使用docker命令，在文章的最后我会对其进行讲解，当然你也可以现在去查看<a href="#dind"> dind </a>。</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">image:</span> <span class="string">docker:stable</span> <span class="comment"># 基础镜像</span></span><br><span class="line"></span><br><span class="line"><span class="attr">variables:</span></span><br><span class="line">  <span class="attr">DOCKER_HOST:</span> <span class="string">tcp://dev.star:2376</span> <span class="comment"># tcp</span></span><br><span class="line">  <span class="attr">DOCKER_DRIVER:</span> <span class="string">overlay2</span> <span class="comment"># 驱动</span></span><br><span class="line"></span><br><span class="line"><span class="attr">stages:</span> <span class="comment"># 整个持续集成分成两步</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">build</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">deploy</span></span><br><span class="line"></span><br><span class="line"><span class="attr">build project:</span> <span class="comment"># job name</span></span><br><span class="line">  <span class="attr">image:</span> <span class="string">node</span> <span class="comment"># 使用node镜像</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">build</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">npm</span> <span class="string">install</span> <span class="string">-g</span> <span class="string">cnpm</span> <span class="string">--registry=https://registry.npm.taobao.org</span> <span class="comment"># cnpm</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">cnpm</span> <span class="string">install</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">cnpm</span> <span class="string">run</span> <span class="string">build</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">cp</span> <span class="string">-r</span> <span class="string">Dockerfile</span> <span class="string">admin</span> <span class="comment"># 拷贝dockerfile文件</span></span><br><span class="line">  <span class="attr">cache:</span></span><br><span class="line">    <span class="attr">paths:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">node_modules/</span> <span class="comment"># 为node_modules增加缓存</span></span><br><span class="line">  <span class="attr">artifacts:</span></span><br><span class="line">    <span class="attr">expire_in:</span> <span class="number">1</span> <span class="string">week</span> <span class="comment"># 生成文件保存周期</span></span><br><span class="line">    <span class="attr">paths:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">dist</span> <span class="comment"># 编译后生成的文件夹名</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">docker:dind</span> <span class="comment"># docker in docker Gitlib官方推荐支持docker命令的docker容器，关于docker in docker我们会在文章最后进行讲解</span></span><br><span class="line"></span><br><span class="line"><span class="attr">deploy project:</span> <span class="comment"># job name</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">deploy</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">docker</span> <span class="string">build</span> <span class="string">-t</span> <span class="string">hema-admin-page</span> <span class="string">.</span> <span class="comment"># 通过dockerfile构建docker images</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">docker</span> <span class="string">stop</span> <span class="string">hema-admin-page</span> <span class="string">||</span> <span class="literal">true</span> <span class="comment"># 通过true解决流水线重启后容器依旧存在问题</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">docker</span> <span class="string">rm</span> <span class="string">hema-admin-page</span> <span class="string">||</span> <span class="literal">true</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">docker</span> <span class="string">run</span> <span class="string">--rm</span> <span class="string">-d</span> <span class="string">-p</span> <span class="number">8082</span><span class="string">:80</span> <span class="string">--name</span> <span class="string">hema-admin-page</span> <span class="string">hema-admin-page</span> <span class="comment"># 启动这个镜像</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="编写Dockerfile文件"><a href="#编写Dockerfile文件" class="headerlink" title="编写Dockerfile文件"></a>编写Dockerfile文件</h4><p>​    在上面的CI文件中，我们看到了Dockerfile文件，这个文件也是在根目录下创建。<p style="color: red;">但是需要用命令创建，因为windows本身不支持创建不带文件后缀名的文件，当然也可以不用windows。</p>至于这个Dockerfile文件的用途就是pull一个nginx镜像，然后将我们在CI文件中编译出来的dist文件夹里面的内容拷贝到nginx的html目录中，然后在CI中的deploy环节build，run。</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> nginx</span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> ./dist/ /usr/share/nginx/html</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">80</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="提交代码测试"><a href="#提交代码测试" class="headerlink" title="提交代码测试"></a>提交代码测试</h4><p>​    接下来我们要把.gitlab-ci.yml和Dockerfile文件提交到代码仓库，这时候在对应的项目中我们点击CI/CD能看到我们的持续集成的任务跑起来，但是有成功，有失败，很难一次成功，所以要反复的调试。</p>
+<p><img src="/blog/images/gitlabCI%E5%AF%B9vue%E9%A1%B9%E7%9B%AE%E8%BF%9B%E8%A1%8C%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/4.jpg" alt="4"></p>
+<p>​    我们可以点击状态进入终端模式查看CI文件执行到了哪一步。</p>
+<p><img src="/blog/images/gitlabCI%E5%AF%B9vue%E9%A1%B9%E7%9B%AE%E8%BF%9B%E8%A1%8C%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/5.jpg" alt="5"></p>
+<br>
+
+<p><img src="/blog/images/gitlabCI%E5%AF%B9vue%E9%A1%B9%E7%9B%AE%E8%BF%9B%E8%A1%8C%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/6.jpg" alt="6"></p>
+<h4 id="有坑的环节"><a href="#有坑的环节" class="headerlink" title="有坑的环节"></a>有坑的环节</h4><h5 id="1-Gitlib-runner"><a href="#1-Gitlib-runner" class="headerlink" title="1.Gitlib runner"></a><p id="gitlab-runner">1.Gitlib runner</p></h5><p>​    我们在安装好docker的时候，官网推荐我们通过下面的这个命令下载并启动这个镜像容器。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name gitlab-runner --restart always \</span><br><span class="line">  -v /srv/runner/config:/etc/gitlab-runner \</span><br><span class="line">  -v /var/run/docker.sock:/var/run/docker.sock \</span><br><span class="line">  gitlab/gitlab-runner:latest</span><br></pre></td></tr></table></figure>
+
+<p>​    但是我们使用这个命令后，到了注册环节，官网给出的注册方式竟然也带了启动命令，看下面这段代码，但是这个容器并不会被创建，因为在下载的时候我们已经进行了容器的启动，所以会提示当前已经有个gitlab-runner的容器正在运行了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --rm -t -i -v &#x2F;srv&#x2F;runner&#x2F;config:&#x2F;etc&#x2F;gitlab-runner --name gitlab-runner gitlab&#x2F;gitlab-runner register</span><br></pre></td></tr></table></figure>
+
+<p>​    为此，我想到了一种解决办法。我们去执行第一条命令下载并启动容器的命令后通过stop和rm命令，将容器停止并删除<p style="color: red;">（一定要先停止容器，在删除容器，否则会报错，这是docker运行机制决定的，或者可以强制删除容器）</p>，然后执行注册的命令，这时候容器已经启动，我们可以docker ps进行查看，到这里并不是结束，如果不去执行第一条命令，我们的会看到这个结果。</p>
+<p><img src="/blog/images/gitlabCI%E5%AF%B9vue%E9%A1%B9%E7%9B%AE%E8%BF%9B%E8%A1%8C%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/7.png" alt="7"></p>
+<p>​    这个三角形感叹号出现表示秘钥连接成功，但是我们的容器并不是在真正的运行，说白了，就是没有挂载第一条命令中的docker.sock文件，所以我们将容器停止删除掉后，再去执行第一条命令。</p>
+<p>​    之所以要通过shell脚本进行安装和注册，就是因为中间的过程坑比较多。</p>
+<h5 id="2-dind"><a href="#2-dind" class="headerlink" title="2.dind"></a><p id="dind">2.dind</p></h5><p>​    首先，我们为什么要用到dind这个镜像，因为我们在CI文件中的deploy环节中，如果直接使用nginx镜像，我们提交到仓库后，这个镜像默认是自动启动的，切没有指定tcp端口，所以我们在页面中无法查看。你也可能说我们可以将docker命令写到这个环节中，但是这样会报出一个没有docker命令的错误。导致这个错误产生的原因就是我们的nginx镜像已经启动，并且进去了这个容器中，但是这个nginx容器并没有docker命令。</p>
+<p>​    <img src="/blog/images/gitlabCI%E5%AF%B9vue%E9%A1%B9%E7%9B%AE%E8%BF%9B%E8%A1%8C%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/8.jpg" alt="8"></p>
+<p>​    所以，我们需要在docker容器中使用docker命令去下载一个nginx镜像，然后对这个镜像进行run。而Gitlib官方推荐我们的方式就是使用dind镜像，我们通过启动这个镜像，将我们的Dockerfile文件build出来一个新的镜像，然后去启动这个镜像。</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>​    对于持续集成在开发和部署过程中起到了非常大的作用，在第一次环境部署的过程中可能会很繁琐，但是在以后开发，团队协作的过程中，减少了团队的耦合性。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/vue/" rel="tag"># vue</a>
+          
+            <a href="/blog/tags/CentOS7/" rel="tag"># CentOS7</a>
+          
+            <a href="/blog/tags/Gitlab-runner/" rel="tag"># Gitlab runner</a>
+          
+            <a href="/blog/tags/Gitlab-ci/" rel="tag"># Gitlab ci</a>
+          
+            <a href="/blog/tags/Shell/" rel="tag"># Shell</a>
+          
+            <a href="/blog/tags/tcp/" rel="tag"># tcp</a>
+          
+            <a href="/blog/tags/Docker/" rel="tag"># Docker</a>
+          
+            <a href="/blog/tags/Dockerfile/" rel="tag"># Dockerfile</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2018/09/12/nuxt%E6%95%B4%E5%90%88iView/" rel="next" title="nuxt整合iView">
+                <i class="fa fa-chevron-left"></i> nuxt整合iView
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2018/12/09/Git%E4%BB%A3%E7%90%86/" rel="prev" title="Git代理">
+                Git代理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">songjianet</p>
+              <p class="site-description motion-element" itemprop="description">佛系码农</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/blog/archives">
+              
+                  <span class="site-state-item-count">69</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/blog/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/blog/tags/index.html">
+                  <span class="site-state-item-count">115</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/songjianet" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:1778651752@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是持续集成"><span class="nav-number">1.</span> <span class="nav-text">什么是持续集成</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用Gitlib-CI持续集成"><span class="nav-number">2.</span> <span class="nav-text">使用Gitlib CI持续集成</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用Gitlib-CI的基本流程"><span class="nav-number">3.</span> <span class="nav-text">使用Gitlib CI的基本流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装Runner"><span class="nav-number">4.</span> <span class="nav-text">安装Runner</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#参考网址"><span class="nav-number">4.1.</span> <span class="nav-text">参考网址</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-安装docker"><span class="nav-number">4.2.</span> <span class="nav-text">1.安装docker</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-编写安装脚本install-sh"><span class="nav-number">4.3.</span> <span class="nav-text">2.编写安装脚本install.sh</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-编写注册脚本register-sh"><span class="nav-number">4.4.</span> <span class="nav-text">3.编写注册脚本register.sh</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-首先执行注册脚本，然后在执行安装脚本"><span class="nav-number">4.5.</span> <span class="nav-text">4.首先执行注册脚本，然后在执行安装脚本</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-查看Runner是否创建成功"><span class="nav-number">4.6.</span> <span class="nav-text">5.查看Runner是否创建成功</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改Runner机器中docker服务的tcp"><span class="nav-number">5.</span> <span class="nav-text">修改Runner机器中docker服务的tcp</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#编写CI文件"><span class="nav-number">6.</span> <span class="nav-text">编写CI文件</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-在根目录中创建一个名问-gitlab-ci-yml的文件"><span class="nav-number">6.1.</span> <span class="nav-text">1.在根目录中创建一个名问.gitlab-ci.yml的文件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-编写CI文件"><span class="nav-number">6.2.</span> <span class="nav-text">2.编写CI文件</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#编写Dockerfile文件"><span class="nav-number">7.</span> <span class="nav-text">编写Dockerfile文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#提交代码测试"><span class="nav-number">8.</span> <span class="nav-text">提交代码测试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#有坑的环节"><span class="nav-number">9.</span> <span class="nav-text">有坑的环节</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-Gitlib-runner"><span class="nav-number">9.1.</span> <span class="nav-text">1.Gitlib runner</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-dind"><span class="nav-number">9.2.</span> <span class="nav-text">2.dind</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总结"><span class="nav-number">10.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">songjianet</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">全站总字数&#58;</span>
+    
+    <span title="全站总字数">62.4k</span>
+  
+</div>
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/blog/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("tnShnVs7Somna4Addyb8SQJx-gzGzoHsz", "KY89RvNsxFH2zEk5hqBfVlIa");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

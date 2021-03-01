@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=5.0.13" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
+<link href="/blog/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/blog/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="vue," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="基本介绍所谓render其实是vue的一个私有方法，这个方法用来将实例vm转换成虚拟的node，这个方法的定义在src&#x2F;core&#x2F;instance&#x2F;render.js文件中。  render的实现首先在源码中的src&#x2F;core&#x2F;instance&#x2F;index.js方法中，能够看到关于renderMixin这个方法。 123import &amp;#123; renderMixin &amp;#125; from &#39;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入解读vue源码（六）render">
+<meta property="og:url" content="https://songjianet.github.io/blog/2019/06/28/%E6%B7%B1%E5%85%A5%E8%A7%A3%E8%AF%BBvue%E6%BA%90%E7%A0%81%EF%BC%88%E5%85%AD%EF%BC%89render/index.html">
+<meta property="og:site_name" content="songjianet">
+<meta property="og:description" content="基本介绍所谓render其实是vue的一个私有方法，这个方法用来将实例vm转换成虚拟的node，这个方法的定义在src&#x2F;core&#x2F;instance&#x2F;render.js文件中。  render的实现首先在源码中的src&#x2F;core&#x2F;instance&#x2F;index.js方法中，能够看到关于renderMixin这个方法。 123import &amp;#123; renderMixin &amp;#125; from &#39;">
+<meta property="og:image" content="https://songjianet.github.io/blog/images/%E6%B7%B1%E5%85%A5%E8%A7%A3%E8%AF%BBvue%E6%BA%90%E7%A0%81%EF%BC%88%E5%85%AD%EF%BC%89render/1561947451568.jpg">
+<meta property="article:published_time" content="2019-06-28T10:04:37.000Z">
+<meta property="article:modified_time" content="2019-07-03T14:18:17.000Z">
+<meta property="article:author" content="songjianet">
+<meta property="article:tag" content="vue">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://songjianet.github.io/blog/images/%E6%B7%B1%E5%85%A5%E8%A7%A3%E8%AF%BBvue%E6%BA%90%E7%A0%81%EF%BC%88%E5%85%AD%EF%BC%89render/1561947451568.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://songjianet.github.io/blog/2019/06/28/深入解读vue源码（六）render/"/>
+
+
+
+
+
+  <title>深入解读vue源码（六）render | songjianet</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-179158342-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?438c779a7f3be467cf001cecb671aed7";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">songjianet</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/blog/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://songjianet.github.io/blog/blog/2019/06/28/%E6%B7%B1%E5%85%A5%E8%A7%A3%E8%AF%BBvue%E6%BA%90%E7%A0%81%EF%BC%88%E5%85%AD%EF%BC%89render/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="songjianet">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/blog/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="songjianet">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">深入解读vue源码（六）render</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-28T10:04:37+00:00">
+                2019-06-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/WEB%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index">
+                    <span itemprop="name">WEB前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/blog/2019/06/28/%E6%B7%B1%E5%85%A5%E8%A7%A3%E8%AF%BBvue%E6%BA%90%E7%A0%81%EF%BC%88%E5%85%AD%EF%BC%89render/" class="leancloud_visitors" data-flag-title="深入解读vue源码（六）render">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1.6k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  6 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="基本介绍"><a href="#基本介绍" class="headerlink" title="基本介绍"></a>基本介绍</h4><p>所谓<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">render</code>其实是<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">vue</code>的一个私有方法，这个方法用来将实例<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">vm</code>转换成虚拟的<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">node</code>，这个方法的定义在<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">src/core/instance/render.js</code>文件中。</p>
+<hr>
+<h4 id="render的实现"><a href="#render的实现" class="headerlink" title="render的实现"></a>render的实现</h4><p>首先在源码中的<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">src/core/instance/index.js</code>方法中，能够看到关于<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">renderMixin</code>这个方法。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; renderMixin &#125; <span class="keyword">from</span> <span class="string">'./render'</span></span><br><span class="line">...</span><br><span class="line">renderMixin(Vue)</span><br></pre></td></tr></table></figure>
+
+<p>通过导入我们能够找到<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">renderMixin</code>方法的定义，在这个方法里面能够看到<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">Vue</code>原型链上的<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">_render</code>这个私有方法。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Vue.prototype._render = <span class="function"><span class="keyword">function</span> (<span class="params"></span>): <span class="title">VNode</span> </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这段代码中我们能够看到它不接收任何参数，但是它会返回一个<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">VNode</code>，<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">VNode</code>是<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">vue</code>在编译后生成的虚拟节点，又叫<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">Virtual DOM</code>。</p>
+<p>在这个私有方法中，我们来查看他的具体实现方式。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> vm: Component = <span class="keyword">this</span> <span class="comment">// 从this中拿到vm实例</span></span><br><span class="line"><span class="keyword">const</span> &#123; render, _parentVnode &#125; = vm.$options <span class="comment">// 从vm.$options中拿到render</span></span><br></pre></td></tr></table></figure>
+
+<p>继续往下看能够看到<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">_parentVnode</code>私有方法和<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">vm.$vnode</code>的定义，这些在下一篇文章中会详细的介绍，在这里我们只需关注<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">render</code>方法。</p>
+<p>对于这个<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">render</code>生成的方式有两种，一种是用户自己去写一个，另一种是通过编译生成一个。继续往下看代码。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> vnode</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  ...</span><br><span class="line">  vnode = render.call(vm._renderProxy, vm.$createElement)</span><br><span class="line">&#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">  ...</span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这段代码中<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">render</code>方法调用<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">call</code>方法的同时传递两个参数，这里我们要知道<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">call</code>方法的第一个参数是上下文环境，在生产环境中，这个<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">call</code>方法的第一个参数代指的就是<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">vm</code>，而<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">vm</code>我们就可以理解为<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">this</code>。</p>
+<p>在<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">call</code>方法中传递的第二个参数在<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">vue</code>源码中是一个方法，这个方法在当前文件的<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">initRender</code>中有定义。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">initRender</span> (<span class="params">vm: Component</span>) </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  vm._c = <span class="function">(<span class="params">a, b, c, d</span>) =&gt;</span> createElement(vm, a, b, c, d, <span class="literal">false</span>) <span class="comment">// 用于自动编译生成render</span></span><br><span class="line">  vm.$createElement = <span class="function">(<span class="params">a, b, c, d</span>) =&gt;</span> createElement(vm, a, b, c, d, <span class="literal">true</span>) <span class="comment">// 用于手动编写生成render</span></span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">initRender</code>中，能够看到这两个方法的定义，通过观察这两个方法都是在调用<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">createElement</code>方法的时候最后一个参数有所不同，通过最后一个参数的不同，决定了方法的作用不同。</p>
+<p>这里我将通过<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">vue</code>的实际使用方式来介绍什么是自动编译和手动编写。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 自动生成render</span><br><span class="line">&lt;div id&#x3D;&quot;app&quot;&gt;</span><br><span class="line">  &#123;&#123;msg&#125;&#125;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">  var app &#x3D; new Vue(&#123;</span><br><span class="line">    el: &#39;#app&#39;,</span><br><span class="line">    data() &#123;</span><br><span class="line">      return &#123;</span><br><span class="line">        msg: &#39;Hello Vue!&#39;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 手动编写render</span><br><span class="line">&lt;div id&#x3D;&quot;app&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">	var app &#x3D; new Vue(&#123;</span><br><span class="line">    el: &#39;#app&#39;,</span><br><span class="line">    render(createElement) &#123;</span><br><span class="line">      return createElement(&#39;div&#39;, &#123;</span><br><span class="line">        attrs: &#123;</span><br><span class="line">          id: &#39;app1&#39;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;, this.msg)</span><br><span class="line">    &#125;</span><br><span class="line">    data() &#123;</span><br><span class="line">      return &#123;</span><br><span class="line">        msg: &#39;Hello Vue!&#39;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>这里有一点需要注意，在上一篇文章中，我们提到了挂载实例是会被替换掉的，所以不能挂载到标签为<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">body</code>和标签为<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">html</code>的节点上的，如下图所示，我们的<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">dom</code>结构中的<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">id</code>属性是为<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">app1</code>，而并不是我们之前定义好的<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">app</code>。</p>
+<p><img src="/blog/images/%E6%B7%B1%E5%85%A5%E8%A7%A3%E8%AF%BBvue%E6%BA%90%E7%A0%81%EF%BC%88%E5%85%AD%EF%BC%89render/1561947451568.jpg" alt=""></p>
+<p>回归源码，我们通过实际编写来介绍了<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">createElement</code>方法，接下来我们继续分析<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">vm._renderProxy</code>方法，对于这个方法的入手点，还是我们老生常谈的<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">src/core/instance/index.js</code>这个文件，在这个文件中，能够看到这段代码。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; initMixin &#125; <span class="keyword">from</span> <span class="string">'./init'</span></span><br></pre></td></tr></table></figure>
+
+<p>点击跳转到<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">src/core/instance/init.js</code>文件中的<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">initMixin</code>下的<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">_init</code>原型链的私有方法，在介绍<a href="http://www.songjian.site/2019/06/20/%E6%B7%B1%E5%85%A5%E8%A7%A3%E8%AF%BBvue%E6%BA%90%E7%A0%81%EF%BC%88%E5%9B%9B%EF%BC%89new%20Vue/" target="_blank" rel="noopener">《深入解读vue源码（四）new Vue》</a>这篇文章的时候，我们基本了解了这个原型链的私有方法，但是还有这样一段代码我们没有分析。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (process.env.NODE_ENV !== <span class="string">'production'</span>) &#123;</span><br><span class="line">  initProxy(vm) <span class="comment">// 开发环境</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  vm._renderProxy = vm <span class="comment">// 生产环境</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里通过对运行环境的判断来进行一些操作，对于生产环境来说<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">_renderProxy</code>就是<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">vm</code>，我们继续分析开发环境下的<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">initProxy</code>方法都做了什么。</p>
+<p>首先<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">initProxy</code>方法是定义在<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">src/core/instance/proxy.js</code>中的，在这个文件的底部，我们能看到这样的代码。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">initProxy = <span class="function"><span class="keyword">function</span> <span class="title">initProxy</span> (<span class="params">vm</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (hasProxy) &#123; <span class="comment">// 判断浏览器是否支持proxy</span></span><br><span class="line">    <span class="keyword">const</span> options = vm.$options</span><br><span class="line">    <span class="keyword">const</span> handlers = options.render &amp;&amp; options.render._withStripped</span><br><span class="line">    ? getHandler</span><br><span class="line">    : hasHandler</span><br><span class="line">    vm._renderProxy = <span class="keyword">new</span> Proxy(vm, handlers)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    vm._renderProxy = vm</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这段代码中通过<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">hasProxy</code>来判断浏览器是否支持<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">proxy</code>，<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">proxy</code>的作用简单来讲就是对对象访问做一个劫持，在当前主流的浏览器中，基本都是支持<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">proxy</code>的，继续往下看，我们来分析下<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">getHandler</code>这个对象。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> hasHandler = &#123;</span><br><span class="line">  has (target, key) &#123;</span><br><span class="line">    <span class="keyword">const</span> has = key <span class="keyword">in</span> target <span class="comment">// 判断key在不在target中，返回布尔类型</span></span><br><span class="line">    <span class="keyword">const</span> isAllowed = allowedGlobals(key) ||</span><br><span class="line">          (<span class="keyword">typeof</span> key === <span class="string">'string'</span> &amp;&amp; key.charAt(<span class="number">0</span>) === <span class="string">'_'</span> &amp;&amp; !(key <span class="keyword">in</span> target.$data)) <span class="comment">// allowedGlobals是一些全局的属性和方法，这里是判断key是否属于allowedGlobals中的属性或方法</span></span><br><span class="line">    <span class="keyword">if</span> (!has &amp;&amp; !isAllowed) &#123; <span class="comment">// 都不满足的情况下</span></span><br><span class="line">      <span class="keyword">if</span> (key <span class="keyword">in</span> target.$data) warnReservedPrefix(target, key)</span><br><span class="line">      <span class="keyword">else</span> warnNonPresent(target, key) <span class="comment">// 调用warnNonPresent函数，这个函数抛出的是一个警告</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> has || !isAllowed</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>关于<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">warnNonPresent</code>有一个值得讲解的问题，首先我们来看下这个函数。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> warnNonPresent = <span class="function">(<span class="params">target, key</span>) =&gt;</span> &#123;</span><br><span class="line">  warn(</span><br><span class="line">    <span class="string">`Property or method "<span class="subst">$&#123;key&#125;</span>" is not defined on the instance but `</span> +</span><br><span class="line">    <span class="string">'referenced during render. Make sure that this property is reactive, '</span> +</span><br><span class="line">    <span class="string">'either in the data option, or for class-based components, by '</span> +</span><br><span class="line">    <span class="string">'initializing the property. '</span> +</span><br><span class="line">    <span class="string">'See: https://vuejs.org/v2/guide/reactivity.html#Declaring-Reactive-Properties.'</span>,</span><br><span class="line">    target</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个函数内的报错信息大家应该不会陌生，这个报错就是因为在<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">template</code>中使用了一个在<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">data</code>、<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">props</code>或<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">computed</code>中没有声明过的变量。</p>
+<p>回到<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">src/core/instance/render.js</code>文件中，我们继续看这段代码。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!(vnode <span class="keyword">instanceof</span> VNode)) &#123;</span><br><span class="line">  <span class="keyword">if</span> (process.env.NODE_ENV !== <span class="string">'production'</span> &amp;&amp; <span class="built_in">Array</span>.isArray(vnode)) &#123;</span><br><span class="line">    warn(</span><br><span class="line">      <span class="string">'Multiple root nodes returned from render function. Render function '</span> +</span><br><span class="line">      <span class="string">'should return a single root node.'</span>,</span><br><span class="line">      vm</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">  vnode = createEmptyVNode()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这段代码通过判断上面<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">try</code>、<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">catch</code>语句块中生成的<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">vnode</code>是否是<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">VNode</code>类型，然后继续判断如果<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">vnode</code>是一个数组类型则会抛出一个警告信息，如果为数组类型则代表着有多个<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">VNode</code>的节点生成。</p>
+<hr>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p><code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">vm._render</code>最终是通过执行<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">createElement</code>方法并返回一个<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">vnode</code>，它是一个<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">Virtual DOM</code>，这个概念也是<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">vue2</code>对比于<code style="letter-spacing: 2px;font-weight:700;background-color:#e6effb;border-radius:3px;">vue1</code>的升级点。</p>
+<hr>
+<h4 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h4><ul>
+<li><a color="blue" href="http://es6.ruanyifeng.com/#docs/proxy" target="_blank" rel="noopener">proxy</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/vue/" rel="tag"># vue</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2019/06/27/%E6%B7%B1%E5%85%A5%E8%A7%A3%E8%AF%BBvue%E6%BA%90%E7%A0%81%EF%BC%88%E4%BA%94%EF%BC%89%E6%8C%82%E8%BD%BD%E5%AE%9E%E4%BE%8B%E7%9A%84%E5%AE%9E%E7%8E%B0/" rel="next" title="深入解读vue源码（五）挂载实例的实现">
+                <i class="fa fa-chevron-left"></i> 深入解读vue源码（五）挂载实例的实现
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2019/11/29/git%E8%A7%84%E8%8C%83/" rel="prev" title="Git规范">
+                Git规范 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">songjianet</p>
+              <p class="site-description motion-element" itemprop="description">佛系码农</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/blog/archives">
+              
+                  <span class="site-state-item-count">69</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/blog/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/blog/tags/index.html">
+                  <span class="site-state-item-count">115</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/songjianet" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:1778651752@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#基本介绍"><span class="nav-number">1.</span> <span class="nav-text">基本介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#render的实现"><span class="nav-number">2.</span> <span class="nav-text">render的实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#相关链接"><span class="nav-number">4.</span> <span class="nav-text">相关链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">songjianet</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">全站总字数&#58;</span>
+    
+    <span title="全站总字数">62.4k</span>
+  
+</div>
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/blog/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("tnShnVs7Somna4Addyb8SQJx-gzGzoHsz", "KY89RvNsxFH2zEk5hqBfVlIa");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
